@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from store.models import Product
 from .models import Cart, CartItem
+from .services import CartService
 
 
 def _cart_id(request):
@@ -16,62 +17,25 @@ def get_or_create_cart(request):
 
 
 def add_to_cart(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    cart = get_or_create_cart(request)
-    
-    cart_item, created = CartItem.objects.get_or_create(
-        product=product,
-        cart=cart,
-        defaults={'quantity': 1}
-    )
-    
-    if not created:
-        cart_item.quantity += 1
-        cart_item.save()
-    
+    cart_service = CartService(request.session)
+    cart_service.add_item(product_id)
     return redirect('/cart/')
 
 
 def remove_from_cart(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    cart = get_or_create_cart(request)
-    
-    try:
-        cart_item = CartItem.objects.get(product=product, cart=cart)
-        cart_item.quantity -= 1
-        if cart_item.quantity > 0:
-            cart_item.save()
-        else:
-            cart_item.delete()
-    except CartItem.DoesNotExist:
-        pass
-    
+    cart_service = CartService(request.session)
+    cart_service.remove_item(product_id)
     return redirect('/cart/')
 
 
 def remove_all_itemcart_products(request, product_id):
-    product = get_object_or_404(Product, id=product_id)
-    cart = get_or_create_cart(request)
-    CartItem.objects.filter(product=product, cart=cart).delete()
+    cart_service = CartService(request.session)
+    cart_service.clear_item(product_id)
     return redirect('/cart/')
 
 
-def cart(request, total=0, quantity=0, cart_items=None):
-    
-    try:
-        cart = Cart.objects.get(cart_id=_cart_id(request))
-        cart_items = CartItem.objects.filter(cart=cart, is_active=True)
-        for cart_item in cart_items:
-            total += (cart_item.product.price * cart_item.quantity)
-            quantity += cart_item.quantity
-    except Cart.ObjectNotExist:
-        pass
-
-    context = {
-        'total': total,
-        'quantity': quantity,
-        'cart_items': cart_items,
-    }
-
+def cart(request):
+    cart_service = CartService(request.session)
+    context = cart_service.get_cart_details()
     return render(request, 'cart/cart.html', context)    
 
