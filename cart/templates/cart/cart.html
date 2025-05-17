@@ -1,10 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     <section class="section-content padding-y bg">
         <div class="container">
+            {% if cart_items|length == 0 %}
+
+            <div>
+                No products found
+                <a href="{% url 'store:store'%}" class="btn btn-primary">Go to Shopping</a>
+            </div>
+            {% else %}
             <!-- ============================ COMPONENT 1 ================================= -->
             <div class="row">
                 <aside class="col-lg-9">
+                    {% for cart_item in cart_items %}
                     <div class="card">
                         <table class="table table-borderless table-shopping-cart">
                             <thead class="text-muted">
@@ -20,10 +29,10 @@
                                     <td>
                                         <figure class="itemside align-items-center">
                                             <div class="aside">
-                                                <img src="./images/items/11.jpg" class="img-sm">
+                                                <img src="{{ cart_item.product.images.url }}" class="img-sm">
                                             </div>
                                             <figcaption class="info">
-                                                <a href="#" class="title text-dark">Camera Canon EOS M50 Kit</a>
+                                                <a href="#" class="title text-dark">{{ cart_item.product.product_name }}</a>
                                                 <p class="text-muted small">
                                                     Matrix: 25 Mpx
                                                     <br>
@@ -37,15 +46,15 @@
                                         <div class="col">
                                             <div class="input-group input-spinner">
                                                 <div class="input-group-prepend">
-                                                    <button class="btn btn-light" type="button" id="button-plus">
+                                                    <a href="{% url 'cart:remove_from_cart' cart_item.product_id %}" class="btn btn-light" type="button" id="button-plus">
                                                         <i class="fa fa-minus"></i>
-                                                    </button>
+                                                    </a>
                                                 </div>
-                                                <input type="text" class="form-control"  value="1">
+                                                <input type="text" class="form-control"  value="{{ cart_item.quantity }}">
                                                 <div class="input-group-append">
-                                                    <button class="btn btn-light" type="button" id="button-minus">
+                                                    <a href="{% url 'cart:add_to_cart' cart_item.product_id %}" class="btn btn-light" type="button" id="button-minus">
                                                         <i class="fa fa-plus"></i>
-                                                    </button>
+                                                    </a>
                                                 </div>
                                             </div>
                                             <!-- input-group.// -->
@@ -54,113 +63,21 @@
                                     </td>
                                     <td>
                                         <div class="price-wrap">
-                                            <var class="price">$1156.00</var>
-                                            <small class="text-muted">$315.20 each</small>
+                                            <var class="price">${{ cart_item.sub_total }}</var>
+                                            <small class="text-muted">{{ cart_item.product.price }} each</small>
                                         </div>
                                         <!-- price-wrap .// -->
                                     </td>
                                     <td class="text-right">
-                                        <a href="" class="btn btn-danger">Remove</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <figure class="itemside align-items-center">
-                                            <div class="aside">
-                                                <img src="./images/items/10.jpg" class="img-sm">
-                                            </div>
-                                            <figcaption class="info">
-                                                <a href="#" class="title text-dark">ADATA Premier ONE microSDXC</a>
-                                                <p class="text-muted small">
-                                                    Size: 256 GB
-                                                    <br>
-                                                    Brand: ADATA
-                                                </p>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td>
-                                        <!-- col.// -->
-                                        <div class="col">
-                                            <div class="input-group input-spinner">
-                                                <div class="input-group-prepend">
-                                                    <button class="btn btn-light" type="button" id="button-plus">
-                                                        <i class="fa fa-minus"></i>
-                                                    </button>
-                                                </div>
-                                                <input type="text" class="form-control"  value="1">
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-light" type="button" id="button-minus">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- input-group.// -->
-                                        </div>
-                                        <!-- col.// -->
-                                    </td>
-                                    <td>
-                                        <div class="price-wrap">
-                                            <var class="price">$149.97</var>
-                                            <small class="text-muted">$75.00 each</small>
-                                        </div>
-                                        <!-- price-wrap .// -->
-                                    </td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-danger">Remove</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <figure class="itemside align-items-center">
-                                            <div class="aside">
-                                                <img src="./images/items/9.jpg" class="img-sm">
-                                            </div>
-                                            <figcaption class="info">
-                                                <a href="#" class="title text-dark">Logitec headset for gaming</a>
-                                                <p class="small text-muted">
-                                                    Version: CUH-ZCT2E
-                                                    <br>
-                                                    Brand: Sony
-                                                </p>
-                                            </figcaption>
-                                        </figure>
-                                    </td>
-                                    <td>
-                                        <!-- col.// -->
-                                        <div class="col">
-                                            <div class="input-group input-spinner">
-                                                <div class="input-group-prepend">
-                                                    <button class="btn btn-light" type="button" id="button-plus">
-                                                        <i class="fa fa-minus"></i>
-                                                    </button>
-                                                </div>
-                                                <input type="text" class="form-control"  value="1">
-                                                <div class="input-group-append">
-                                                    <button class="btn btn-light" type="button" id="button-minus">
-                                                        <i class="fa fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <!-- input-group.// -->
-                                        </div>
-                                        <!-- col.// -->
-                                    </td>
-                                    <td>
-                                        <div class="price-wrap">
-                                            <var class="price">$98.00</var>
-                                            <small class="text-muted">$578.00 each</small>
-                                        </div>
-                                        <!-- price-wrap .// -->
-                                    </td>
-                                    <td class="text-right">
-                                        <a href="" class="btn btn-danger">Remove</a>
+                                        <a href="{% url 'cart:remove_product' cart_item.product.id %}" class="btn btn-danger">Remove</a>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     <!-- card.// -->
+                    {% endfor %}
+                    
                 </aside>
                 <!-- col.// -->
                 <aside class="col-lg-3">
@@ -169,7 +86,7 @@
                             <dl class="dlist-align">
                                 <dt>Total price:</dt>
                                 <dd class="text-right">
-                                    $69.97
+                                    {{ total }}
                                 </dd>
                             </dl>
                             <dl class="dlist-align">
@@ -186,10 +103,10 @@
                             </dl>
                             <hr>
                             <p class="text-center mb-3">
-                                <img src="./images/misc/payments.png" height="26">
+                                <img src="{% static '/images/misc/payments.png' %}" height="26">
                             </p>
                             <a href="./place-order.html" class="btn btn-primary btn-block">Checkout</a>
-                            <a href="./store.html" class="btn btn-light btn-block">Continue Shopping</a>
+                            <a href="{% url 'store:store' %}" class="btn btn-light btn-block">Continue Shopping</a>
                         </div>
                         <!-- card-body.// -->
                     </div>
@@ -199,6 +116,7 @@
             </div>
             <!-- row.// -->
             <!-- ============================ COMPONENT 1 END .// ================================= -->
+            {% endif %}
         </div>
         <!-- container .//  -->
     </section>
