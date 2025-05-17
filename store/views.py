@@ -1,5 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
+from django.views import View
+from cart.utils import get_cart
+from cart.services import CartService
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -21,10 +25,27 @@ def store(request, category_slug=None):
     return render(request, 'store/store.html', context)
 
 
-def product_detail(request, category_slug, product_slug):
-
-    context = {
-        'product': Product.objects.get(slug=product_slug)
-    }
-
-    return render(request, 'store/product_detail.html', context)
+class ProductDetail(View):
+    def get(self, request, *args, **kwargs):
+        product = get_object_or_404(Product, slug=kwargs['product_slug'])
+        context = {
+            'product': product
+        }
+        return render(request, 'store/product_detail.html', context)
+    
+    def post(self, request, *args, **kwargs):
+        product = get_object_or_404(Product, slug=kwargs['product_slug'])
+        cart = CartService(request.session)
+        
+        action = request.POST.get('action')
+        if action == 'add':
+            cart.add_item(product.id)
+        elif action == 'remove':
+            cart.remove_item(product.id)
+            
+        context = {
+            'product': product
+        }
+        
+        # Return just the updated controls
+        return render(request, 'store/partials/product_controls.html', context)
