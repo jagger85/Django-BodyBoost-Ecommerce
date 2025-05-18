@@ -68,6 +68,10 @@ body {
   color: #343a40;
   text-align: left;
   background-color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 [tabindex="-1"]:focus {
@@ -6187,6 +6191,10 @@ a.close.disabled {
 
 .bg-primary {
   background-color: var(--primary) !important;
+}
+
+.bg-black{
+  background-color: #000 !important;
 }
 
 a.bg-primary:hover, a.bg-primary:focus,
