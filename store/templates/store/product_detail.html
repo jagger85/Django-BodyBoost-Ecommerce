@@ -14,7 +14,11 @@
         <!-- Product Details Section -->
         <div class="space-y-6">
           <!-- Status Badge -->
-          {% if product.stock > 0 %}<div class="badge badge-success gap-2">In Stock</div>{% endif %}
+          {% if product.stock > 0 %}
+          <div class="badge badge-success gap-2">In Stock</div>
+          {% else %}
+          <div class="badge badge-error gap-2">Out of Stock</div>
+          {% endif %}
           <!-- Brand -->
           <div class="text-success">{{ product.brand }}</div>
           <!-- Product Title -->
@@ -37,7 +41,7 @@
           <div class="text-3xl font-bold text-white">${{ product.price }}</div>
           <!-- Flavor Selector -->
           <div class="form-control w-full">
-            <label class="label">
+            <label class="label mb-2">
               <span class="label-text text-white">Select Flavor</span>
             </label>
             <select class="select select-bordered w-full bg-[#2A2C30] text-white">
@@ -45,10 +49,9 @@
             </select>
           </div>
           <!-- Add to Cart Button -->
-          <button class="btn btn-success btn-block gap-2">
-            <span class="text-xl">+</span>
-            <span>Add to cart</span>
-          </button>
+          {% if product.stock > 0 %}
+            {% include 'store/partials/product_controls.html' %}
+          {% endif %}
           <!-- What/When/Why Section -->
           <div class="grid grid-cols-3 gap-4 mt-8">
             <div class="text-center">
