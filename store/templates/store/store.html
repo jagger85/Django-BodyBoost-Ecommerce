@@ -1,184 +1,111 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+    <!-- Page Header -->
     <!-- ========================= SECTION PAGETOP ========================= -->
-    <section class="section-pagetop bg">
-        <div class="container">
-            <h2 class="title-page text-white">Our Store</h2>
+    <div class="bg-gradient-to-r from-[#1a1d21] via-[#2a2d31] to-[#1a1d21] border-b border-[#2a2d31]">
+        <div class="container mx-auto px-4 py-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Our Store</h1>
+            <p class="text-gray-300 max-w-2xl">
+                Discover premium supplements designed to help you reach your fitness goals. Quality ingredients,
+                scientifically formulated.
+            </p>
         </div>
         <!-- container //  -->
-    </section>
-    <!-- ========================= SECTION INTRO END// ========================= -->
-    <!-- ========================= SECTION CONTENT ========================= -->
-    <section class="section-content padding-y bg-dark flex-grow-1">
-        <div class="container">
-            <div class="row">
-                <aside class="col-md-3">
-                    <div class="card">
-                        <article class="filter-group">
-                            <header class="card-header">
-                                <a href="#"
-                                   data-toggle="collapse"
-                                   data-target="#collapse_1"
-                                   aria-expanded="true"
-                                   class="">
-                                    <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Categories</h6>
-                                </a>
-                            </header>
-                            <div class="filter-content collapse show" id="collapse_1">
-                                <div class="card-body">
-                                    <ul class="list-menu">
-                                        {% for category in all_categories %}
-                                            <li>
-                                                <a href="{% url 'store:product_by_category' category.slug %}">{{ category.category_name }}</a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                                <!-- card-body.// -->
-                            </div>
-                        </article> <!-- filter-group  .// -->
-                        <article class="filter-group">
-                            <header class="card-header">
-                                <a href="#"
-                                   data-toggle="collapse"
-                                   data-target="#collapse_4"
-                                   aria-expanded="true"
-                                   class="">
-                                    <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Sizes</h6>
-                                </a>
-                            </header>
-                            <div class="filter-content collapse show" id="collapse_4" style="">
-                                <div class="card-body">
-                                    <label class="checkbox-btn">
-                                        <input type="checkbox">
-                                        <span class="btn btn-light">XS</span>
-                                    </label>
-                                    <label class="checkbox-btn">
-                                        <input type="checkbox">
-                                        <span class="btn btn-light">SM</span>
-                                    </label>
-                                    <label class="checkbox-btn">
-                                        <input type="checkbox">
-                                        <span class="btn btn-light">LG</span>
-                                    </label>
-                                    <label class="checkbox-btn">
-                                        <input type="checkbox">
-                                        <span class="btn btn-light">XXL</span>
-                                    </label>
-                                </div>
-                                <!-- card-body.// -->
-                            </div>
-                        </article> <!-- filter-group .// -->
-                        <article class="filter-group">
-                            <header class="card-header">
-                                <a href="#"
-                                   data-toggle="collapse"
-                                   data-target="#collapse_3"
-                                   aria-expanded="true"
-                                   class="">
-                                    <i class="icon-control fa fa-chevron-down"></i>
-                                    <h6 class="title">Price range</h6>
-                                </a>
-                            </header>
-                            <div class="filter-content collapse show" id="collapse_3" style="">
-                                <div class="card-body">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>Min</label>
-                                            <!-- <input class="form-control" placeholder="$0" type="number"> -->
-                                            <select class="mr-2 form-control">
-                                                <option value="0">$0</option>
-                                                <option value="50">$50</option>
-                                                <option value="100">$100</option>
-                                                <option value="150">$150</option>
-                                                <option value="200">$200</option>
-                                                <option value="500">$500</option>
-                                                <option value="1000">$1000</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group text-right col-md-6">
-                                            <label>Max</label>
-                                            <select class="mr-2 form-control">
-                                                <option value="50">$50</option>
-                                                <option value="100">$100</option>
-                                                <option value="150">$150</option>
-                                                <option value="200">$200</option>
-                                                <option value="500">$500</option>
-                                                <option value="1000">$1000</option>
-                                                <option value="2000">$2000+</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!-- form-row.// -->
-                                    <button class="btn btn-block btn-primary">Apply</button>
-                                </div>
-                                <!-- card-body.// -->
-                            </div>
-                        </article> <!-- filter-group .// -->
-                    </div>
-                    <!-- card.// -->
-                </aside>
-                <!-- col.// -->
-                <main class="col-md-9">
-                    <header class="border-bottom mb-4 pb-3">
-                        <div class="form-inline">
-                            <span class="mr-md-auto text-white">{{ products|length }} Items found</span>
-                        </div>
-                    </header>
-                    <!-- sect-heading -->
-                    <div class="row">
-                        {% for product in products %}
-                            <div class="col-md-4">
-                                <figure class="card card-product-grid">
-                                    <div class="img-wrap">
-                                        <img src="{{ product.images.url }}">
-                                    </div>
-                                    <!-- img-wrap.// -->
-                                    <figcaption class="info-wrap">
-                                        <div class="fix-height">
-                                            <a href="{% url 'store:product_detail' product.category.slug product.slug %}"
-                                               class="title">{{ product.product_name }}</a>
-                                            <div class="price-wrap mt-2">
-                                                <span class="price">${{ product.price }}</span>
-                                            </div>
-                                            <!-- price-wrap.// -->
-                                        </div>
-                                        <a href="{% url 'cart:add_to_cart' product.id %}"
-                                           class="btn btn-block btn-primary">Add to cart</a>
-                                    </figcaption>
-                                </figure>
-                            </div>
-                            <!-- col.// -->
+    </div>
+    <!-- Store Content -->
+    <div class="container mx-auto px-4 pb-16 py-4" >
+        <div class="flex flex-col lg:flex-row gap-8">
+            <!-- Sidebar Filters -->
+            <aside class="lg:w-64">
+                <!-- Categories -->
+                <div class="bg-[#1E2023] rounded-xl p-6 mb-6">
+                    <h3 class="text-white font-semibold text-lg mb-4 flex items-center justify-between">
+                        Categories
+                        <i class="fas fa-chevron-down text-gray-400"></i>
+                    </h3>
+                    <div class="space-y-2">
+                        {% for category in all_categories %}
+                            <label class="flex items-center gap-2 cursor-pointer group">
+                                <input type="checkbox"
+                                       class="checkbox checkbox-success"
+                                       {% if category.slug in request.path %}checked{% endif %}>
+                                <span class="text-gray-400 group-hover:text-white">{{ category.category_name }}</span>
+                            </label>
                         {% endfor %}
                     </div>
-                    <!-- row end.// -->
-                    <nav class="mt-4" aria-label="Page navigation sample">
-                        <ul class="pagination">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#">Previous</a>
-                            </li>
-                            <li class="page-item active">
-                                <a class="page-link" href="#">1</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">3</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </main>
-                <!-- col.// -->
-            </div>
+                </div>
+                <!-- Sizes -->
+                <div class="bg-[#1E2023] rounded-xl p-6 mb-6">
+                    <h3 class="text-white font-semibold text-lg mb-4">Sizes</h3>
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
+                            <input type="checkbox" class="hidden">
+                            500g
+                        </label>
+                        <label class="btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
+                            <input type="checkbox" class="hidden">
+                            1kg
+                        </label>
+                        <label class="btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
+                            <input type="checkbox" class="hidden">
+                            2kg
+                        </label>
+                        <label class="btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
+                            <input type="checkbox" class="hidden">
+                            5kg
+                        </label>
+                    </div>
+                </div>
+                <!-- Price Range -->
+                <div class="bg-[#1E2023] rounded-xl p-6 mb-6">
+                    <h3 class="text-white font-semibold text-lg mb-4">Price Range</h3>
+                    <div class="space-y-4">
+                        <input type="range" class="range range-success" min="0" max="100">
+                        <div class="flex justify-between text-gray-400">
+                            <span>$0</span>
+                            <span>$100</span>
+                        </div>
+                        <button class="btn btn-success w-full">Apply</button>
+                    </div>
+                </div>
+            </aside>
+            <!-- Products Grid -->
+            <main class="flex-1">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <span class="text-success font-medium">{{ products|length }} Item found</span>
+                    <div class="flex items-center gap-2">
+                        <span class="text-gray-400">Sort by:</span>
+                        <select class="select select-sm bg-[#2A2D31] border-none text-white">
+                            <option>Popularity</option>
+                            <option>Newest</option>
+                            <option>Price: Low to High</option>
+                            <option>Price: High to Low</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- Products Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for product in products %}
+                        {% include 'includes/components/product_card.html' with product=product %}
+                    {% endfor %}
+                </div>
+                <!-- Pagination -->
+                <div class="flex justify-center mt-8">
+                    <div class="join">
+                        <button class="join-item btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="join-item btn btn-sm bg-success border-none text-black">1</button>
+                        <button class="join-item btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">2</button>
+                        <button class="join-item btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">3</button>
+                        <button class="join-item btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </main>
         </div>
-        <!-- container .//  -->
-    </section>
-    <!-- ========================= SECTION CONTENT END// ========================= -->
+    </div>
 {% endblock %}
