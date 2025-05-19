@@ -1,32 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
-    <section class="section-intro padding-y-sm bg-dark">
-        <div class="container ">
-            <div class="intro-banner-wrap ">
-                <img src="{% static 'images/banners/1.jpg' %}" class="img-fluid rounded">
+    <!-- Banner Section -->
+    <section class="container mx-auto px-4 pt-6">
+        {% include 'includes/components/banner.html' %}
+    </section>
+    <!-- Popular Products Section -->
+    <section class="container mx-auto px-4 py-16">
+        <div>
+            <header class="flex items-center justify-between mb-8">
+                <h2 class="text-2xl font-bold text-white">Popular products</h2>
+                <a href="{% url 'store:store' %}"
+                   class="text-success hover:text-success/80 font-medium">See all</a>
+            </header>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {% for product in products %}
+                    {% include 'includes/components/product_card.html' with product=product %}
+                {% endfor %}
             </div>
         </div>
-
-    </section>
-    <section class="section-name padding-y-sm bg-dark flex-grow-1">
-        <div class="container">
-            <header class="section-heading">
-                <a href="{% url 'store:store' %}" class="btn btn-outline-primary float-right">See all</a>
-                <h3 class="section-title text-white">Popular products</h3>
-            </header>
-            <div class="row">
-                {% for product in products %}
-                <div class="col-md-3">
-                    <div class="card card-product-grid">
-                        <a href="{% url 'store:product_detail' product.category.slug product.slug %}"class="img-wrap"><img  src="{{ product.images.url }}"/></a>
-                        <figcaption class="info-wrap"><a href="{% url 'store:product_detail' product.category.slug product.slug %}"class="title">{{ product.product_name }}</a>
-                        <div class="price mt-1">${{ product.price }}</div></figcaption></div>
-                    </div>
-            
-                    {% endfor %}
-                </div>
-            </div>
     </section>
 {% endblock content %}
