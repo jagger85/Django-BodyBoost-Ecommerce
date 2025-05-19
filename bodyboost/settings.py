@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'store',
     'accounts',
     'cart',
+    'lucide',
     'django_browser_reload',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -64,6 +65,10 @@ TEMPLATES = [
         'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
+             "builtins": [
+                "lucide.templatetags.lucide",
+             ],
+
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
