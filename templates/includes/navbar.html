@@ -12,9 +12,7 @@
             </a>
         </div>
         <!-- Search Bar -->
-        <div class="navbar-center flex-1 max-w-2xl mx-4">
-            
-        </div>
+        <div class="navbar-center flex-1 max-w-2xl mx-4"></div>
         <!-- Right Section -->
         <div class="navbar-end gap-4">
             <!-- Category Dropdown -->
@@ -36,9 +34,7 @@
             <!-- Cart -->
             <a href="{% url 'cart:cart' %}"  class="btn gap-2 hover:text-primary">
                 {% lucide 'shopping-cart' %}
-                <span id="cart-quantity"
-                      hx-swap="innerHTML"
-                      hx-trigger="cartUpdated from:body">{{ quantity }}</span>
+                <span id="cart-quantity" hx-swap="innerHTML">{{ quantity }}</span>
             </a>
         </div>
     </div>

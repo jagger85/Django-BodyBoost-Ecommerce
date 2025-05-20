@@ -1,55 +1,28 @@
 {% load cart_tags %}
-<div id="product-controls"
-     hx-target="#product-controls"
+<div id="product-controls-{{ product.id }}"
+     hx-target="#product-controls-{{ product.id }}"
      hx-swap="outerHTML">
     {% is_in_cart product.id as in_cart %}
     {% cart_item_quantity product.id as quantity %}
     {% if in_cart %}
         <div class="join">
             <button class="join-item btn btn-lg text-primary"
-                    hx-post="{{ request.path }}"
+                    hx-post="{% url 'cart:cart_product' product.id %}"
                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                    hx-vals='{"action": "remove"}'>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     class="h-4 w-4"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-                </svg>
-            </button>
-            <button
-                   class="join-item btn btn-lg text-center"
-                   >
-                   {{  quantity }}</button>
+                    hx-vals='{"action": "remove"}'>{% lucide 'minus' class="h-4 w-4" %}</button>
+            <button class="join-item btn btn-lg text-center w-15">{{ quantity }}</button>
             <button class="join-item btn btn-lg text-primary"
-                    hx-post="{{ request.path }}"
+                    hx-post="{% url 'cart:cart_product' product.id %}"
                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                    hx-vals='{"action": "add"}'>
-                <svg xmlns="http://www.w3.org/2000/svg"
-                     class="h-4 w-4"
-                     fill="none"
-                     viewBox="0 0 24 24"
-                     stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-            </button>
+                    hx-vals='{"action": "add"}'>{% lucide 'plus' class="h-4 w-4" %}</button>
         </div>
     {% else %}
-        <button class="btn bg-primary btn-block gap-2"
-                hx-post="{{ request.path }}"
+        <button class="btn bg-primary btn-block gap-2 text-black min-w-40"
+                hx-post="{% url 'cart:cart_product' product.id %}"
                 hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                 hx-vals='{"action": "add"}'>
             <span class="text-xl">+</span>
             <span>Add to cart</span>
         </button>
     {% endif %}
-</div>
-
-<!-- A hidden div that is used to update the total cart quantity -->
-<div hidden="true">
-    <div id="cart-quantity" hx-swap-oob="true">
-        {% total_items_quantity as total_quantity %}
-        {{ total_quantity }}
-    </div>
 </div>

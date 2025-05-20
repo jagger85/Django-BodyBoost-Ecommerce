@@ -1,0 +1,14 @@
+{% load static %}
+
+{% include 'store/partials/product_controls.html' %}
+
+{# Update the price #}
+<div id="product-price-{{ product.id }}" hx-swap-oob="true">
+    <div class="text-xl font-medium">${{ cart_item.sub_total }}</div>
+    <div class="text-sm text-gray-400">${{ product.price }} each</div>
+</div>
+{# Include cart totals #}
+{% include 'cart/partials/cart_totals.html' %}
+
+{# Update the cart quantity in the navbar #}
+<div id="cart-quantity" hx-swap-oob="true" >{{ total_quantity }}</div>
