@@ -1,6 +1,5 @@
 {% load static %}
 {% load cart_tags %}
-{% total_items_quantity as quantity %}
 <header class="bg-base-200 shadow-lg border-b-1 border-base-100">
     <div class="navbar container mx-auto px-4 py-6">
         <!-- Logo -->
@@ -32,9 +31,11 @@
             <!-- Sign In -->
             <a href="#" class="btn bg-primary text-black">Sign In</a>
             <!-- Cart -->
-            <a href="{% url 'cart:cart' %}"  class="btn gap-2 hover:text-primary">
+            <a href="{% url 'cart:cart' %}" class="btn gap-2 hover:text-primary">
                 {% lucide 'shopping-cart' %}
-                <span id="cart-quantity" hx-swap="innerHTML">{{ quantity }}</span>
+                <span id="cart-quantity"
+                      hx-get="{% url 'cart:cart_quantity' %}"
+                      hx-trigger="cartUpdate from:body">{{ cart_quantity }}</span>
             </a>
         </div>
     </div>
