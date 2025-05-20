@@ -1,10 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views import View
 from store.models import Product
-from .models import Cart, CartItem
+from .models import Cart
 from .services import CartService
 from django.http import HttpResponse
-from django.http import HttpResponseRedirect
 
 
 def _cart_id(request):
@@ -18,6 +17,15 @@ def get_or_create_cart(request):
     cart, _ = Cart.objects.get_or_create(cart_id=cart_id)
     return cart
 
+def get_cart_quantity(request):
+    """View to return the current cart quantity for HTMX requests"""
+    cart_service = CartService(request.session)
+    quantity = cart_service.get_total_quantity()
+    response = HttpResponse(str(quantity))
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
 
 class CartView(View):
     def get(self, request):
@@ -47,18 +55,22 @@ class CartView(View):
             'total_quantity': cart_details['quantity']
         }
         
-        return render(request, 'cart/partials/cart_update.html', context)
+        response = render(request, 'cart/partials/cart_update.html', context)
+        response['HX-Trigger'] = 'cartUpdate'
+        return response
     
     def delete(self, request, product_id):
         cart_service = CartService(request.session)
         cart_service.clear_item(product_id)
         
-        # Check if this was the last item
-        if cart_service.get_total_quantity() == 0:
-            # If it was the last item, redirect to refresh the page
-            return HttpResponseRedirect('/cart/')
-            
         cart_details = cart_service.get_cart_details()
+        
+        # If it was the last item, return an empty response with HX-Redirect
+        if cart_service.get_total_quantity() == 0:
+            response = HttpResponse('')
+            response['HX-Redirect'] = '/cart/'
+            return response
+            
         context = {
             'total': cart_details['total'],
             'tax': cart_details['tax'],
@@ -66,24 +78,7 @@ class CartView(View):
             'total_quantity': cart_details['quantity']
         }
         
-        return render(request, 'cart/partials/cart_totals.html', context)
+        response = render(request, 'cart/partials/cart_totals.html', context)
+        response['HX-Trigger'] = 'cartUpdate'
+        return response
 
-
-# Legacy views for non-HTMX requests
-def add_to_cart(request, product_id):
-    cart_service = CartService(request.session)
-    cart_service.add_item(product_id)
-    return redirect('cart:cart')
-
-
-def remove_from_cart(request, product_id):
-    cart_service = CartService(request.session)
-    cart_service.remove_item(product_id)
-    return redirect('cart:cart')
-
-
-def remove_all_itemcart_products(request, product_id):
-    cart_service = CartService(request.session)
-    cart_service.clear_item(product_id)
-    return redirect('cart:cart')
-    
