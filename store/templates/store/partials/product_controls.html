@@ -5,8 +5,8 @@
     {% is_in_cart product.id as in_cart %}
     {% cart_item_quantity product.id as quantity %}
     {% if in_cart %}
-        <div class="flex items-center justify-start gap-2">
-            <button class="btn btn-circle btn-sm btn-success"
+        <div class="join">
+            <button class="join-item btn btn-lg text-primary"
                     hx-post="{{ request.path }}"
                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                     hx-vals='{"action": "remove"}'>
@@ -18,11 +18,11 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
                 </svg>
             </button>
-            <input type="text"
-                   class="input input-bordered input-sm w-16 text-center bg-[#2A2C30] text-white"
-                   value="{{ quantity }}"
-                   readonly>
-            <button class="btn btn-circle btn-sm btn-success"
+            <button
+                   class="join-item btn btn-lg text-center"
+                   >
+                   {{  quantity }}</button>
+            <button class="join-item btn btn-lg text-primary"
                     hx-post="{{ request.path }}"
                     hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                     hx-vals='{"action": "add"}'>
@@ -36,7 +36,7 @@
             </button>
         </div>
     {% else %}
-        <button class="btn btn-success btn-block gap-2"
+        <button class="btn bg-primary btn-block gap-2"
                 hx-post="{{ request.path }}"
                 hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                 hx-vals='{"action": "add"}'>
@@ -44,4 +44,12 @@
             <span>Add to cart</span>
         </button>
     {% endif %}
+</div>
+
+<!-- A hidden div that is used to update the total cart quantity -->
+<div hidden="true">
+    <div id="cart-quantity" hx-swap-oob="true">
+        {% total_items_quantity as total_quantity %}
+        {{ total_quantity }}
+    </div>
 </div>
