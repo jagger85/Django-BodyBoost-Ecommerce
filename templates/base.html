@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE HTML>
-<html lang="en" data-theme="forest">
+<html lang="en" data-theme="bodyboost">
       <head>
             <link rel="stylesheet" href="{% static 'dist/styles.css'%}">
             <script src="{% static 'js/htmx.min.js' %}" defer></script>
@@ -16,8 +16,7 @@
                   rel="shortcut icon"
                   type="image/x-icon">
       </head>
-      <body>
-            <div class="min-h-screen flex flex-col bg-[#1a1s21]">
+      <body class="flex flex-col bg-base-200 h-screen">
                   <!-- navbar -->
                   {% include 'includes/navbar.html' with all_categories=all_categories %}
                   {% block content %}
@@ -25,6 +24,5 @@
                   {% endblock content %}
                   <!-- footer -->
                   {% include 'includes/footer.html' %}
-            </div>
       </body>
 </html>
