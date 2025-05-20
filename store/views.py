@@ -2,21 +2,24 @@ from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
 from django.views import View
 from cart.services import CartService
-
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 def store(request, category_slug=None):
+    # Fetch categories
+    categories = get_object_or_404(Category, slug=category_slug) if category_slug else Category.objects.all()
     
-    if category_slug != None:
-        categories = get_object_or_404(Category, slug=category_slug)
-        products = Product.objects.filter(category=categories)
+    # Fetch products based on category
+    products = Product.objects.filter(category=categories) if category_slug else Product.objects.all()
     
-    else:        
-        categories = Category.objects.all()
-        products = Product.objects.all()
+    # Pagination
+    paginator = Paginator(products, 1)
+    page = request.GET.get('page')
+    paged_products = paginator.get_page(page)
 
     context = {
-        'products' : products,
+        'products' : paged_products,
         'categories': categories,
+        'products_count': products.count()
     }
 
     return render(request, 'store/store.html', context)

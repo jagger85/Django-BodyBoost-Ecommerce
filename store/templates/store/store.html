@@ -74,7 +74,7 @@
             <main class="flex-1">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-6">
-                    <span class="text-primary font-medium">{{ products|length }} Items found</span>
+                    <span class="text-primary font-medium">{{ products_count }} Items found</span>
                     <div class="flex items-center gap-2">
                         <span class="text-gray-400">Sort by:</span>
                         <select class="select select-sm bg-base-200 border-none text-white">
@@ -93,17 +93,7 @@
                 </div>
                 <!-- Pagination -->
                 <div class="flex justify-center mt-8">
-                    <div class="join">
-                        <button class="join-item btn btn-lg border-none text-gray-400 hover:text-white">
-                            {% lucide 'chevron-left'%}
-                        </button>
-                        <button class="join-item btn btn-lg bg-primary border-none text-black">1</button>
-                        <button class="join-item btn btn-lg border-none text-gray-400 hover:text-white">2</button>
-                        <button class="join-item btn btn-lg border-none text-gray-400 hover:text-white">3</button>
-                        <button class="join-item btn btn-lg border-none text-gray-400 hover:text-white">
-                            {% lucide 'chevron-right' %}
-                        </button>
-                    </div>
+                    {% include 'store/partials/paginator.html' with products=products %}
                 </div>
             </main>
         </div>
