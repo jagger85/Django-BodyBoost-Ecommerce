@@ -3,7 +3,7 @@
 {% load cart_tags %}
 {% block content %}
   <div class="max-w-7xl mx-auto px-4 py-8">
-    <div class="bg-[#1E2022] rounded-lg p-6">
+    <div class="bg-base-200 rounded-lg p-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Product Image Section -->
         <div class="flex justify-center items-center bg-white rounded-lg p-4">
@@ -15,12 +15,12 @@
         <div class="space-y-6">
           <!-- Status Badge -->
           {% if product.stock > 0 %}
-          <div class="badge badge-success gap-2">In Stock</div>
+          <div class="badge badge-xl badge-primary badge-outline gap-2">In Stock</div>
           {% else %}
           <div class="badge badge-error gap-2">Out of Stock</div>
           {% endif %}
           <!-- Brand -->
-          <div class="text-success">{{ product.brand }}</div>
+          <div class="text-primary">{{ product.brand }}</div>
           <!-- Product Title -->
           <h1 class="text-3xl font-bold text-white">{{ product.product_name }}</h1>
           <!-- Category -->
@@ -31,7 +31,7 @@
               {% for i in "12345" %}
                 <input type="radio"
                        name="rating-1"
-                       class="mask mask-star bg-success"
+                       class="mask mask-star bg-primary"
                        disabled />
               {% endfor %}
             </div>
@@ -40,13 +40,18 @@
           <!-- Price -->
           <div class="text-3xl font-bold text-white">${{ product.price }}</div>
           <!-- Flavor Selector -->
-          <div class="form-control w-full">
-            <label class="label mb-2">
-              <span class="label-text text-white">Select Flavor</span>
-            </label>
-            <select class="select select-bordered w-full bg-[#2A2C30] text-white">
-              <option>Unflavoured - 30 servings</option>
-            </select>
+          <div class="w-full flex-col">
+              <div class="label-text text-white mb-4">Select Flavor</div>
+          
+
+            <details class="dropdown">
+              <summary class="btn">Unflavoured - 30 servings</summary>
+              <ul class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                <li><a>Item 1</a></li>
+                <li><a>Item 2</a></li>
+                </ul>
+            </details>
+
           </div>
           <!-- Add to Cart Button -->
           {% if product.stock > 0 %}
@@ -56,7 +61,7 @@
           <div class="grid grid-cols-3 gap-4 mt-8">
             <div class="text-center">
               <div class="flex justify-center mb-2">
-                <svg class="w-8 h-8 text-success"
+                <svg class="w-8 h-8 text-primary"
                      fill="none"
                      stroke="currentColor"
                      viewBox="0 0 24 24">
@@ -68,7 +73,7 @@
             </div>
             <div class="text-center">
               <div class="flex justify-center mb-2">
-                <svg class="w-8 h-8 text-success"
+                <svg class="w-8 h-8 text-primary"
                      fill="none"
                      stroke="currentColor"
                      viewBox="0 0 24 24">
@@ -80,7 +85,7 @@
             </div>
             <div class="text-center">
               <div class="flex justify-center mb-2">
-                <svg class="w-8 h-8 text-success"
+                <svg class="w-8 h-8 text-primary"
                      fill="none"
                      stroke="currentColor"
                      viewBox="0 0 24 24">
@@ -126,7 +131,7 @@
         {% if not reviews %}
           <div class="alert">
             <span class="text-gray-400">No reviews yet</span>
-            <a href="#" class="link link-success">Sign in to write a review</a>
+            <a href="#" class="link link-primary">Sign in to write a review</a>
           </div>
         {% endif %}
       </div>
