@@ -1,28 +1,68 @@
 {% load static %}
-
 <!DOCTYPE HTML>
 <html lang="en" data-theme="bodyboost">
-      <head>
-            <link rel="stylesheet" href="{% static 'dist/styles.css'%}">
-            <script src="{% static 'js/htmx.min.js' %}" defer></script>
+    <head>
+        <link rel="stylesheet" href="{% static 'dist/styles.css' %}">
+        <script src="{% static 'js/htmx.min.js' %}" defer></script>
+        <meta charset="utf-8">
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="cache-control" content="max-age=604800" />
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>BodyBoost Fitness products</title>
+        <link href="{% static 'images/facivon.icon' %}"
+              rel="shortcut icon"
+              type="image/x-icon">
+    </head>
+    <body class="flex flex-col bg-base-200 h-screen">
+        <!-- navbar -->
+        {% include 'includes/navbar.html' with all_categories=all_categories %}
+        {% block content %}
+            <!-- content -->
+        {% endblock content %}
+        <!-- footer -->
+        {% include 'includes/footer.html' %}
+        <script>
+                function updateCartQuantity() {
+                    fetch('/cart/quantity/', {
+                        method: 'GET',
+                        headers: {
+                            'Cache-Control': 'no-cache',
+                            'Pragma': 'no-cache'
+                        },
+                        cache: 'no-store'
+                    })
+                    .then(response => response.text())
+                    .then(quantity => {
+                        document.getElementById('cart-quantity').textContent = quantity;
+                    });
+                }
 
-            <meta charset="utf-8">
-            <meta http-equiv="pragma" content="no-cache" />
-            <meta http-equiv="cache-control" content="max-age=604800" />
-            <meta name="viewport"
-                  content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <title>GreatKart | One of the Biggest Online Shopping Platform</title>
-            <link href="{% static 'images/facivon.icon' %}"
-                  rel="shortcut icon"
-                  type="image/x-icon">
-      </head>
-      <body class="flex flex-col bg-base-200 h-screen">
-                  <!-- navbar -->
-                  {% include 'includes/navbar.html' with all_categories=all_categories %}
-                  {% block content %}
-                        <!-- content -->
-                  {% endblock content %}
-                  <!-- footer -->
-                  {% include 'includes/footer.html' %}
-      </body>
+                // Update after any HTMX interaction
+                document.body.addEventListener('htmx:afterOnLoad', function(event) {
+                    // Check if target has product-controls in its ID
+                    const hasProductControls = event.target.id && event.target.id.includes('product-controls');
+                    
+                    // Safely check if the path includes '/cart/'
+                    const isCartPath = event.detail && 
+                                     event.detail.pathInfo && 
+                                     event.detail.pathInfo.path && 
+                                     event.detail.pathInfo.path.includes('/cart/');
+
+                    if (hasProductControls || isCartPath) {
+                        updateCartQuantity();
+                    }
+                });
+
+                // Update on page load
+                document.addEventListener('DOMContentLoaded', function() {
+                    updateCartQuantity();
+                });
+
+                // Update on browser navigation
+                window.addEventListener('pageshow', function(event) {
+                    updateCartQuantity();
+                });
+        </script>
+    </body>
 </html>
