@@ -34,7 +34,7 @@
             <!-- Sign In -->
             <a href="#" class="btn bg-primary text-black">Sign In</a>
             <!-- Cart -->
-            <a {% url 'cart:cart' %}" class="btn gap-2 hover:text-primary">
+            <a href="{% url 'cart:cart' %}"  class="btn gap-2 hover:text-primary">
                 {% lucide 'shopping-cart' %}
                 <span id="cart-quantity"
                       hx-swap="innerHTML"
