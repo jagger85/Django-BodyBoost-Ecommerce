@@ -1,0 +1,9 @@
+<form action="{% url 'store:search' %}" mehod="GET">
+    <label class="input">
+        {% lucide 'search' %}
+        <input type="search"
+                class="grow"
+                placeholder="Search a product..."
+                name="keyword" />
+    </label>
+</form>
