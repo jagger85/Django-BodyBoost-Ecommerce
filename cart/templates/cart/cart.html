@@ -13,12 +13,12 @@
                 <div class="lg:w-3/4 space-y-6">
                     {% for cart_item in cart_items %}
                         <div class="bg-base-100 rounded-xl shadow-lg overflow-hidden">{% include 'cart/partials/product_row.html' %}</div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
+                <div class="lg:w-1/4">
+                    <div class="bg-base-300 rounded-xl shadow-lg p-2 sticky top-6">{% include 'cart/partials/cart_totals.html' %}</div>
+                </div>
             </div>
-            <div class="lg:w-1/4">
-                <div class="bg-base-300 rounded-xl shadow-lg p-2 sticky top-6">{% include 'cart/partials/cart_totals.html' %}</div>
-            </div>
-        </div>
-    {% endif %}
-</section>
+        {% endif %}
+    </section>
 {% endblock content %}
