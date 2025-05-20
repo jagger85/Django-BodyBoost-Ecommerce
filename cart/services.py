@@ -102,3 +102,10 @@ class CartService:
             return cart_item.quantity
         except CartItem.DoesNotExist:
             return 0
+        
+    def get_total_quantity(self) -> int:
+        """"
+        Get the total cart products quantity
+        """
+        return sum(item.quantity for item in self.items)
+        
