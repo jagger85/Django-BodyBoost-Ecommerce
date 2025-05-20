@@ -28,7 +28,7 @@
                         {% for category in all_categories %}
                             <label class="flex items-center gap-2 cursor-pointer group">
                                 <input type="checkbox"
-                                       class="checkbox checkbox-success"
+                                       class="checkbox checkbox-primary"
                                        {% if category.slug in request.path %}checked{% endif %}>
                                 <span class="text-gray-400 group-hover:text-white">{{ category.category_name }}</span>
                             </label>
@@ -61,12 +61,12 @@
                 <div class="bg-[#1E2023] rounded-xl p-6 mb-6">
                     <h3 class="text-white font-semibold text-lg mb-4">Price Range</h3>
                     <div class="space-y-4">
-                        <input type="range" class="range range-success" min="0" max="100">
+                        <input type="range" class="range range-primary" min="0" max="100">
                         <div class="flex justify-between text-gray-400">
                             <span>$0</span>
                             <span>$100</span>
                         </div>
-                        <button class="btn btn-success w-full">Apply</button>
+                        <button class="btn btn-primary w-full">Apply</button>
                     </div>
                 </div>
             </aside>
@@ -74,10 +74,10 @@
             <main class="flex-1">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-6">
-                    <span class="text-success font-medium">{{ products|length }} Item found</span>
+                    <span class="text-primary font-medium">{{ products|length }} Items found</span>
                     <div class="flex items-center gap-2">
                         <span class="text-gray-400">Sort by:</span>
-                        <select class="select select-sm bg-[#2A2D31] border-none text-white">
+                        <select class="select select-sm bg-base-200 border-none text-white">
                             <option>Popularity</option>
                             <option>Newest</option>
                             <option>Price: Low to High</option>
@@ -94,14 +94,14 @@
                 <!-- Pagination -->
                 <div class="flex justify-center mt-8">
                     <div class="join">
-                        <button class="join-item btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
-                            <i class="fas fa-chevron-left"></i>
+                        <button class="join-item btn btn-lg border-none text-gray-400 hover:text-white">
+                            {% lucide 'chevron-left'%}
                         </button>
-                        <button class="join-item btn btn-sm bg-success border-none text-black">1</button>
-                        <button class="join-item btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">2</button>
-                        <button class="join-item btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">3</button>
-                        <button class="join-item btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
-                            <i class="fas fa-chevron-right"></i>
+                        <button class="join-item btn btn-lg bg-primary border-none text-black">1</button>
+                        <button class="join-item btn btn-lg border-none text-gray-400 hover:text-white">2</button>
+                        <button class="join-item btn btn-lg border-none text-gray-400 hover:text-white">3</button>
+                        <button class="join-item btn btn-lg border-none text-gray-400 hover:text-white">
+                            {% lucide 'chevron-right' %}
                         </button>
                     </div>
                 </div>
