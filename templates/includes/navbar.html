@@ -1,6 +1,8 @@
 {% load static %}
-<header class="bg-[#1a1c1f] shadow-lg">
-    <div class="navbar container mx-auto px-4">
+{% load cart_tags %}
+{% total_items_quantity as quantity %}
+<header class="bg-base-200 shadow-lg border-b-1 border-base-100">
+    <div class="navbar container mx-auto px-4 py-6">
         <!-- Logo -->
         <div class="navbar-start">
             <a href="{% url 'home' %}" class="flex items-center">
@@ -11,20 +13,13 @@
         </div>
         <!-- Search Bar -->
         <div class="navbar-center flex-1 max-w-2xl mx-4">
-            <div class="relative w-full">
-                <input type="search"
-                       class="w-[100] h-12 bg-[#2a2d31] border-none text-white placeholder:text-gray-400 pl-5 pr-12 focus:outline-none focus:ring-2 focus:ring-success"
-                       placeholder="Search products..." />
-                <button class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white">
-                    <i class="fas fa-search text-lg"></i>
-                </button>
-            </div>
+            
         </div>
         <!-- Right Section -->
         <div class="navbar-end gap-4">
             <!-- Category Dropdown -->
             <details class="dropdown">
-                <summary class="btn bg-[#2a2d31] hover:bg-[#3a3d41] border-none text-white">All Categories</summary>
+                <summary class="btn bg-base-200 hover:text-primary border-none text-white">All Categories</summary>
                 <div class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 shadow-xl mt-2">
                     <ul class="p-2">
                         {% for category in all_categories %}
@@ -37,11 +32,13 @@
                 </div>
             </details>
             <!-- Sign In -->
-            <a href="#" class="btn btn-ghost text-white hover:text-primary">Sign In</a>
+            <a href="#" class="btn bg-primary text-black">Sign In</a>
             <!-- Cart -->
-            <a href="{% url 'cart:cart' %}" class="btn btn-success gap-2">
-                <i class="fas fa-shopping-cart"></i>
-                Cart (0)
+            <a {% url 'cart:cart' %}" class="btn gap-2 hover:text-primary">
+                {% lucide 'shopping-cart' %}
+                <span id="cart-quantity"
+                      hx-swap="innerHTML"
+                      hx-trigger="cartUpdated from:body">{{ quantity }}</span>
             </a>
         </div>
     </div>
