@@ -1,73 +1,42 @@
 {% load static %}
-<header class="section-header bg-dark">
-    <section class="header-main">
-        <div class="container">
-            <div class="row align-items-center justify-content-between">
-                <!-- Logo Column -->
-                <div class="col-12 col-sm-12 col-md-12 col-lg-3">
-                    <a href={% url 'home' %} class="brand-wrap">
-                        <img class="logo  d-md-block" src="{% static './images/logo.png' %}">
-                    </a>
-                </div>
-                <!-- Search Column - Hide on small screens, show after medium -->
-                <div class="col-6 col-md-4 col-lg-5 order-3 order-md-2 mt-2 mt-md-0">
-                    <form action="#" class="search">
-                        <div class="input-group w-50">
-                            <input type="text" class="form-control" placeholder="Search">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <!-- Navigation Buttons Column -->
-                <div class="col-6 col-sm-6 col-md-5 col-lg-3 order-2 order-md-3">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <!-- Category Dropdown -->
-                        <div class="category-wrap dropdown d-inline-block mr-2">
-                            <button type="button"
-                                    class="btn btn-primary dropdown-toggle"
-                                    data-toggle="dropdown">
-                                <i class="fa fa-bars"></i> <span class="d-none d-md-inline">All category</span>
-                            </button>
-                            <div class="dropdown-menu">
-                                {% for category in all_categories %}
-                                    <a class="dropdown-item"
-                                       href="{% url 'store:product_by_category' category.slug %}">
-                                        {{ category.category_name }}
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        <!-- Store Button -->
-                        <a href={% url 'store:store' %} class="btn btn-outline-primary mr-2">Store</a>
-                        <!-- User Menu -->
-                        <div class="widget-header d-none d-md-inline-block">
-                            <small class="title text-muted">Welcome guest!</small>
-                            <div>
-                                <a href="./signin.html">Sign in</a> <span class="dark-transp">|</span>
-                                <a href="./register.html">Register</a>
-                            </div>
-                        </div>
-                        <!-- Cart Icon -->
-                        <a href="{% url 'cart:cart' %}" class="widget-header pl-2 ml-2">
-                            <div class="icon icon-sm rounded-circle border">
-                                <i class="fa fa-shopping-cart"></i>
-                            </div>
-                            <span class="badge badge-pill badge-danger notify">0</span>
-                        </a>
-                    </div>
-                </div>
-                <!-- Mobile User Menu - Show only on small screens -->
-                <div class="col-12 d-md-none order-4 mt-2">
-                    <div class="text-center">
-                        <a href="./signin.html">Sign in</a> <span class="dark-transp">|</span>
-                        <a href="./register.html">Register</a>
-                    </div>
-                </div>
-            </div>
+{% load cart_tags %}
+<header class="bg-base-200 shadow-lg border-b-1 border-base-100">
+    <div class="navbar container mx-auto px-4 py-6">
+        <!-- Logo -->
+        <div class="navbar-start">
+            <a href="{% url 'home' %}" class="flex items-center">
+                <img class="h-8 w-auto"
+                     src="{% static './images/logo.png' %}"
+                     alt="Body Boost">
+            </a>
         </div>
-    </section>
+        <!-- Search Bar -->
+        <div class="navbar-center flex-1 max-w-2xl mx-4"></div>
+        <!-- Right Section -->
+        <div class="navbar-end gap-4">
+            <!-- Category Dropdown -->
+            <details class="dropdown">
+                <summary class="btn bg-base-200 hover:text-primary border-none text-white">All Categories</summary>
+                <div class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 shadow-xl mt-2">
+                    <ul class="p-2">
+                        {% for category in all_categories %}
+                            <li>
+                                <a href="{% url 'store:product_by_category' category.slug %}"
+                                   class="text-base-content hover:text-primary">{{ category.category_name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </details>
+            <!-- Sign In -->
+            <a href="#" class="btn bg-primary text-black">Sign In</a>
+            <!-- Cart -->
+            <a href="{% url 'cart:cart' %}" class="btn gap-2 hover:text-primary">
+                {% lucide 'shopping-cart' %}
+                <span id="cart-quantity"
+                      hx-get="{% url 'cart:cart_quantity' %}"
+                      hx-trigger="cartUpdate from:body">{{ cart_quantity }}</span>
+            </a>
+        </div>
+    </div>
 </header>

@@ -4,3 +4,6 @@ db.sqlite3
 */migrations
 /media/photos
 .DS_Store
+/node_modules
+package-lock.json
+bodyboost/static/dist

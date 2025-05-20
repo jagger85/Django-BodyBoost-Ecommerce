@@ -15,3 +15,9 @@ def cart_item_quantity(context, product_id):
     request = context['request']
     cart = get_cart(request.session)
     return cart.get_item_quantity(product_id)
+
+@register.simple_tag(takes_context=True)
+def total_items_quantity(context):
+    request = context['request']
+    cart = get_cart(request.session)
+    return cart.get_total_quantity()

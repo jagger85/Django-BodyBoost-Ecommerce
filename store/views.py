@@ -1,12 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category
 from django.views import View
-from cart.utils import get_cart
 from cart.services import CartService
-from django.http import HttpResponse
 
 
-# Create your views here.
 def store(request, category_slug=None):
     
     if category_slug != None:
@@ -33,6 +30,7 @@ class ProductDetail(View):
         }
         return render(request, 'store/product_detail.html', context)
     
+    # sended by htmx
     def post(self, request, *args, **kwargs):
         product = get_object_or_404(Product, slug=kwargs['product_slug'])
         cart = CartService(request.session)
@@ -44,7 +42,8 @@ class ProductDetail(View):
             cart.remove_item(product.id)
             
         context = {
-            'product': product
+            'product': product,
+            'total_quantity': cart.get_total_quantity()
         }
         
         # Return just the updated controls

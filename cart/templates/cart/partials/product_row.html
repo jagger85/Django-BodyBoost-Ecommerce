@@ -1,0 +1,43 @@
+{% load static %}
+<div class="overflow-x-auto">
+    <table class="w-full">
+        <tbody>
+            <tr class="text-gray-200">
+                <td class="px-6 py-6">
+                    <div class="flex items-center">
+                        <div class="w-24 h-24 flex-shrink-0 bg-[#3a3a3a] rounded-lg overflow-hidden">
+                            <img src="{{ cart_item.product.images.url }}"
+                                 alt="{{ cart_item.product.product_name }}"
+                                 class="w-full h-full object-contain p-2"
+                                 width="96"
+                                 height="96">
+                        </div>
+                        <div class="ml-6">
+                            <a href="{% url 'store:product_detail' cart_item.product.category.slug cart_item.product.slug %}"
+                               class="text-white hover:text-[#00D897] transition-colors font-medium">
+                                {{ cart_item.product.product_name }}
+                            </a>
+                            <p class="text-sm text-gray-400 mt-2">{{ cart_item.product.description|truncatechars:100 }}</p>
+                        </div>
+                    </div>
+                </td>
+                <td class="px-6 py-6">{% include 'store/partials/product_controls.html' with product=cart_item.product %}</td>
+                <td class="px-6 py-6">
+                    <div id="product-price-{{ cart_item.product.id }}">
+                        <div class="text-xl font-medium">${{ cart_item.sub_total }}</div>
+                        <div class="text-sm text-gray-400">${{ cart_item.product.price }} each</div>
+                    </div>
+                </td>
+                <td class="px-6 py-6 text-right">
+                    <button class="btn rounded-full"
+                            hx-delete="{% url 'cart:cart_product' cart_item.product.id %}"
+                            hx-target="closest tr"
+                            hx-swap="outerHTML swap:1s"
+                            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+                        {% lucide "x" class="text-error" %}
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
