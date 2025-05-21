@@ -1,7 +1,7 @@
 from django.contrib.sessions.backends.base import SessionBase
 from typing import Optional, Dict, Any
 from .models import Cart, CartItem
-from store.models import Product
+from store.models import ProductVariant
 from django.shortcuts import get_object_or_404
 
 class CartService:
@@ -44,11 +44,11 @@ class CartService:
             'grand_total': grand_total
         }
 
-    def add_item(self, product_id: int, quantity: int = 1) -> CartItem:
-        """Add an item to cart or increase its quantity"""
-        product = get_object_or_404(Product, id=product_id)
+    def add_item(self, variant_id: int, quantity: int = 1) -> CartItem:
+        """Add a variant to cart or increase its quantity"""
+        variant = get_object_or_404(ProductVariant, id=variant_id)
         cart_item, created = CartItem.objects.get_or_create(
-            product=product,
+            product=variant,
             cart=self.cart,
             defaults={'quantity': quantity}
         )
@@ -59,11 +59,11 @@ class CartService:
         
         return cart_item
 
-    def remove_item(self, product_id: int, quantity: int = 1) -> None:
-        """Remove specified quantity of an item from cart"""
-        product = get_object_or_404(Product, id=product_id)
+    def remove_item(self, variant_id: int, quantity: int = 1) -> None:
+        """Remove specified quantity of a variant from cart"""
+        variant = get_object_or_404(ProductVariant, id=variant_id)
         try:
-            cart_item = CartItem.objects.get(product=product, cart=self.cart)
+            cart_item = CartItem.objects.get(product=variant, cart=self.cart)
             cart_item.quantity -= quantity
             if cart_item.quantity > 0:
                 cart_item.save()
@@ -72,31 +72,31 @@ class CartService:
         except CartItem.DoesNotExist:
             pass
 
-    def clear_item(self, product_id: int) -> None:
-        """Remove all quantities of an item from cart"""
-        product = get_object_or_404(Product, id=product_id)
-        CartItem.objects.filter(product=product, cart=self.cart).delete()
+    def clear_item(self, variant_id: int) -> None:
+        """Remove all quantities of a variant from cart"""
+        variant = get_object_or_404(ProductVariant, id=variant_id)
+        CartItem.objects.filter(product=variant, cart=self.cart).delete()
 
-    def has_product(self, product_id: int) -> bool:
+    def has_product(self, variant_id: int) -> bool:
         """
-        Check if a specific product exists in the cart
-        Returns True if the product is in the cart, False otherwise
+        Check if a specific variant exists in the cart
+        Returns True if the variant is in the cart, False otherwise
         """
         return CartItem.objects.filter(
             cart=self.cart,
-            product_id=product_id,
+            product_id=variant_id,
             is_active=True
         ).exists()
 
-    def get_item_quantity(self, product_id: int) -> int:
+    def get_item_quantity(self, variant_id: int) -> int:
         """
-        Get the quantity of a specific product in the cart
-        Returns 0 if the product is not in the cart
+        Get the quantity of a specific variant in the cart
+        Returns 0 if the variant is not in the cart
         """
         try:
             cart_item = CartItem.objects.get(
                 cart=self.cart,
-                product_id=product_id,
+                product_id=variant_id,
                 is_active=True
             )
             return cart_item.quantity

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product, Variant, Brand
+from .models import Category, Product, ProductVariant, Brand
 from django import forms
 
 
@@ -27,10 +27,10 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Product, ProductAdmin) 
 
 
-class VariantAdmin(admin.ModelAdmin):
-    list_display = ('product', 'price', 'stock','flavour', 'size', 'is_active')
+class ProductVariantAdmin(admin.ModelAdmin):
+    list_display = ('product', 'price', 'stock','flavor', 'size', 'is_active')
     list_editable = ('is_active',)
-admin.site.register(Variant, VariantAdmin)
+admin.site.register(ProductVariant, ProductVariantAdmin)
 
 
 class BrandAdmin(admin.ModelAdmin):

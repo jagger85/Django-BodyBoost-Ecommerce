@@ -39,15 +39,20 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
-class Variant(models.Model):
+class ProductVariant(models.Model):
     size = models.CharField(max_length=200)
-    flavour = models.CharField(max_length=200)
+    flavor = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=7, decimal_places=2)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='variant')
     is_active = models.BooleanField(default=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
     stock = models.IntegerField()
 
-    def __unicode__(self):
-        return self.product
+    class Meta:
+        verbose_name = 'Product Variant'
+        verbose_name_plural = 'Product Variants'
+        unique_together =  ['product', 'flavor', 'size']
+
+    def __str__(self):
+        return f"{self.product.name} - {self.flavor}/{self.size}"
