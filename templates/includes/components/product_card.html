@@ -8,14 +8,14 @@
     <a href="{% url 'store:product_detail' product.category.slug product.slug %}"
        class="block aspect-square rounded-lg overflow-hidden bg-[#2A2D31] mb-4">
         <img src="{{ product.images.url }}"
-             alt="{{ product.product_name }}"
+             alt="{{ product.name }}"
              class="w-full h-full object-contain p-4">
     </a>
     <!-- Product Info -->
     <div class="flex flex-col flex-grow">
         <!-- Product Name -->
         <h3 class="text-xl font-semibold text-white mb-1">
-            <a href="{% url 'store:product_detail' product.category.slug product.slug %}">{{ product.product_name }}</a>
+            <a href="{% url 'store:product_detail' product.category.slug product.slug %}">{{ product.name }}</a>
         </h3>
         <!-- Brand Name -->
         <p class="text-gray-400 mb-2">{{ product.brand }}</p>

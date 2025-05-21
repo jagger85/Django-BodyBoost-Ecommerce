@@ -5,7 +5,7 @@ from store.models import Product, Category
 def home(request):
 
     context = {
-        'products': Product.objects.all().filter(is_available=True),
+        'products': Product.objects.all().filter(is_active=True),
         'all_categories': Category.objects.all()
     }
 

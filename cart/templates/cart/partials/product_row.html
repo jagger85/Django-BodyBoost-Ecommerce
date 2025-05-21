@@ -7,7 +7,7 @@
                     <div class="flex items-center">
                         <div class="w-24 h-24 flex-shrink-0 bg-[#3a3a3a] rounded-lg overflow-hidden">
                             <img src="{{ cart_item.product.images.url }}"
-                                 alt="{{ cart_item.product.product_name }}"
+                                 alt="{{ cart_item.product.name }}"
                                  class="w-full h-full object-contain p-2"
                                  width="96"
                                  height="96">
@@ -15,7 +15,7 @@
                         <div class="ml-6">
                             <a href="{% url 'store:product_detail' cart_item.product.category.slug cart_item.product.slug %}"
                                class="text-white hover:text-[#00D897] transition-colors font-medium">
-                                {{ cart_item.product.product_name }}
+                                {{ cart_item.product.name }}
                             </a>
                             <p class="text-sm text-gray-400 mt-2">{{ cart_item.product.description|truncatechars:100 }}</p>
                         </div>
