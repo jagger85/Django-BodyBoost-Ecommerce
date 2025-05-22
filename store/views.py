@@ -33,21 +33,25 @@ def store(request, category_slug=None):
     return render(request, 'store/store.html', context)
 
 def search(request):
-
-    if 'keyword' in request.GET:
-        keyword = request.GET['keyword']
-        if keyword: 
-            products = Product.objects.order_by('-created_date').filter(Q(description__icontains=keyword)|Q(name__icontains=keyword))
-        
-        paginator = Paginator(products,1)
-        page = request.GET.get('page')
-        paged_products = paginator.get_page(page)
-        context = {
-            'products': paged_products,
-            'products_count': products.count()
-        }
-        return render(request, 'store/store.html', context)
+    products = ProductVariant.objects.all()
+    keyword = request.GET.get('keyword', '')
     
+    if keyword:
+        products = ProductVariant.objects.filter(
+            Q(product__description__icontains=keyword) |
+            Q(product__name__icontains=keyword)
+        )
+    
+    paginator = Paginator(products, 1)
+    page = request.GET.get('page')
+    paged_products = paginator.get_page(page)
+    
+    context = {
+        'variants': paged_products,
+        'products_count': products.count(),
+        'keyword': keyword,
+    }
+    return render(request, 'store/store.html', context)
 
 
 def product_detail(request, category_slug, product_slug, variant_id=None):
