@@ -14,7 +14,7 @@
         <!-- container //  -->
     </div>
     <!-- Store Content -->
-    <div class="container mx-auto px-4 pb-16 py-4" >
+    <div class="container mx-auto px-4 pb-16 py-4">
         <div class="flex flex-col lg:flex-row gap-8">
             <!-- Sidebar Filters -->
             <aside class="lg:w-64">
@@ -30,7 +30,7 @@
                                 <input type="checkbox"
                                        class="checkbox checkbox-primary"
                                        {% if category.slug in request.path %}checked{% endif %}>
-                                <span class="text-gray-400 group-hover:text-white">{{ category.category_name }}</span>
+                                <span class="text-gray-400 group-hover:text-white">{{ category.name }}</span>
                             </label>
                         {% endfor %}
                     </div>
@@ -87,14 +87,12 @@
                 </div>
                 <!-- Products Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {% for product in products %}
-                        {% include 'includes/components/product_card.html' with product=product %}
+                    {% for variant in variants %}
+                        {% include 'includes/components/product_card.html' with variant=variant %}
                     {% endfor %}
                 </div>
                 <!-- Pagination -->
-                <div class="flex justify-center mt-8">
-                    {% include 'store/partials/paginator.html' with products=products %}
-                </div>
+                <div class="flex justify-center mt-8">{% include 'store/partials/paginator.html' with products=variants %}</div>
             </main>
         </div>
     </div>

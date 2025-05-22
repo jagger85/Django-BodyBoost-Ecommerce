@@ -1,11 +1,11 @@
 from django.shortcuts import render
-from store.models import Product, Category
+from store.models import ProductVariant, Category, ProductVariant
 
 
 def home(request):
 
     context = {
-        'products': Product.objects.all().filter(is_available=True),
+        'variants': ProductVariant.objects.all().filter(is_active=True),
         'all_categories': Category.objects.all()
     }
 

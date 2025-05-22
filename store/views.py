@@ -1,17 +1,23 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Product, Category
+from .models import Product, Category, ProductVariant
 from django.views import View
-from cart.services import CartService
-from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from cart.utils import get_cart
+from django.core.paginator import Paginator
 from django.db.models import Q
+
+
+def cart(request):
+    cart = get_cart(request.session)
+    context = cart.get_cart_details()
+    return render(request, 'store/cart.html', context)
 
 
 def store(request, category_slug=None):
     # Fetch categories
     categories = get_object_or_404(Category, slug=category_slug) if category_slug else Category.objects.all()
     
-    # Fetch products based on category
-    products = Product.objects.filter(category=categories) if category_slug else Product.objects.all()
+    # Fetch all product variants based on category
+    products = ProductVariant.objects.filter(product__category=categories) if category_slug else ProductVariant.objects.all()
     
     # Pagination
     paginator = Paginator(products, 1)
@@ -19,7 +25,7 @@ def store(request, category_slug=None):
     paged_products = paginator.get_page(page)
 
     context = {
-        'products' : paged_products,
+        'variants' : paged_products,
         'categories': categories,
         'products_count': products.count()
     }
@@ -27,45 +33,38 @@ def store(request, category_slug=None):
     return render(request, 'store/store.html', context)
 
 def search(request):
-
-    if 'keyword' in request.GET:
-        keyword = request.GET['keyword']
-        if keyword: 
-            products = Product.objects.order_by('-created_date').filter(Q(description__icontains=keyword)|Q(product_name__icontains=keyword))
-        
-        paginator = Paginator(products,1)
-        page = request.GET.get('page')
-        paged_products = paginator.get_page(page)
-        context = {
-            'products': paged_products,
-            'products_count': products.count()
-        }
-        return render(request, 'store/store.html', context)
+    products = ProductVariant.objects.all()
+    keyword = request.GET.get('keyword', '')
     
-
-class ProductDetail(View):
-    def get(self, request, *args, **kwargs):
-        product = get_object_or_404(Product, slug=kwargs['product_slug'])
-        context = {
-            'product': product
-        }
-        return render(request, 'store/product_detail.html', context)
+    if keyword:
+        products = ProductVariant.objects.filter(
+            Q(product__description__icontains=keyword) |
+            Q(product__name__icontains=keyword)
+        )
     
-    # sended by htmx
-    def post(self, request, *args, **kwargs):
-        product = get_object_or_404(Product, slug=kwargs['product_slug'])
-        cart = CartService(request.session)
-        
-        action = request.POST.get('action')
-        if action == 'add':
-            cart.add_item(product.id)
-        elif action == 'remove':
-            cart.remove_item(product.id)
-            
-        context = {
-            'product': product,
-            'total_quantity': cart.get_total_quantity()
-        }
-        
-        # Return just the updated controls
-        return render(request, 'store/partials/product_controls.html', context)
+    paginator = Paginator(products, 1)
+    page = request.GET.get('page')
+    paged_products = paginator.get_page(page)
+    
+    context = {
+        'variants': paged_products,
+        'products_count': products.count(),
+        'keyword': keyword,
+    }
+    return render(request, 'store/store.html', context)
+
+
+def product_detail(request, category_slug, product_slug, variant_id=None):
+    product = get_object_or_404(Product, slug=product_slug)
+    # Get the specified variant or the first variant for initial display
+    if variant_id:
+        initial_variant = get_object_or_404(product.variant, id=variant_id)
+    else:
+        initial_variant = product.variant.first()
+    
+    context = {
+        'product': product,
+        'variant': initial_variant,
+    }
+    return render(request, 'store/product_detail.html', context)
+

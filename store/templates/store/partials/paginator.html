@@ -1,37 +1,37 @@
 {% if products.has_other_pages %}
     <nav aria-label="Page navigation" class="join">
         {% if products.has_previous %}
-            <a href="?page={{ products.previous_page_number }}"
+            <a href="?page={{ products.previous_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}"
                class="join-item btn btn-lg border-none text-gray-400 hover:text-primary"
                aria-label="Go to previous page"
                title="Previous page">{% lucide 'chevron-left' %}</a>
         {% else %}
             <a class="join-item btn btn-lg border-none text-gray-400 opacity-50"
-                    disabled
-                    title="No previous page"
-                    aria-disabled="true">{% lucide 'chevron-left' %}</a>
+               disabled
+               title="No previous page"
+               aria-disabled="true">{% lucide 'chevron-left' %}</a>
         {% endif %}
         {% for i in products.paginator.page_range %}
             {% if products.number == i %}
                 <a class="join-item btn btn-lg bg-primary border-none text-black"
-                        aria-current="page"
-                        aria-label="Current page, page {{ i }}">{{ i }}</a>
+                   aria-current="page"
+                   aria-label="Current page, page {{ i }}">{{ i }}</a>
             {% else %}
-                <a href="?page={{ i }}"
+                <a href="?page={{ i }}{% if keyword %}&keyword={{ keyword }}{% endif %}"
                    class="join-item btn btn-lg border-none hover:text-primary"
                    aria-label="Go to page {{ i }}">{{ i }}</a>
             {% endif %}
         {% endfor %}
         {% if products.has_next %}
-            <a href="?page={{ products.next_page_number }}"
+            <a href="?page={{ products.next_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}"
                class="join-item btn btn-lg border-none text-gray-400 hover:text-primary"
                aria-label="Go to next page"
                title="Next page">{% lucide 'chevron-right' %}</a>
         {% else %}
             <a class="join-item btn btn-lg border-none text-gray-400 opacity-50"
-                    disabled
-                    title="No next page"
-                    aria-disabled="true">{% lucide 'chevron-right' %}</a>
+               disabled
+               title="No next page"
+               aria-disabled="true">{% lucide 'chevron-right' %}</a>
         {% endif %}
     </nav>
 {% endif %}

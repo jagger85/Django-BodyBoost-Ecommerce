@@ -1,10 +1,8 @@
-from django.shortcuts import render, get_object_or_404
-from django.views import View
-from store.models import Product
+from django.shortcuts import render
 from .models import Cart
-from .services import CartService
+from .utils import get_cart
 from django.http import HttpResponse
-
+from store.models import ProductVariant
 
 def _cart_id(request):
     if not request.session.session_key:
@@ -17,68 +15,72 @@ def get_or_create_cart(request):
     cart, _ = Cart.objects.get_or_create(cart_id=cart_id)
     return cart
 
+
 def get_cart_quantity(request):
     """View to return the current cart quantity for HTMX requests"""
-    cart_service = CartService(request.session)
-    quantity = cart_service.get_total_quantity()
+    cart = get_cart(request.session)
+    quantity = cart.get_total_quantity()
     response = HttpResponse(str(quantity))
     response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     response['Pragma'] = 'no-cache'
     response['Expires'] = '0'
     return response
 
-class CartView(View):
-    def get(self, request):
-        cart_service = CartService(request.session)
-        context = cart_service.get_cart_details()
-        return render(request, 'cart/cart.html', context)
-    
-    def post(self, request, product_id):
-        cart_service = CartService(request.session)
-        action = request.POST.get('action')
-        
-        if action == 'add':
-            cart_service.add_item(product_id)
-        elif action == 'remove':
-            cart_service.remove_item(product_id)
-            
-        cart_details = cart_service.get_cart_details()
-        product = get_object_or_404(Product, id=product_id)
-        cart_item = next((item for item in cart_details['cart_items'] if item.product.id == product_id), None)
-        
-        context = {
-            'product': product,
-            'cart_item': cart_item,
-            'total': cart_details['total'],
-            'tax': cart_details['tax'],
-            'grand_total': cart_details['grand_total'],
-            'total_quantity': cart_details['quantity']
-        }
-        
-        response = render(request, 'cart/partials/cart_update.html', context)
-        response['HX-Trigger'] = 'cartUpdate'
-        return response
-    
-    def delete(self, request, product_id):
-        cart_service = CartService(request.session)
-        cart_service.clear_item(product_id)
-        
-        cart_details = cart_service.get_cart_details()
-        
-        # If it was the last item, return an empty response with HX-Redirect
-        if cart_service.get_total_quantity() == 0:
-            response = HttpResponse('')
-            response['HX-Redirect'] = '/cart/'
-            return response
-            
-        context = {
-            'total': cart_details['total'],
-            'tax': cart_details['tax'],
-            'grand_total': cart_details['grand_total'],
-            'total_quantity': cart_details['quantity']
-        }
-        
-        response = render(request, 'cart/partials/cart_totals.html', context)
-        response['HX-Trigger'] = 'cartUpdate'
-        return response
 
+def get_cart_variant_quantity(request, variant_id):
+    """View to return the current cart variant quantity for HTMX requests"""
+    cart = get_cart(request.session)    
+    variant_quantity = cart.get_item_quantity(variant_id)
+    response = HttpResponse(str(variant_quantity))
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response['Pragma'] = 'no-cache'
+    response['Expires'] = '0'
+    return response
+
+
+def add_variant(request, variant_id):
+    cart = get_cart(request.session)    
+    cart.add_item(variant_id)
+    variant = ProductVariant.objects.get(id=variant_id)    
+
+    context = {
+        'variant': variant
+    }
+    response = render(request, 'store/partials/variant_control/variant_actions.html', context)
+    response['HX-Trigger'] = 'cartUpdate'
+    return response
+
+
+def remove_variant(request, variant_id):
+    cart = get_cart(request.session)    
+    cart.remove_item(variant_id)
+    variant = ProductVariant.objects.get(id=variant_id)
+
+    context = {
+        'variant': variant
+    }
+    response = render(request, 'store/partials/variant_control/variant_actions.html', context)
+    response['HX-Trigger'] = 'cartUpdate'
+    return response
+
+    
+
+
+def clear_variant(request, variant_id):
+    cart = get_cart(request.session)    
+    cart.clear_item(variant_id)
+    variant_quantity = cart.get_item_quantity(variant_id)
+    response = HttpResponse(str(variant_quantity))
+    response['HX-Trigger'] = 'cartUpdate'
+    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    return render(request,'store/cart.html', cart.get_cart_details())
+
+def get_cart_view(request):
+    cart = get_cart(request.session)
+    context = cart.get_cart_details()
+    return render(request, 'cart/cart.html', context)
+
+def get_cart_totals(request):
+    cart = get_cart(request.session)
+    context = cart.get_cart_details()
+    return render(request, 'cart/partials/cart_totals.html', context)

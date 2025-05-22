@@ -1,0 +1,50 @@
+<div class="variant-selector" id="variant-selector-{{ unique_id }}">
+    {% for variant in variants %}   
+    <button class="btn variant-button px-10 py" 
+            data-variant="variant1"
+            data-variant="{{ variant.value }}"
+            data-selector-id="{{ unique_id }}">
+            {{variant.name}}
+    </button>
+    {% endfor %}
+</div>
+
+<script>
+(function() {
+        // Create a self-executing function to avoid global scope pollution
+        function initVariantSelector(selectorId) {
+            const container = document.getElementById(`variant-selector-${selectorId}`);
+            const buttons = container.querySelectorAll('.variant-button');
+            const hiddenInput = document.getElementById(`selected-variant-${selectorId}`);
+
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove 'selected' class from all buttons in this specific selector
+                    buttons.forEach(btn => btn.classList.remove('inset-ring-2','inset-ring-lime-500'));
+                    // Add 'selected' class to the clicked button
+                    button.classList.add('inset-ring-2','inset-ring-lime-500');
+
+                    // Get the selected variant
+                    const selectedVariant = button.getAttribute('data-variant');
+                    // Update hidden input
+                    hiddenInput.value = selectedVariant;
+
+                    // Dispatch a custom event
+                    const event = new CustomEvent('variantChanged', {
+                        detail: {
+                            selectorId: selectorId,
+                            variant: selectedVariant
+                        }
+                    });
+                    container.dispatchEvent(event);
+                });
+            });
+        }
+
+        // Initialize all variant selectors on the page
+        document.querySelectorAll('.variant-selector').forEach(selector => {
+            const selectorId = selector.id.replace('variant-selector-', '');
+            initVariantSelector(selectorId);
+        });
+    })();
+</script>
