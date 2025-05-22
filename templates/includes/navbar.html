@@ -29,7 +29,13 @@
                 </div>
             </details>
             <!-- Sign In -->
-            <a href="#" class="btn bg-primary text-black">Sign In</a>
+            {% if user.id is not None%}
+            <a href="{% url 'auth:logout' %}" class="btn text-white">Logout</a>
+            {{user.username}}
+            {% else %}
+            
+            <a href="{% url 'auth:login'%}" class="btn bg-primary text-black">Sign In</a>
+            {% endif%}
             <!-- Cart -->
             <a href="{% url 'store:cart' %}" class="btn gap-2 hover:text-primary">
                 {% lucide 'shopping-cart' %}
