@@ -80,3 +80,7 @@ def get_cart_view(request):
     context = cart.get_cart_details()
     return render(request, 'cart/cart.html', context)
 
+def get_cart_totals(request):
+    cart = get_cart(request.session)
+    context = cart.get_cart_details()
+    return render(request, 'cart/partials/cart_totals.html', context)
