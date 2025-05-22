@@ -6,4 +6,5 @@ db.sqlite3
 .DS_Store
 /node_modules
 package-lock.json
-bodyboost/static/dist
+bodyboost/static/dist/
+.env

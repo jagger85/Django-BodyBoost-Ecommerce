@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="min-h-screen flex items-center justify-center bg-base-200">
+        <div class="card w-full max-w-md bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h1 class="text-4xl font-bold text-center mb-2">Create Account</h1>
+                <p class="text-center text-base-content/60 mb-8">Join Body Boost today</p>
+                <form method="post">
+                    {% csrf_token %}
+                    <!-- Email Input -->
+                    <div class="form-control w-full">
+                        <label class="label">
+                            <span class="label-text text-lg">Email</span>
+                        </label>
+                        <div class="input input-bordered w-full">{{ form.email }}</div>
+                    </div>
+                    <!-- First Name Input -->
+                    <div class="form-control w-full mt-4">
+                        <label class="label">
+                            <span class="label-text text-lg">First Name</span>
+                        </label>
+                        <div class="input input-bordered w-full">{{ form.first_name }}</div>
+                    </div>
+                    <!-- Last Name Input -->
+                    <div class="form-control w-full mt-4">
+                        <label class="label">
+                            <span class="label-text text-lg">Last Name</span>
+                        </label>
+                        <div class="input input-bordered w-full">{{ form.last_name }}</div>
+                    </div>
+                    <!-- Password Input -->
+                    <div class="form-control w-full mt-4">
+                        <label class="label">
+                            <span class="label-text text-lg">Password</span>
+                        </label>
+                        <div class="input input-bordered w-full relative">
+                            {{ form.password }}
+                            <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-6 w-6 text-base-content/60"
+                                     fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-control w-full mt-4">
+                        <label class="label">
+                            <span class="label-text text-lg">Confirm Password</span>
+                        </label>
+                        <div class="input input-bordered w-full relative">
+                            {{ form.confirm_password }}
+                            <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-6 w-6 text-base-content/60"
+                                     fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    {% if form.non_field_errors or form.email.errors %}
+                        <div role="alert" class="alert alert-error alert-soft mt-4">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="h-6 w-6 shrink-0 stroke-current"
+                                 fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div class="flex flex-col">
+                                <span>{{ form.non_field_errors }}</span>
+                                <span>{{ form.email.errors }}</span>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <!-- Sign Up Button -->
+                    <button class="btn bg-primary w-full mt-6 text-lg text-black normal-case">Create Account</button>
+                    <!-- Sign In Link -->
+                    <div class="text-center mt-6 text-base-content/60">
+                        Already have an account?
+                        <a href="{% url 'auth:login' %}"
+                           class="text-primary hover:text-primary-focus">Sign in</a>
+                    </div>
+                    <!-- Divider -->
+                    <div class="divider mt-6">Or continue with</div>
+                    <!-- Social Login Buttons -->
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <button type="button" class="btn">
+                            <img src="https://www.google.com/favicon.ico"
+                                 alt="Google"
+                                 class="w-5 h-5 mr-2"
+                                 width="20"
+                                 height="20" />
+                            Google
+                        </button>
+                        <button type="button" class="btn">
+                            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
+                            </svg>
+                            Facebook
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
