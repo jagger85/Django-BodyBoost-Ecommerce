@@ -21,48 +21,6 @@
             <!-- content -->
         {% endblock content %}
         <!-- footer -->
-        {% include 'includes/footer.html' %}
-        <script>
-                function updateCartQuantity() {
-                    fetch('/cart/quantity/', {
-                        method: 'GET',
-                        headers: {
-                            'Cache-Control': 'no-cache',
-                            'Pragma': 'no-cache'
-                        },
-                        cache: 'no-store'
-                    })
-                    .then(response => response.text())
-                    .then(quantity => {
-                        document.getElementById('cart-quantity').textContent = quantity;
-                    });
-                }
-
-                // Update after any HTMX interaction
-                document.body.addEventListener('htmx:afterOnLoad', function(event) {
-                    // Check if target has product-controls in its ID
-                    const hasProductControls = event.target.id && event.target.id.includes('product-controls');
-                    
-                    // Safely check if the path includes '/cart/'
-                    const isCartPath = event.detail && 
-                                     event.detail.pathInfo && 
-                                     event.detail.pathInfo.path && 
-                                     event.detail.pathInfo.path.includes('/cart/');
-
-                    if (hasProductControls || isCartPath) {
-                        updateCartQuantity();
-                    }
-                });
-
-                // Update on page load
-                document.addEventListener('DOMContentLoaded', function() {
-                    updateCartQuantity();
-                });
-
-                // Update on browser navigation
-                window.addEventListener('pageshow', function(event) {
-                    updateCartQuantity();
-                });
-        </script>
+        {% include 'includes/footer.html' %}     
     </body>
 </html>
