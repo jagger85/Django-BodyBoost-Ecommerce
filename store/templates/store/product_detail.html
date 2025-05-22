@@ -8,21 +8,23 @@
         <!-- Product Image Section -->
         <div class="flex justify-center items-center bg-white rounded-lg p-4">
           <img src="{{ product.images.url }}"
-               alt="{{ product.product_name }}"
-               class="w-full h-auto object-contain">
+               alt="{{ product.name }}"
+               class="w-full h-auto object-contain"
+               width="400"
+               height="400">
         </div>
         <!-- Product Details Section -->
         <div class="space-y-6">
           <!-- Status Badge -->
-          {% if product.stock > 0 %}
-          <div class="badge badge-xl badge-primary badge-outline gap-2">In Stock</div>
+          <!-- {% if product.stock > 0 %}
+            <div class="badge badge-xl badge-primary badge-outline gap-2">In Stock</div>
           {% else %}
-          <div class="badge badge-error gap-2">Out of Stock</div>
-          {% endif %}
+            <div class="badge badge-error gap-2">Out of Stock</div>
+          {% endif %} -->
           <!-- Brand -->
           <div class="text-primary">{{ product.brand }}</div>
           <!-- Product Title -->
-          <h1 class="text-3xl font-bold text-white">{{ product.product_name }}</h1>
+          <h1 class="text-3xl font-bold text-white">{{ product.name }}</h1>
           <!-- Category -->
           <div class="text-gray-400">{{ product.category }}</div>
           <!-- Rating -->
@@ -38,102 +40,23 @@
             <span class="text-gray-400">0 reviews</span>
           </div>
           <!-- Price -->
-          <div class="text-3xl font-bold text-white">${{ product.price }}</div>
-          <!-- Flavor Selector -->
-          <div class="w-full flex-col">
-              <div class="label-text text-white mb-4">Select Flavor</div>
-          
-
-            <details class="dropdown">
-              <summary class="btn">Unflavoured - 30 servings</summary>
-              <ul class="menu dropdown-content bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                <li><a>Item 1</a></li>
-                <li><a>Item 2</a></li>
-                </ul>
-            </details>
-
+          {%include 'store/partials/variant_control/variant_price.html' %}
+          <!-- Variant Selector -->
+          {% include 'store/partials/variant_control/variant_selector.html' %}
+          <!-- Variant Controls -->
+          <div id="variant-details" class="space-y-4">
+            {% include 'store/partials/variant_control/variant_actions.html' %}
           </div>
-          {% if product.stock > 0 %}
-            {% include 'store/partials/product_controls.html' %}
-          {% endif %}
           <!-- What/When/Why Section -->
-          <div class="grid grid-cols-3 gap-4 mt-8">
-            <div class="text-center">
-              <div class="flex justify-center mb-2">
-                <svg class="w-8 h-8 text-primary"
-                     fill="none"
-                     stroke="currentColor"
-                     viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 class="text-white font-semibold">What</h3>
-              <p class="text-sm text-gray-400">EXPLOSIVE power blend! Amino acids, creatine, and electrolytes for MAXIMUM gains!</p>
-            </div>
-            <div class="text-center">
-              <div class="flex justify-center mb-2">
-                <svg class="w-8 h-8 text-primary"
-                     fill="none"
-                     stroke="currentColor"
-                     viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 class="text-white font-semibold">When</h3>
-              <p class="text-sm text-gray-400">30 MIN before workout! Prime your body for INTENSE performance!</p>
-            </div>
-            <div class="text-center">
-              <div class="flex justify-center mb-2">
-                <svg class="w-8 h-8 text-primary"
-                     fill="none"
-                     stroke="currentColor"
-                     viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 class="text-white font-semibold">Why</h3>
-              <p class="text-sm text-gray-400">CRUSH your goals! Boost endurance, recovery, and muscle growth NOW!</p>
-            </div>
-          </div>
+          <div class="grid grid-cols-3 gap-4 mt-8">{% include 'store/partials/what_when_why.html' %}</div>
         </div>
       </div>
       <!-- Product Information Dropdowns -->
       <div class="mt-12 space-y-4">
-        <!-- Description Dropdown -->
-        <div class="collapse collapse-arrow bg-[#2A2C30]">
-          <input type="radio" name="product-accordion" checked="checked" />
-          <div class="collapse-title text-xl font-medium text-white">Description</div>
-          <div class="collapse-content text-gray-300">
-            <p>{{ product.description }}</p>
-          </div>
-        </div>
-        <!-- Ingredients Dropdown -->
-        <div class="collapse collapse-arrow bg-[#2A2C30]">
-          <input type="radio" name="product-accordion" />
-          <div class="collapse-title text-xl font-medium text-white">Ingredients</div>
-          <div class="collapse-content text-gray-300">
-            <p>{{ product.ingredients }}</p>
-          </div>
-        </div>
-        <!-- How To Use Dropdown -->
-        <div class="collapse collapse-arrow bg-[#2A2C30]">
-          <input type="radio" name="product-accordion" />
-          <div class="collapse-title text-xl font-medium text-white">How To Use</div>
-          <div class="collapse-content text-gray-300">
-            <p>{{ product.how_to_use }}</p>
-          </div>
-        </div>
+        {% include 'store/partials/description_ingredients_howtouse.html' with product=product %}
       </div>
       <!-- Customer Reviews -->
-      <div class="mt-12">
-        <h2 class="text-2xl font-bold text-white mb-6">Customer Reviews</h2>
-        {% if not reviews %}
-          <div class="alert">
-            <span class="text-gray-400">No reviews yet</span>
-            <a href="#" class="link link-primary">Sign in to write a review</a>
-          </div>
-        {% endif %}
-      </div>
+      <div class="mt-12">{% include 'store/partials/customer_reviews.html' with reviews=reviews %}</div>
     </div>
   </div>
 {% endblock content %}

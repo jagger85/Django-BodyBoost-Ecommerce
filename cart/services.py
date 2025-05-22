@@ -37,11 +37,11 @@ class CartService:
         grand_total = total + tax
 
         return {
-            'total': total,
-            'quantity': quantity,
-            'cart_items': cart_items,
-            'tax': tax,
-            'grand_total': grand_total
+            'total':                total,
+            'total_items_in_cart':  quantity,
+            'cart_items':           cart_items,
+            'tax':                  tax,
+            'grand_total':          grand_total
         }
 
     def add_item(self, variant_id: int, quantity: int = 1) -> CartItem:

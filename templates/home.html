@@ -14,8 +14,8 @@
                    class="btn hover:text-primary">See all</a>
             </header>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {% for product in products %}
-                    {% include 'includes/components/product_card.html' with product=product %}
+                {% for variant in variants %}
+                    {% include 'includes/components/product_card.html' with variant=variant %}
                 {% endfor %}
             </div>
         </div>

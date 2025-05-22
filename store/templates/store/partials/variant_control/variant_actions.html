@@ -1,0 +1,32 @@
+{% load cart_tags %}
+<div id="variant-actions-{{ variant.id }}">
+    {% cart_item_quantity variant.id as quantity %}
+    {% if quantity > 0 %}
+        <div class="join">
+            <a class="join-item btn btn-lg text-primary"
+                    hx-get="{% url 'cart:remove_variant' variant.id %}"
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-target="#variant-actions-{{ variant.id }}"
+                    hx-swap="beforeHTML">{% lucide 'minus' class="h-4 w-4" %}</a>
+
+            <a class="join-item btn btn-lg text-center w-15"
+                    hx-get="{% url 'cart:cart_variant_quantity' variant.id %}"
+                    id="variant-quantity-{{ variant.id }}">{{ quantity }}</a>
+
+            <a class="join-item btn btn-lg text-primary"
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-get="{% url 'cart:add_variant' variant.id %}"
+                    hx-target="#variant-actions-{{ variant.id }}"
+                    hx-swap="beforeHTML">{% lucide 'plus' class="h-4 w-4" %}</a>
+        </div>
+    {% else %}
+        <button class="btn bg-primary btn-block gap-2 text-black min-w-40"
+                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                hx-get="{% url 'cart:add_variant' variant.id %}"
+                hx-target="#variant-actions-{{ variant.id }}"
+                hx-swap="beforeHTML">
+            <span class="text-xl">+</span>
+            <span>Add to cart</span>
+        </button>
+    {% endif %}
+</div>
