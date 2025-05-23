@@ -1,0 +1,85 @@
+{% if messages %}
+    <div class="toast toast-end" id="messages-list">
+        {% for message in messages %}
+            <div class="alert {% if message.tags == 'error' %}alert-error{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'success' %}alert-success{% else %}alert-info{% endif %} bg-base-100 border flex items-center gap-2">
+                <span id="toast-icon">
+                    {% if message.tags == 'error' %}
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round"
+                             class="stroke-error">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="m15 9-6 6" />
+                            <path d="m9 9 6 6" />
+                        </svg>
+                    {% elif message.tags == 'warning' %}
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round"
+                             class="stroke-warning">
+                            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
+                            <path d="M12 9v4" />
+                            <path d="M12 17h.01" />
+                        </svg>
+                    {% elif message.tags == 'success' %}
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round"
+                             class="stroke-success">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="m9 12 2 2 4-4" />
+                        </svg>
+                    {% else %}
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="2"
+                             stroke-linecap="round"
+                             stroke-linejoin="round"
+                             class="stroke-info">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12 16v-4" />
+                            <path d="M12 8h.01" />
+                        </svg>
+                    {% endif %}
+                </span>
+                <span id="toast-body" class="text-base-content {{message.tags}}">{{ message }}</span>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const messagesList = document.getElementById('messages-list');
+        if (messagesList) {
+            setTimeout(function() {
+                messagesList.style.opacity = '0';
+                messagesList.style.transition = 'opacity 0.5s ease-in-out';
+                setTimeout(function() {
+                    messagesList.remove();
+                }, 500);
+            }, 4000);
+        }
+    });
+</script>

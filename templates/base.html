@@ -8,6 +8,10 @@
         <meta http-equiv="cache-control" content="max-age=604800" />
         <meta name="viewport"
               content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description"
+              content="BodyBoost - Your premier destination for fitness supplements and nutrition products. Find premium quality pre-workouts, proteins, and wellness supplements.">
+        <meta name="keywords"
+              content="fitness supplements, pre-workout, protein powder, bodybuilding supplements, nutrition, wellness, health supplements, bodyboost">
         <title>BodyBoost Fitness products</title>
         <link href="{% static 'images/facivon.icon' %}"
               rel="shortcut icon"
@@ -21,8 +25,10 @@
         {% endblock content %}
         <!-- footer -->
         {% include 'includes/footer.html' %}
+        <!-- Messages -->
+        {% include 'includes/messages.html' %}
         <!-- Load HTMX before the toast -->
-         {% include 'includes/toast.html'%}
+        {% include 'includes/toast.html' %}
         <script src="{% static 'js/htmx.min.js' %}"></script>
         <script src="{% static 'js/toast.js' %}"></script>
     </body>
