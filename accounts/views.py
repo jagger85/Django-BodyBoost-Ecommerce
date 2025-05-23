@@ -9,6 +9,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
+from django.contrib import messages
 import json
 
 def login(request):
@@ -76,10 +77,10 @@ def activate(request,uidb64,token):
     if user is not None and default_token_generator.check_token(user,token):
         user.is_active = True
         user.save()
-        #message here
+        messages.success(request, 'Your user has been activated')
         return redirect('home')
     else: 
-        #message
+        messages.error(request, 'Sorry we cannot activate your user')
         return redirect('home')
     
 
@@ -138,7 +139,7 @@ def reset_password_validation(request, uidb64, token):
         return redirect('password_reset')
     
     else:
-        print('this link is not valid')
+        messages.error(request,'this link is not valid')
         return redirect('login')
 
 
@@ -152,10 +153,10 @@ def password_reset(request):
             user = Account.objects.get(pk=uid)
             user.set_password()
             user.save()
-            print('password reset successful')
+            messages.success(request,'password reset successful')
             return redirect('login')
         else:
-            print('password no not match')
+            messages.error(request, 'password no not match')
             return redirect('password_reset')
     else: 
         return render(request, 'accounts/reset_password.html')
