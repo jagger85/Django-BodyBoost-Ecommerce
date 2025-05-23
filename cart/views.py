@@ -21,9 +21,6 @@ def get_cart_quantity(request):
     cart = get_cart(request.session)
     quantity = cart.get_total_quantity()
     response = HttpResponse(str(quantity))
-    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response['Pragma'] = 'no-cache'
-    response['Expires'] = '0'
     return response
 
 
@@ -32,19 +29,15 @@ def get_cart_variant_quantity(request, variant_id):
     cart = get_cart(request.session)    
     variant_quantity = cart.get_item_quantity(variant_id)
     response = HttpResponse(str(variant_quantity))
-    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response['Pragma'] = 'no-cache'
-    response['Expires'] = '0'
     return response
 
 
 def add_variant(request, variant_id):
     cart = get_cart(request.session)    
     cart.add_item(variant_id)
-    variant = ProductVariant.objects.get(id=variant_id)    
-
+    variant = ProductVariant.objects.get(id=variant_id)
     context = {
-        'variant': variant
+        'variant': variant,
     }
     response = render(request, 'store/partials/variant_control/variant_actions.html', context)
     response['HX-Trigger'] = 'cartUpdate'
@@ -63,8 +56,6 @@ def remove_variant(request, variant_id):
     response['HX-Trigger'] = 'cartUpdate'
     return response
 
-    
-
 
 def clear_variant(request, variant_id):
     cart = get_cart(request.session)    
@@ -72,13 +63,14 @@ def clear_variant(request, variant_id):
     variant_quantity = cart.get_item_quantity(variant_id)
     response = HttpResponse(str(variant_quantity))
     response['HX-Trigger'] = 'cartUpdate'
-    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     return render(request,'store/cart.html', cart.get_cart_details())
+
 
 def get_cart_view(request):
     cart = get_cart(request.session)
     context = cart.get_cart_details()
     return render(request, 'cart/cart.html', context)
+
 
 def get_cart_totals(request):
     cart = get_cart(request.session)

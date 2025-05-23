@@ -10,24 +10,9 @@
                      alt="Body Boost">
             </a>
         </div>
-        <!-- Search Bar -->
-        <div class="navbar-center mx-4 w-60">{% include 'store/partials/search_field.html' %}</div>
+
         <!-- Right Section -->
         <div class="navbar-end gap-4">
-            <!-- Category Dropdown -->
-            <details class="dropdown">
-                <summary class="btn bg-base-200 hover:text-primary border-none text-white">All Categories</summary>
-                <div class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 shadow-xl mt-2">
-                    <ul class="p-2">
-                        {% for category in all_categories %}
-                            <li>
-                                <a href="{% url 'store:product_by_category' category.slug %}"
-                                   class="text-base-content hover:text-primary">{{ category.name }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </details>
             <!-- Sign In -->
             {% if user.id is not None%}
             <a href="{% url 'auth:logout' %}" class="btn text-white">Logout</a>

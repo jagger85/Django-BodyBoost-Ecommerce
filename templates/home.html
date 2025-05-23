@@ -8,11 +8,27 @@
     <!-- Popular Products Section -->
     <section class="container flex flex-col grow mx-auto px-4 py-16">
         <div>
-            <header class="flex items-center justify-between mb-8">
+            <div class="flex items-center justify-between mb-8">
                 <h2 class="text-2xl font-bold text-white">Popular products</h2>
-                <a href="{% url 'store:store' %}"
-                   class="btn hover:text-primary">See all</a>
-            </header>
+                <div class="flex gap-2">
+                    <!-- Search Bar -->
+                    <div class="w-60">{% include 'store/partials/search_field.html' %}</div>
+                    <details class="dropdown">
+                        <summary class="btn bg-base-200 hover:text-primary border-none text-white">Categories</summary>
+                        <div class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 shadow-xl mt-2">
+                            <ul class="p-2">
+                                {% for category in all_categories %}
+                                    <li>
+                                        <a href="{% url 'store:product_by_category' category.slug %}"
+                                           class="text-base-content hover:text-primary">{{ category.name }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </details>
+                    <a href="{% url 'store:store' %}" class="btn hover:text-primary">See all</a>
+                </div>
+            </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {% for variant in variants %}
                     {% include 'includes/components/product_card.html' with variant=variant %}
