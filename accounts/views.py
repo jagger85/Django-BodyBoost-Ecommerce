@@ -10,7 +10,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.contrib import messages
-import json
+
 
 def login(request):
     if request.method == 'POST':
@@ -103,26 +103,13 @@ def password_recovery(request):
             send_email = EmailMessage(mail_subject, message, to=[to_email])
             send_email.send()
 
-            trigger = {
-                   'showMessage': {
-                    'message': 'Password recovery mail sent successfully',
-                    'type': 'success',
-                }
-            }
-            response['HX-Trigger'] = json.dumps(trigger)
+            messages.success(request, 'Password recovery email sent!')
             response = redirect('login')
             return response
 
         else:
-            response = render(request, 'accounts/password_recovery.html')
-            trigger = {
-                'showMessage': {
-                    'message': 'Wrong email',
-                    'type': 'error',
-                }
-            }
-            response['HX-Trigger'] = json.dumps(trigger)
-            return response
+            messages.error(request, 'Wrong email try again')
+            return render(request, 'accounts/password_recovery.html')
         
     return render(request, 'accounts/password_recovery.html')
 
