@@ -1,39 +1,59 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="min-h-screen flex items-center justify-center bg-base-200">
-        <div class="card w-full max-w-md bg-base-100 shadow-xl">
-            <div class="card-body">
-                <h1 class="text-4xl font-bold text-center mb-2">Welcome Back</h1>
-                <p class="text-center text-base-content/60 mb-8">Sign in to your Body Boost account</p>
-                <form method="post" action="{% url 'auth:login'%}">
-                    {% csrf_token %}
-                    <!-- Email Input -->
-                    <div class="form-control w-full">
-                        <label class="label">
-                            <span class="label-text text-lg">Email</span>
-                        </label>
-                        <input  type="email"
-                               placeholder="your@email.com"
-                               class="input input-bordered w-full" 
-                                name="email"                               
-                               />
-                                
-
+    {% if request.GET.command == 'verification' %}
+        <div class="flex items-center justify-center bg-base-200 h-screen">
+            <div class="card w-full max-w-md bg-base-100 shadow-xl">
+                <div class="card-body text-center">
+                    <h2 class="text-2xl font-bold mb-4">Email Verification</h2>
+                    <div class="mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             class="h-16 w-16 mx-auto mb-4 text-primary"
+                             fill="none"
+                             viewBox="0 0 24 24"
+                             stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg>
+                        <p class="text-base-content/80">Thank you for registering with us. We have sent you a verification email to:</p>
+                        <p class="font-semibold mt-2 text-primary">{{ request.GET.email }}</p>
                     </div>
-                    <!-- Password Input -->
-                    <div class="form-control w-full mt-4">
-                        <label class="label">
-                            <span class="label-text text-lg">Password</span>
-                        </label>
-                        <div class="input input-bordered w-full relative">
-                        <input type="password" name="password"/>
-                            <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="h-6 w-6 text-base-content/60"
-                                     fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor"
-                                     name="password"/>
+                    <div class="divider">Already verified?</div>
+                    <a class="btn bg-primary w-full normal-case text-lg text-black"
+                       href="{% url 'auth:login' %}">Login to your account</a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="h-screen flex items-center justify-center bg-base-200">
+            <div class="card w-full max-w-md bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h1 class="text-4xl font-bold text-center mb-2">Welcome Back</h1>
+                    <p class="text-center text-base-content/60 mb-8">Sign in to your Body Boost account</p>
+                    <form method="post" action="{% url 'auth:login' %}">
+                        {% csrf_token %}
+                        <!-- Email Input -->
+                        <div class="form-control w-full">
+                            <label class="label">
+                                <span class="label-text text-lg">Email</span>
+                            </label>
+                            <input type="email"
+                                   placeholder="your@email.com"
+                                   class="input input-bordered w-full"
+                                   name="email" />
+                        </div>
+                        <!-- Password Input -->
+                        <div class="form-control w-full mt-4">
+                            <label class="label">
+                                <span class="label-text text-lg">Password</span>
+                            </label>
+                            <div class="input input-bordered w-full relative">
+                                <input type="password" name="password" />
+                                <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="h-6 w-6 text-base-content/60"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor"
+                                         name="password" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                 </svg>
@@ -53,7 +73,8 @@
                     <!-- Sign Up Link -->
                     <div class="text-center mt-6 text-base-content/60">
                         Don't have an account?
-                        <a href="{% url 'auth:register'%}" class="text-primary hover:text-success-focus">Sign up</a>
+                        <a href="{% url 'auth:register' %}"
+                           class="text-primary hover:text-success-focus">Sign up</a>
                     </div>
                     <!-- Divider -->
                     <div class="divider mt-6">Or continue with</div>
@@ -78,4 +99,5 @@
             </div>
         </div>
     </div>
+{% endif %}
 {% endblock %}
