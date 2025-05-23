@@ -4,7 +4,7 @@ from django.views import View
 from cart.utils import get_cart
 from django.core.paginator import Paginator
 from django.db.models import Q
-
+from django.contrib.auth.decorators import login_required
 
 def cart(request):
     cart = get_cart(request.session)
@@ -68,3 +68,7 @@ def product_detail(request, category_slug, product_slug, variant_id=None):
     }
     return render(request, 'store/product_detail.html', context)
 
+
+@login_required(login_url = 'login')
+def dashboard(request):
+    return render(request, 'store/dashboard.html')
