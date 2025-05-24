@@ -20,7 +20,7 @@
                     hx-swap="beforeHTML">{% lucide 'plus' class="h-4 w-4" %}</a>
         </div>
     {% else %}
-        <button class="btn bg-primary btn-block gap-2 text-black min-w-40"
+        <button class="btn bg-primary gap-2 text-black min-w-40"
                 hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                 hx-get="{% url 'cart:add_variant' variant.id %}"
                 hx-target="#variant-actions-{{ variant.id }}"

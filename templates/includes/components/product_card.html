@@ -1,10 +1,10 @@
 {% load static %}
 {% load static store_tags %}
 <div class="outer-radius frame-padding bg-base-300">
-<div class="bg-base-200 inner-radius p-4 flex flex-col relative">
+<div class="bg-base-100 inner-radius p-4 flex flex-col relative">
     <!-- Product Image -->
     <a href="{% url 'store:product_detail' variant.product.category.slug variant.product.slug variant.id %}"
-       class="block aspect-square rounded-lg overflow-hidden bg-base-200 mb-4">
+       class="block aspect-square rounded-lg overflow-hidden bg-base-100 mb-4">
         <img src="{{ variant.product.images.url }}"
              alt="{{ variant.product.name }}"
              class="w-full h-full object-contain p-4">

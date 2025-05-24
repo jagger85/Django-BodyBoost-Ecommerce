@@ -2,11 +2,18 @@
 {% load static %}
 {% load cart_tags %}
 {% block content %}
-    <section class="flex flex-col grow container mx-auto px-4 py-12">
+    <section class="flex flex-col py-8 container mx-auto frame-padding outer-radius bg-base-300 w-fit">
         {% if not cart_items %}
-            <div class="text-center text-gray-200">
-                <p class="mb-4">Your cart is empty</p>
-                <a href="{% url 'store:store' %}" class="btn bg-primary">Go to Shopping</a>
+            <div class="text-center inner-radius bg-base-100">
+                <div class="mx-auto py-12 px-12">
+                    <div class="mx-auto w-fit mb-6">
+                        <div class="rounded-full p-4 ">
+                            {% lucide 'shopping-cart' class="w-8 h-8 text-base-content/60" %}
+                        </div>
+                    </div>
+                    <p class="text-base-content/80 text-lg mb-6">Your cart is empty</p>
+                    <a href="{% url 'store:store' %}" class="btn bg-primary text-black normal-case">Continue Shopping</a>
+                </div>
             </div>
         {% else %}
             <div class="flex flex-col lg:flex-row gap-8">
@@ -15,9 +22,7 @@
                         <div class="bg-base-100 rounded-xl shadow-lg overflow-hidden">{% include 'cart/partials/cart_product_row.html' %}</div>
                     {% endfor %}
                 </div>
-                <div class="lg:w-1/4">
-                    <div class="bg-base-300 rounded-xl shadow-lg p-2 sticky top-6">{% include 'cart/partials/cart_totals.html' %}</div>
-                </div>
+                    {% include 'cart/partials/cart_totals.html' %}
             </div>
         {% endif %}
     </section>

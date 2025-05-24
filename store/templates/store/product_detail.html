@@ -2,11 +2,11 @@
 {% load static %}
 {% load cart_tags %}
 {% block content %}
-  <div class="max-w-7xl mx-auto px-4 py-8">
-    <div class="bg-base-200 rounded-lg p-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+  <div class="max-w-7xl mx-auto px-4 py-8 h-screen">
+    <div class="frame-padding outer-radius bg-base-300">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-base-200 inner-radius p-4 ">
         <!-- Product Image Section -->
-        <div class="flex justify-center items-center bg-white rounded-lg p-4">
+        <div class="flex justify-center items-center">
           <img src="{{ product.images.url }}"
                alt="{{ product.name }}"
                class="w-full h-auto object-contain"
@@ -42,7 +42,9 @@
           <!-- Price -->
           {%include 'store/partials/variant_control/variant_price.html' %}
           <!-- Variant Selector -->
-          {% include 'store/partials/variant_control/variant_selector.html' %}
+           <div class="w-fit justify-end">
+             {% include 'store/partials/variant_control/variant_selector.html' %}
+            </div>
           <!-- Variant Controls -->
           <div id="variant-details" class="space-y-4">
             {% include 'store/partials/variant_control/variant_actions.html' %}
@@ -51,12 +53,14 @@
           <div class="grid grid-cols-3 gap-4 mt-8">{% include 'store/partials/what_when_why.html' %}</div>
         </div>
       </div>
-      <!-- Product Information Dropdowns -->
-      <div class="mt-12 space-y-4">
-        {% include 'store/partials/description_ingredients_howtouse.html' with product=product %}
+      <div class="p-4 bg-base-200">
+        <!-- Product Information Dropdowns -->
+        <div class="mt-12 space-y-4">
+          {% include 'store/partials/description_ingredients_howtouse.html' with product=product %}
+        </div>
+        <!-- Customer Reviews -->
+        <div class="mt-12">{% include 'store/partials/customer_reviews.html' with reviews=reviews %}</div>
       </div>
-      <!-- Customer Reviews -->
-      <div class="mt-12">{% include 'store/partials/customer_reviews.html' with reviews=reviews %}</div>
     </div>
   </div>
 {% endblock content %}

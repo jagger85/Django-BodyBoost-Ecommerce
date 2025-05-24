@@ -76,3 +76,8 @@ def get_cart_totals(request):
     cart = get_cart(request.session)
     context = cart.get_cart_details()
     return render(request, 'cart/partials/cart_totals.html', context)
+
+
+def checkout(request):
+    
+    return render(request, 'cart/checkout.html')
