@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import get_cart_totals, get_cart_quantity, get_cart_variant_quantity, add_variant, clear_variant, remove_variant, checkout
+from .views import get_cart_totals, get_cart_quantity, get_cart_variant_quantity, add_variant, clear_variant, remove_variant, checkout, checkout_validation
 
 
 app_name = 'cart'
@@ -12,5 +12,6 @@ urlpatterns = [
     path('clear_variant/<int:variant_id>/' , clear_variant, name='clear_variant'),
     path('get_cart_totals/', get_cart_totals, name='get_cart_totals'),
     path('checkout/', checkout, name='checkout'),
+    path('ckeckout-validation/', checkout_validation, name='checkout_validation'),
     
 ]
