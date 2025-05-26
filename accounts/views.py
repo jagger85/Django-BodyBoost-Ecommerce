@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .forms import RegistrationForm
 from .models import Account
+from cart.models import Cart, CartItem
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
@@ -10,6 +11,7 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.contrib import messages
+from cart.utils import get_cart
 
 
 def login(request):
@@ -17,12 +19,44 @@ def login(request):
         email = request.POST['email']
         password = request.POST['password']
         user = auth.authenticate(email=email, password=password)
-
+        
         if user is not None:
+            # Store the cart before login
+            old_cart = get_cart(request.session)
+            old_cart_items = None
+            if CartItem.objects.filter(cart=old_cart.cart).exists():
+                old_cart_items = CartItem.objects.filter(cart=old_cart.cart)
+            
+            # Perform login - this creates a new session
             auth.login(request, user)
-            return redirect('home')
+            
+            # Get or create cart with new session
+            new_cart = get_cart(request.session)
+            
+            # Transfer items from old cart to new cart if there were any
+            if old_cart_items:
+                for item in old_cart_items:
+                    item.cart = new_cart.cart
+                    item.user = user
+                    item.save()
+                
+                # Delete the old cart
+                old_cart.cart.delete()
+            
+            # Check for old items attached to the user
+            old_user_items = CartItem.objects.filter(user=user, is_active=True)
+            for item in old_user_items:
+                item.cart = new_cart.cart
+                item.save()
+
+
+            # Create a response that triggers a cart update
+            response = redirect('home')
+            response['HX-Trigger'] = 'cartUpdate'
+            return response
         else:
-            return render(request, 'store/login.html')
+            messages.error(request, 'Invalid login credentials')
+            return redirect('auth:login')
     
     return render(request, 'store/login.html')
 
@@ -42,17 +76,18 @@ def register(request):
             user.save()
             
             # Email activation
-            mail_subject = 'Activate your account'
-            message = render_to_string('accounts/account_verification_email.html',{
-                'user': user,
-                'domain': get_current_site(request),
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user)
-            })
-            to_email = email
-            send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
-            return redirect('auth/login/?command=verification&email=' + email)
+            # mail_subject = 'Activate your account'
+            # message = render_to_string('accounts/account_verification_email.html',{
+            #     'user': user,
+            #     'domain': get_current_site(request),
+            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            #     'token': default_token_generator.make_token(user)
+            # })
+            # to_email = email
+            # send_email = EmailMessage(mail_subject, message, to=[to_email])
+            # send_email.send()
+            # return redirect('auth/login/?command=verification&email=' + email)
+            return redirect('auth:login')
 
     else:        
         form = RegistrationForm()

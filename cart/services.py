@@ -3,15 +3,19 @@ from typing import Optional, Dict, Any
 from .models import Cart, CartItem
 from store.models import ProductVariant
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 
 class CartService:
     def __init__(self, session: SessionBase):
         """
-        Initialize cart service with a session object instead of request
-        This makes it more flexible as we only need the session, not the entire request
+        Initialize cart service with a session object
         """
         self.session = session
         self.cart = self._get_or_create_cart()
+        # Get user from session if available
+        self.user = getattr(session, 'user', None)
+        if hasattr(self.user, 'is_authenticated') and not self.user.is_authenticated:
+            self.user = None
 
     def _get_cart_id(self) -> str:
         if not self.session.session_key:
@@ -28,20 +32,28 @@ class CartService:
         """Get all active items in the cart"""
         return CartItem.objects.filter(cart=self.cart, is_active=True)
 
-    def get_cart_details(self) -> Dict[str, Any]:
+    def get_cart_details(self, request) -> Dict[str, Any]:
         """Get complete cart information including totals"""
-        cart_items = self.items
+        if request.user.is_authenticated:
+            # Get items that either belong to the current cart OR are associated with the user
+            cart_items = CartItem.objects.filter(
+                Q(cart=self.cart) | Q(user=request.user),
+                is_active=True
+            ).distinct()
+        else:
+            cart_items = self.items
+        
         total = sum(item.product.price * item.quantity for item in cart_items)
         quantity = sum(item.quantity for item in cart_items)
         tax = (21 * total) / 100
         grand_total = total + tax
 
         return {
-            'total':                total,
-            'total_items_in_cart':  quantity,
-            'cart_items':           cart_items,
-            'tax':                  tax,
-            'grand_total':          grand_total
+            'total': total,
+            'total_items_in_cart': quantity,
+            'cart_items': cart_items,
+            'tax': tax,
+            'grand_total': grand_total
         }
 
     def add_item(self, variant_id: int, quantity: int = 1) -> CartItem:

@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 
 def cart(request):
     cart = get_cart(request.session)
-    context = cart.get_cart_details()
+    context = cart.get_cart_details(request)
     return render(request, 'store/cart.html', context)
 
 

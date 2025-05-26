@@ -1,8 +1,12 @@
+import re
 from django.shortcuts import render
 from .models import Cart
 from .utils import get_cart
 from django.http import HttpResponse
 from store.models import ProductVariant
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 def _cart_id(request):
     if not request.session.session_key:
@@ -63,21 +67,45 @@ def clear_variant(request, variant_id):
     variant_quantity = cart.get_item_quantity(variant_id)
     response = HttpResponse(str(variant_quantity))
     response['HX-Trigger'] = 'cartUpdate'
-    return render(request,'store/cart.html', cart.get_cart_details())
+    return render(request,'store/cart.html', cart.get_cart_details(request))
 
 
 def get_cart_view(request):
     cart = get_cart(request.session)
-    context = cart.get_cart_details()
+    context = cart.get_cart_details(request)
     return render(request, 'cart/cart.html', context)
 
 
 def get_cart_totals(request):
     cart = get_cart(request.session)
-    context = cart.get_cart_details()
+    context = cart.get_cart_details(request)
     return render(request, 'cart/partials/cart_totals.html', context)
 
-
+@login_required(login_url='login')
 def checkout(request):
+    cart = get_cart(request.session).get_cart_details(request)
+
+    context = {
+        'total' : cart['total'],
+        'variants' : cart['cart_items'],
+        'tax' : cart['tax'],
+        'grand_total' : cart['grand_total'],
+    }
     
-    return render(request, 'cart/checkout.html')
+    return render(request, 'cart/checkout.html' , context)
+
+def checkout_validation(request):
+
+    cart = get_cart(request.session).get_cart_details(request)
+    context = {
+        'total' : cart['total'],
+        'variants' : cart['cart_items'],
+        'tax' : cart['tax'],
+        'grand_total' : cart['grand_total'],
+    }
+    if request.method == 'POST':
+        
+        info = {key: request.POST[key] for key in ['email', 'first_name', 'last_name','address','city','post_code','province','country','order_note']}
+        #@todo revalidate form in the future
+        
+    return render(request, 'cart/checkout.html', context)
