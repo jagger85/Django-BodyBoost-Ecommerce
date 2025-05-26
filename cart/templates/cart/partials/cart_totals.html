@@ -1,14 +1,12 @@
 {% load static %}
-<div 
-     id="cart-totals"
+<div id="cart-totals "
      hx-get="{% url 'cart:get_cart_totals' %}"
      hx-target="#cart-totals"
      hx-trigger="cartUpdate from:body">
-    <div class="frame-padding bg-base-300 outer-radius"">
-        <div class="space-y-4 bg-base-200 p-4 inner-radius"">
-            <div class="flex justify-between text-gray-400">
-                <span>Total price:</span>
-                <span class="text-white">${{ total }}</span>
+     <div class="card bg-base-100 p-4 custom-top-border">
+         <div class="flex justify-between text-gray-400">
+             <span>Total price:</span>
+             <span class="text-white">${{ total }}</span>
             </div>
             <div class="flex justify-between text-gray-400">
                 <span>Tax:</span>
@@ -19,17 +17,16 @@
                 <span class="text-lg font-medium">${{ cart_grand_total }}</span>
             </div>
             <div class="pt-6">
-                <a href="./place-order.html"
-                   class="btn bg-primary text-black w-full mb-3">Checkout</a>
+                <a href="{% url 'cart:checkout' %}"
+                class="btn bg-primary text-black w-full mb-3">Checkout</a>
                 <a href="{% url 'store:store' %}" class="btn w-full">Continue Shopping</a>
             </div>
             <div class="pt-6 text-center">
                 <img src="{% static '/images/misc/payments.png' %}"
-                     alt="Payment methods"
-                     class="h-8 inline-block opacity-75"
-                     height="32"
-                     width="auto">
+                alt="Payment methods"
+                class="h-8 inline-block opacity-75"
+                height="32"
+                width="auto" />
             </div>
         </div>
-    </div>
 </div>

@@ -2,8 +2,7 @@
 {% load static %}
 {% block content %}
     <div class="h-screen flex items-center justify-center bg-base-200 p-10">
-        <div class="outer-radius frame-padding bg-base-300">
-        <div class="inner-radius w-full max-w-md bg-base-100 shadow-xl">
+        <div class="w-full max-w-md bg-base-100 shadow-xl rounded-[var(--radius-box)]  border-4 border-base-300">
             <div class="card-body">
                 <img src="{% static 'images/logo.png' %}" class="my-4" />
                 <p class="text-center text-base-content/60 mb-4 font-stretch-expanded ">Join Body Boost today</p>
@@ -116,6 +115,5 @@
                 </form>
             </div>
         </div>
-    </div>
     </div>
 {% endblock %}
