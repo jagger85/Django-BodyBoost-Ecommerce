@@ -20,3 +20,6 @@ python manage.py migrate admin zero
 python manage.py migrate sessions zero
 python manage.py migrate --run-syncdb
 python manage.py migrate
+
+# Create superuser
+python manage.py create_superuser
