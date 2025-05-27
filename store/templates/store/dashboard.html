@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     <div class="p-6">
         <div class="container mx-auto">
@@ -91,7 +92,7 @@
                                             <td>
                                                 <div class="avatar">
                                                     <div class="w-16 h-16 rounded">
-                                                        <img src="../images/items/1.jpg" alt="Product 1" width="64" height="64" />
+                                                        <img src="{% static 'images/protein.jpg' %}" alt="Product 1" width="64" height="64" />
                                                     </div>
                                                 </div>
                                             </td>
@@ -115,7 +116,7 @@
                                             <td>
                                                 <div class="avatar">
                                                     <div class="w-16 h-16 rounded">
-                                                        <img src="../images/items/2.jpg" alt="Product 2" width="64" height="64" />
+                                                        <img src="{% static 'images/creatine.jpg' %}" alt="Product 2" width="64" height="64" />
                                                     </div>
                                                 </div>
                                             </td>
