@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm
+from .forms import RegistrationForm, ResetPasswordForm
 from .models import Account
 from cart.models import Cart, CartItem
 from django.contrib import auth
@@ -12,6 +12,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.contrib import messages
 from cart.utils import get_cart
+from django.urls import reverse
+import resend
 
 
 def login(request):
@@ -76,18 +78,23 @@ def register(request):
             user.save()
             
             # Email activation
-            # mail_subject = 'Activate your account'
-            # message = render_to_string('accounts/account_verification_email.html',{
-            #     'user': user,
-            #     'domain': get_current_site(request),
-            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            #     'token': default_token_generator.make_token(user)
-            # })
-            # to_email = email
-            # send_email = EmailMessage(mail_subject, message, to=[to_email])
-            # send_email.send()
-            # return redirect('auth/login/?command=verification&email=' + email)
-            return redirect('auth:login')
+            mail_subject = 'Activate your account'
+            message = render_to_string('accounts/account_verification_email.html',{
+                'user': user,
+                'domain': get_current_site(request),
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user)
+            })
+
+            params : resend.Emails.SendParams = {
+                'from': "Acme <onboarding@resend.dev>",
+                'to': [email],
+                'subject': mail_subject,
+                'html': message
+            }
+
+            resend.Emails.send(params)
+            return redirect(f'{reverse("auth:login")}?command=verification&email={email}')
 
     else:        
         form = RegistrationForm()
@@ -125,22 +132,24 @@ def password_recovery(request):
         if Account.objects.filter(email=email).exists():
             user = Account.objects.get(email__exact=email)
 
-            #Reset password 
-            current_site = get_current_site(request)
-            mail_subject = 'Reset your password'
-            message = render_to_string('accounts/reset_password_email.html', {
+            mail_subject = 'Reset your bodyboost password'
+            message = render_to_string('accounts/reset_password_email.html',{
                 'user': user,
-                'domain': current_site, 
+                'domain': get_current_site(request),
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
+                'token': default_token_generator.make_token(user)
             })
-            to_email = email
-            send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
 
+            params : resend.Emails.SendParams = {
+                'from': "Acme <onboarding@resend.dev>",
+                'to': [email],
+                'subject': mail_subject,
+                'html': message
+            }
+
+            resend.Emails.send(params)
             messages.success(request, 'Password recovery email sent!')
-            response = redirect('login')
-            return response
+            return redirect('auth:login')
 
         else:
             messages.error(request, 'Wrong email try again')
@@ -158,28 +167,28 @@ def reset_password_validation(request, uidb64, token):
     
     if user is not None and default_token_generator.check_token(user,token):
         request.session['uid'] = uid
-        return redirect('password_reset')
+        return redirect(reverse('auth:password_reset'))
     
     else:
         messages.error(request,'this link is not valid')
-        return redirect('login')
+        return redirect('auth:login')
 
 
 def password_reset(request):
-    if request.mehtod == 'POST':
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
         password = request.POST['password']
-        confirm_password = request.POST['confirm_password']
         
-        if password == confirm_password:
+        if form.is_valid():
             uid = request.session.get('uid')
             user = Account.objects.get(pk=uid)
-            user.set_password()
+            user.set_password(password)
             user.save()
             messages.success(request,'password reset successful')
-            return redirect('login')
-        else:
-            messages.error(request, 'password no not match')
-            return redirect('password_reset')
+            return redirect('auth:login')
+        
     else: 
-        return render(request, 'accounts/reset_password.html')
+        form = ResetPasswordForm()
+    context = {'form': form}
+    return render(request, 'accounts/reset_password.html', context)
 
