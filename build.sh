@@ -6,9 +6,7 @@ set -o errexit
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 
-# Install Node.js dependencies and build Tailwind CSS
-curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
-apt-get install -y nodejs
+# Install dependencies and build Tailwind CSS
 npm install
 npm run prod
 
