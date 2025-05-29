@@ -2,40 +2,42 @@
 <div class="overflow-x-auto">
     <table class="w-full">
         <tbody>
-            <tr class="text-gray-200 bg-base-100 custom-top-border">
-                <td class="px-6 py-6 ">
-                    <div class="flex items-center">
-                        <div class="w-24 h-24 flex-shrink-0 bg-base-100 overflow-hidden">
+            <tr class="text-gray-200 bg-base-100 custom-top-border flex flex-col md:table-row">
+                <td class="px-4 md:px-6 py-4 md:py-6">
+                    <div class="flex flex-col md:flex-row md:items-center gap-4 md:gap-0">
+                        <div class="w-full md:w-24 h-48 md:h-24 flex-shrink-0 bg-base-100 overflow-hidden">
                             <img src="{{ variant.product.product.images.url }}"
                                  alt="{{ variant.product.product.name }}"
                                  class="w-full h-full object-contain p-2"
                                  width="96"
                                  height="96">
                         </div>
-                        <div class="ml-6">
+                        <div class="md:ml-6">
                             <a 
-                            class="hover:text-primary"
+                            class="hover:text-primary text-lg md:text-base"
                              href="{% url 'store:product_detail' variant.product.product.category.slug variant.product.product.slug variant.product.id %}">
-
                              {{ variant.product.product.name }}
                                 <div class="text-sm text-gray-400">{{ variant.product.size }} - {{ variant.product.flavor }}</div>
                             </a>
-                            <p class="text-sm text-gray-400 mt-2">{{ variant.product.description|truncatechars:100 }}</p>
+                            <p class="text-sm text-gray-400 mt-2 hidden md:block">{{ variant.product.description|truncatechars:100 }}</p>
                         </div>
                     </div>
                 </td>
-                <td class="px-6 py-6">{% include 'store/partials/variant_control/variant_actions.html' with variant=variant.product%}</td>
-                <td class="px-6 py-6">
-                    <div id="product-price-{{ variant.product.id }}">
+                <td class="px-4 md:px-6 py-4 md:py-6">
+                    <div id="product-price-{{ variant.product.id }}" class="flex md:block justify-between items-center">
                         <div class="text-xl font-medium">${{ variant.sub_total }}</div>
                         <div class="text-sm text-gray-400">${{ variant.product.price }} each</div>
                     </div>
                 </td>
-                <td class="px-6 py-6 text-right">
-                    <a class="btn rounded-full"
+                <td class="mx-auto md:px-6 py-4 md:py-6">
+                    {% include 'store/partials/variant_control/variant_actions.html' with variant=variant.product%}
+
+                </td>
+                <td class="px-4 md:px-6 py-4 md:py-6 flex justify-start md:justify-end md:table-cell order-first md:order-none">
+                    <a class="btn rounded-full bg-[#2A2D31]"
                             href="{% url 'cart:clear_variant' variant.product.id %}">
                         {% lucide "x" class="text-error" %}
-                </a>
+                    </a>
                 </td>
             </tr>
         </tbody>
