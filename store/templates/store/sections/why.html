@@ -1,0 +1,56 @@
+{% load lucide %}
+<div class="py-16 bg-base-200">
+    <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row md:items-center gap-12">
+            <!-- Left Content -->
+            <div class="flex-1">
+                <h2 class="text-5xl font-bold mb-6 leading-tight">
+                    Why People
+                    <span class="text-primary">Trust</span>
+                    Body Boost
+                </h2>
+                <p class="text-xl text-base-content/70 mb-8 max-w-xl">
+                    Join thousands of satisfied customers who have transformed their fitness journey with our premium supplements.
+                </p>
+                <button class="btn btn-primary btn-lg">Learn More</button>
+            </div>
+            <!-- Right Content -->
+            <div class="flex-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Card 1 -->
+                    <div class="why-card-3 p-6 rounded-xl">
+                        <div class="bg-primary/10 w-12 h-12 rounded-lg p-3 mb-4">
+                            {% lucide 'target' color="var(--color-primary)" stroke_width=2 %}
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Results Driven</h3>
+                        <p class="text-base-content/70">Scientifically formulated for maximum effectiveness</p>
+                    </div>
+                    <!-- Card 2 -->
+                    <div class="why-card-3 p-6 rounded-xl">
+                        <div class="bg-primary/10 w-12 h-12 rounded-lg p-3 mb-4">
+                            {% lucide 'heart-pulse' color="var(--color-primary)" stroke_width=2 %}
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Health First</h3>
+                        <p class="text-base-content/70">Safe and natural ingredients you can trust</p>
+                    </div>
+                    <!-- Card 3 -->
+                    <div class="why-card-3 p-6 rounded-xl">
+                        <div class="bg-primary/10 w-12 h-12 rounded-lg p-3 mb-4">
+                            {% lucide 'badge-check' color="var(--color-primary)" stroke_width=2 %}
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Quality Assured</h3>
+                        <p class="text-base-content/70">Rigorous testing and certification</p>
+                    </div>
+                    <!-- Card 4 -->
+                    <div class="why-card-3 p-6 rounded-xl">
+                        <div class="bg-primary/10 w-12 h-12 rounded-lg p-3 mb-4">
+                            {% lucide 'users' color="var(--color-primary)" stroke_width=2 %}
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Community</h3>
+                        <p class="text-base-content/70">Join our supportive fitness community</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
