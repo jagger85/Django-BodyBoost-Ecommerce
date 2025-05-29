@@ -1,5 +1,5 @@
 from django import forms
-from .models import Account
+from .models import Account, Address
 
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -54,3 +54,12 @@ class ResetPasswordForm(forms.ModelForm):
             raise forms.ValidationError(
                 "Passwords doesn't match"
             )
+        
+
+class AddressForm(forms.ModelForm):
+    class Meta: 
+        model = Address
+        fields = ['name','street','post_code','city', 'province','country','order_note' ]
+
+
+        
