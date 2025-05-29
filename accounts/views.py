@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from .forms import RegistrationForm
+from .forms import RegistrationForm, ResetPasswordForm
 from .models import Account
+from cart.models import Cart, CartItem
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
@@ -10,19 +11,54 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.contrib import messages
-import json
+from cart.utils import get_cart
+from django.urls import reverse
+import resend
+
 
 def login(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
         user = auth.authenticate(email=email, password=password)
-
+        
         if user is not None:
+            # Store the cart before login
+            old_cart = get_cart(request.session)
+            old_cart_items = None
+            if CartItem.objects.filter(cart=old_cart.cart).exists():
+                old_cart_items = CartItem.objects.filter(cart=old_cart.cart)
+            
+            # Perform login - this creates a new session
             auth.login(request, user)
-            return redirect('home')
+            
+            # Get or create cart with new session
+            new_cart = get_cart(request.session)
+            
+            # Transfer items from old cart to new cart if there were any
+            if old_cart_items:
+                for item in old_cart_items:
+                    item.cart = new_cart.cart
+                    item.user = user
+                    item.save()
+                
+                # Delete the old cart
+                old_cart.cart.delete()
+            
+            # Check for old items attached to the user
+            old_user_items = CartItem.objects.filter(user=user, is_active=True)
+            for item in old_user_items:
+                item.cart = new_cart.cart
+                item.save()
+
+
+            # Create a response that triggers a cart update
+            response = redirect('home')
+            response['HX-Trigger'] = 'cartUpdate'
+            return response
         else:
-            return render(request, 'store/login.html')
+            messages.error(request, 'Invalid login credentials')
+            return redirect('auth:login')
     
     return render(request, 'store/login.html')
 
@@ -49,10 +85,16 @@ def register(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': default_token_generator.make_token(user)
             })
-            to_email = email
-            send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
-            return redirect('auth/login/?command=verification&email=' + email)
+
+            params : resend.Emails.SendParams = {
+                'from': "Acme <onboarding@resend.dev>",
+                'to': [email],
+                'subject': mail_subject,
+                'html': message
+            }
+
+            resend.Emails.send(params)
+            return redirect(f'{reverse("auth:login")}?command=verification&email={email}')
 
     else:        
         form = RegistrationForm()
@@ -90,39 +132,28 @@ def password_recovery(request):
         if Account.objects.filter(email=email).exists():
             user = Account.objects.get(email__exact=email)
 
-            #Reset password 
-            current_site = get_current_site(request)
-            mail_subject = 'Reset your password'
-            message = render_to_string('accounts/reset_password_email.html', {
+            mail_subject = 'Reset your bodyboost password'
+            message = render_to_string('accounts/reset_password_email.html',{
                 'user': user,
-                'domain': current_site, 
+                'domain': get_current_site(request),
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': default_token_generator.make_token(user),
+                'token': default_token_generator.make_token(user)
             })
-            to_email = email
-            send_email = EmailMessage(mail_subject, message, to=[to_email])
-            send_email.send()
 
-            trigger = {
-                   'showMessage': {
-                    'message': 'Password recovery mail sent successfully',
-                    'type': 'success',
-                }
+            params : resend.Emails.SendParams = {
+                'from': "Acme <onboarding@resend.dev>",
+                'to': [email],
+                'subject': mail_subject,
+                'html': message
             }
-            response['HX-Trigger'] = json.dumps(trigger)
-            response = redirect('login')
-            return response
+
+            resend.Emails.send(params)
+            messages.success(request, 'Password recovery email sent!')
+            return redirect('auth:login')
 
         else:
-            response = render(request, 'accounts/password_recovery.html')
-            trigger = {
-                'showMessage': {
-                    'message': 'Wrong email',
-                    'type': 'error',
-                }
-            }
-            response['HX-Trigger'] = json.dumps(trigger)
-            return response
+            messages.error(request, 'Wrong email try again')
+            return render(request, 'accounts/password_recovery.html')
         
     return render(request, 'accounts/password_recovery.html')
 
@@ -136,28 +167,28 @@ def reset_password_validation(request, uidb64, token):
     
     if user is not None and default_token_generator.check_token(user,token):
         request.session['uid'] = uid
-        return redirect('password_reset')
+        return redirect(reverse('auth:password_reset'))
     
     else:
         messages.error(request,'this link is not valid')
-        return redirect('login')
+        return redirect('auth:login')
 
 
 def password_reset(request):
-    if request.mehtod == 'POST':
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST)
         password = request.POST['password']
-        confirm_password = request.POST['confirm_password']
         
-        if password == confirm_password:
+        if form.is_valid():
             uid = request.session.get('uid')
             user = Account.objects.get(pk=uid)
-            user.set_password()
+            user.set_password(password)
             user.save()
             messages.success(request,'password reset successful')
-            return redirect('login')
-        else:
-            messages.error(request, 'password no not match')
-            return redirect('password_reset')
+            return redirect('auth:login')
+        
     else: 
-        return render(request, 'accounts/reset_password.html')
+        form = ResetPasswordForm()
+    context = {'form': form}
+    return render(request, 'accounts/reset_password.html', context)
 

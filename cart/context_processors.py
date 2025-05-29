@@ -4,7 +4,7 @@ def cart_context(request):
     """
     Context processor that adds cart information to all templates.
     """
-    cart = get_cart(request.session).get_cart_details()
+    cart = get_cart(request.session).get_cart_details(request)
     
     return {
         'cart_total_items':         cart['total_items_in_cart'],

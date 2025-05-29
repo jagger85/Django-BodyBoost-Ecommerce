@@ -1,39 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <!-- Banner Section -->
-    <section class="container mx-auto px-4 pt-6">
-        {% include 'includes/components/banner.html' %}
-    </section>
-    <!-- Popular Products Section -->
-    <section class="container flex flex-col grow mx-auto px-4 py-16">
-        <div>
-            <div class="flex items-center justify-between mb-8">
-                <h2 class="text-2xl font-bold text-white">Popular products</h2>
-                <div class="flex gap-2">
-                    <!-- Search Bar -->
-                    <div class="w-60">{% include 'store/partials/search_field.html' %}</div>
-                    <details class="dropdown">
-                        <summary class="btn bg-base-200 hover:text-primary border-none text-white">Categories</summary>
-                        <div class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 shadow-xl mt-2">
-                            <ul class="p-2">
-                                {% for category in all_categories %}
-                                    <li>
-                                        <a href="{% url 'store:product_by_category' category.slug %}"
-                                           class="text-base-content hover:text-primary">{{ category.name }}</a>
-                                    </li>
-                                {% endfor %}
-                            </ul>
-                        </div>
-                    </details>
-                    <a href="{% url 'store:store' %}" class="btn hover:text-primary">See all</a>
+    <!-- <section class="container flex flex-col grow mx-auto px-4 py-8">
+        <div class="flex flex-end gap-4 flex-col  md:flex-row">
+            <div class="w-60">{% include 'store/partials/search_field.html' %}</div>
+            <details class="dropdown">
+                <summary class="justify-self-end btn hover:text-primary text-white w-full md:w-fit ">Categories</summary>
+                <div class="dropdown-content menu bg-base-200 rounded-box z-50 w-52 shadow-xl mt-2">
+                    <ul class="p-2">
+                        {% for category in all_categories %}
+                            <li>
+                                <a href="{% url 'store:product_by_category' category.slug %}"
+                                   class="text-base-content hover:text-primary">{{ category.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {% for variant in variants %}
-                    {% include 'includes/components/product_card.html' with variant=variant %}
-                {% endfor %}
-            </div>
+            </details>
+            <a href="{% url 'store:store' %}" class="btn hover:text-primary">See all</a>
         </div>
+    </section> -->
+    <section class="container mx-auto px-4 pt-6">
+        {% include 'store/sections/hero.html' %}
+    </section>
+    <section class="container mx-auto px-4 pt-6 mt-6">
+        {% include 'store/sections/featured_products.html' %}
+    </section>
+    <section class="container mx-auto px-4 pt-6 mt-6">
+        {% include 'store/sections/why.html' %}
+    </section>
+    <section class="container mx-auto px-4 pt-6 mt-6">
+        {% include 'store/sections/shop_by_category.html' %}
     </section>
 {% endblock content %}

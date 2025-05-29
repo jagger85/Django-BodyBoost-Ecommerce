@@ -13,11 +13,11 @@
         <meta name="keywords"
               content="fitness supplements, pre-workout, protein powder, bodybuilding supplements, nutrition, wellness, health supplements, bodyboost">
         <title>BodyBoost Fitness products</title>
-        <link href="{% static 'images/facivon.icon' %}"
+        <link href="{% static 'images/favicon.ico' %}"
               rel="shortcut icon"
               type="image/x-icon">
     </head>
-    <body class="flex flex-col bg-base-200 h-screen">
+    <body class="flex flex-col min-h-screen justify-between bg-base-200">
         <!-- navbar -->
         {% include 'includes/navbar.html' with all_categories=all_categories %}
         {% block content %}
@@ -27,9 +27,6 @@
         {% include 'includes/footer.html' %}
         <!-- Messages -->
         {% include 'includes/messages.html' %}
-        <!-- Load HTMX before the toast -->
-        {% include 'includes/toast.html' %}
         <script src="{% static 'js/htmx.min.js' %}"></script>
-        <script src="{% static 'js/toast.js' %}"></script>
     </body>
 </html>

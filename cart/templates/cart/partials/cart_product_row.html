@@ -2,10 +2,10 @@
 <div class="overflow-x-auto">
     <table class="w-full">
         <tbody>
-            <tr class="text-gray-200">
-                <td class="px-6 py-6">
+            <tr class="text-gray-200 bg-base-100 custom-top-border">
+                <td class="px-6 py-6 ">
                     <div class="flex items-center">
-                        <div class="w-24 h-24 flex-shrink-0 bg-[#3a3a3a] rounded-lg overflow-hidden">
+                        <div class="w-24 h-24 flex-shrink-0 bg-base-100 overflow-hidden">
                             <img src="{{ variant.product.product.images.url }}"
                                  alt="{{ variant.product.product.name }}"
                                  class="w-full h-full object-contain p-2"
@@ -14,8 +14,10 @@
                         </div>
                         <div class="ml-6">
                             <a 
-                               class="text-white hover:text-[#00D897] transition-colors font-medium">
-                                {{ variant.product.product.name }}
+                            class="hover:text-primary"
+                             href="{% url 'store:product_detail' variant.product.product.category.slug variant.product.product.slug variant.product.id %}">
+
+                             {{ variant.product.product.name }}
                                 <div class="text-sm text-gray-400">{{ variant.product.size }} - {{ variant.product.flavor }}</div>
                             </a>
                             <p class="text-sm text-gray-400 mt-2">{{ variant.product.description|truncatechars:100 }}</p>

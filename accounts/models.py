@@ -66,3 +66,23 @@ class Account(AbstractBaseUser):
     
     def has_module_perms(self, perm, obj=None):
         return True
+    
+
+class Address(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    street = models.CharField(max_length=150)
+    post_code = models.CharField(max_length=20)
+    city = models.CharField(max_length=50)
+    province = models.CharField(max_length=100)
+    country = models.CharField(max_length=25)
+    order_note = models.CharField(max_length=200)
+
+    REQUIRED_FIELDS = ['name','street','post_code','city','province','country']
+
+    class Meta: 
+        verbose_name='address'
+        verbose_name_plural = 'adresses'
+
+    def __str__(self):
+        return self.name

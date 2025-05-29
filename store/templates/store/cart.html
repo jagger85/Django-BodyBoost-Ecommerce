@@ -2,22 +2,40 @@
 {% load static %}
 {% load cart_tags %}
 {% block content %}
-    <section class="flex flex-col grow container mx-auto px-4 py-12">
+    <section class="flex flex-col py-8 container mx-auto w-fit gap-4">
         {% if not cart_items %}
-            <div class="text-center text-gray-200">
-                <p class="mb-4">Your cart is empty</p>
-                <a href="{% url 'store:store' %}" class="btn bg-primary">Go to Shopping</a>
-            </div>
+                <div class="card text-center bg-base-100">
+                    <div class="mx-auto py-12 px-12">
+                        <div class="mx-auto w-fit mb-6">
+                            <div class="rounded-full p-4 ">{% lucide 'shopping-cart' class="w-8 h-8 text-base-content/60" %}</div>
+                        </div>
+                        <p class="text-base-content/80 text-lg mb-6">Your cart is empty</p>
+                        <a href="{% url 'store:store' %}"
+                           class="btn bg-primary text-black normal-case">Continue Shopping</a>
+                    </div>
+                </div>
         {% else %}
-            <div class="flex flex-col lg:flex-row gap-8">
-                <div class="lg:w-3/4 space-y-6">
+            <div class="rounded-[var(--radius-box)] custom-top-border bg-base-100 p-4 flex">
+                <span class="label text-4xl font-stretch-expanded">Cart</span>
+                <ul class="steps w-full">
+                    <li class="step step-primary">
+                        <span class="label ">Cart</span>
+                    </li>
+                    <li class="step">
+                        <span class="label ">Checkout</span>
+                    </li>
+                    <li class="step">
+                        <span class="label ">Payment</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="flex flex-col lg:flex-row gap-4">
+                <div class="lg:w-3/4 space-y-4">
                     {% for variant in cart_items %}
-                        <div class="bg-base-100 rounded-xl shadow-lg overflow-hidden">{% include 'cart/partials/cart_product_row.html' %}</div>
+                        <div class="bg-base-100 rounded-[var(--radius-box)] shadow-lg overflow-hidden">{% include 'cart/partials/cart_product_row.html' %}</div>
                     {% endfor %}
                 </div>
-                <div class="lg:w-1/4">
-                    <div class="bg-base-300 rounded-xl shadow-lg p-2 sticky top-6">{% include 'cart/partials/cart_totals.html' %}</div>
-                </div>
+                {% include 'cart/partials/cart_totals.html' %}
             </div>
         {% endif %}
     </section>

@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE HTML>
+<html lang="en" data-theme="bodyboost">
+    <head>
+        <link rel="stylesheet" href="{% static 'dist/styles.css' %}">
+        <meta charset="utf-8">
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="cache-control" content="max-age=604800" />
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description"
+              content="BodyBoost - Your premier destination for fitness supplements and nutrition products. Find premium quality pre-workouts, proteins, and wellness supplements.">
+        <meta name="keywords"
+              content="fitness supplements, pre-workout, protein powder, bodybuilding supplements, nutrition, wellness, health supplements, bodyboost">
+        <title>BodyBoost Fitness products</title>
+        <link href="{% static 'images/facivon.icon' %}"
+              rel="shortcut icon"
+              type="image/x-icon">
+    </head>
+    <body class="flex flex-col min-h-screen justify-between">
+        {% block content %}
+        
+        {% endblock content %}
+        <!-- Messages -->
+        {% include 'includes/messages.html' %}
+    </body>
+</html>

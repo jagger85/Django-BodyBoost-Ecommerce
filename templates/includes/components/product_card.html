@@ -1,9 +1,9 @@
 {% load static %}
 {% load static store_tags %}
-<div class="bg-[#1E2023] rounded-xl p-4 flex flex-col relative">
+<div class="bg-base-100 p-4 flex flex-col relative custom-top-border rounded-[var(--radius-box)]">
     <!-- Product Image -->
     <a href="{% url 'store:product_detail' variant.product.category.slug variant.product.slug variant.id %}"
-       class="block aspect-square rounded-lg overflow-hidden bg-[#2A2D31] mb-4">
+       class="block aspect-square rounded-lg overflow-hidden bg-base-100 mb-4">
         <img src="{{ variant.product.images.url }}"
              alt="{{ variant.product.name }}"
              class="w-full h-full object-contain p-4">
@@ -27,9 +27,9 @@
         <div class="text-2xl font-bold text-white mb-4">${{ variant.price }}</div>
         <!-- Add to Cart Button -->
         <div class="mt-auto">
-            <div class="btn bg-primary w-full  text-black font-medium">
+            <button class="btn bg-primary w-full font-medium text-black">
                 <a href="{% url 'store:product_detail' variant.product.category.slug variant.product.slug variant.id %}">Add to cart</a>
-            </div>
+            </button>
         </div>
     </div>
 </div>

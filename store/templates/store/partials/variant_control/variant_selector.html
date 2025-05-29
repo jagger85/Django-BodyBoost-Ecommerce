@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-2">
     {% for v in product.variant.all %}
         <button>
-            <a class="btn ring-lime-500/75 {% if v.id == variant.id %}ring-2{% endif %}"
+            <a class="btn bg-[#2A2D31]  w-full ring-lime-500/75 {% if v.id == variant.id %}ring-2{% endif %}"
                href="{% url 'store:product_detail' v.product.category.slug v.product.slug v.id %}">
                 {{ v.size }} - {{ v.flavor }} (${{ v.price }})
             </a>

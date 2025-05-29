@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <section class="flex flex-col mx-auto w-fit gap-4 py-8">
+        <div class="rounded-[var(--radius-box)] custom-top-border bg-base-100 p-4 flex">
+            <span class="label text-4xl font-stretch-expanded">Checkout</span>
+            <ul class="steps w-full">
+                <li class="step step-primary">
+                    <span class="label ">Cart</span>
+                </li>
+                <li class="step step-primary">
+                    <span class="label ">Checkout</span>
+                </li>
+                <li class="step">
+                    <span class="label ">Payment</span>
+                </li>
+            </ul>
+        </div>
+        <div class="flex flex-col lg:flex-row gap-4">
+            <div class="rounded-[var(--radius-box)] custom-top-border bg-base-100 h-fit p-4">
+                <div class="text-2xl text-base-content/70 font-stretch-expanded mb-4">
+                    Billing Address
+                </div>
+                <form action="{% url 'cart:checkout_validation' %}"
+                      method="post"
+                      class="flex flex-col gap-4">
+                    {% csrf_token %}
+                    <div class="flex flex-col items-start gap-2">
+                        <label class="label font-stretch-expanded">Name</label>
+                        <div class="input w-full">{{ form.name }}</div>
+                    </div>
+                    <div class="flex flex-col items-start gap-2">
+                        <label class="label font-stretch-expanded">Street</label>
+                        <div class="input w-full">{{ form.street }}</div>
+                    </div>
+                    <div class="flex flex-col items-start gap-2">
+                        <label class="label font-stretch-expanded">Post Code</label>
+                        <div class="input w-full">{{ form.post_code }}</div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="flex flex-col items-start gap-2">
+                            <label class="label font-stretch-expanded">City</label>
+                            <div class="input w-full">{{ form.city }}</div>
+                        </div>
+                        <div class="flex flex-col items-start gap-2">
+                            <label class="label font-stretch-expanded">Province</label>
+                            <div class="input w-full">{{ form.province }}</div>
+                        </div>
+                        <div class="flex flex-col items-start gap-2">
+                            <label class="label font-stretch-expanded">Country</label>
+                            <div class="input w-full">{{ form.country }}</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-start gap-2">
+                        <label class="label font-stretch-expanded">Order Note</label>
+                        <div class="input w-full">{{ form.order_note }}</div>
+                    </div>
+                    <button type="submit" class="btn">Validate</button>
+                </form>
+            </div>
+            <div class="rounded-[var(--radius-box)] custom-top-border h-fit bg-base-100 p-4">
+                {% for variant in variants %}
+                    {% include 'cart/partials/cart_product_small_row.html' %}
+                {% endfor %}
+                <div class="flex justify-between text-gray-400">
+                    <span>Total price:</span>
+                    <span class="text-white">${{ total }}</span>
+                </div>
+                <div class="flex justify-between text-gray-400">
+                    <span>Tax:</span>
+                    <span class="text-white">${{ cart_tax }}</span>
+                </div>
+                <div class="flex justify-between text-white pt-4 border-t border-gray-700">
+                    <span class="text-lg font-medium">Total:</span>
+                    <span class="text-lg font-medium">${{ cart_grand_total }}</span>
+                </div>
+                <div class="pt-6">
+                    <a href="{% url 'cart:checkout' %}"
+                       class="btn bg-primary text-black w-full mb-3">Payment</a>
+                    <a href="{% url 'store:store' %}" class="btn w-full">Continue Shopping</a>
+                </div>
+                <div class="pt-6 text-center">
+                    <img src="{% static '/images/misc/payments.png' %}"
+                         alt="Payment methods"
+                         class="h-8 inline-block opacity-75"
+                         height="32"
+                         width="auto" />
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

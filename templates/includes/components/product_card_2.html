@@ -1,0 +1,54 @@
+{% load static %}
+{% load static store_tags %}
+<div class="card card-compact card-variant product-card">
+    <!-- Quick Action Buttons (visible on hover) -->
+    <div class="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+        <button class="btn btn-circle btn-sm btn-ghost bg-base-200/80 hover:bg-primary">
+            <i class="fas fa-heart"></i>
+        </button>
+        <button class="btn btn-circle btn-sm btn-ghost bg-base-200/80 hover:bg-primary">
+            <i class="fas fa-shopping-cart"></i>
+        </button>
+    </div>
+    <!-- Product Image -->
+    <figure class="product-image-wrapper p-4">
+        <img src="{{ variant.product.images.url }}"
+             alt="{{ variant.product.name }}"
+             class="product-image object-contain h-50">
+        {% if variant.product.is_sale %}
+            <div class="badge badge-error absolute top-2 left-2">-{{ variant.product.discount_percentage }}%</div>
+        {% endif %}
+    </figure>
+    <div class="card-body p-4 pt-2">
+        <!-- Brand -->
+        <div class="text-xs text-primary/80">{{ variant.product.brand }}</div>
+        <!-- Product Name -->
+        <h2 class="font-semibold line-clamp-1 hover:text-primary transition-colors">
+            <a href="{% url 'store:product_detail' variant.product.category.slug variant.product.slug variant.id %}">
+                {{ variant.product.name }}
+            </a>
+        </h2>
+        <!-- Rating -->
+        <div class="flex items-center gap-1">
+            <div class="rating rating-xs">
+                {% for i in "12345" %}
+                    <input type="radio"
+                           name="rating-{{ variant.id }}"
+                           class="mask mask-star-2 bg-warning"
+                           {% if forloop.counter == 5 %}checked{% endif %}
+                           disabled />
+                {% endfor %}
+            </div>
+            <span class="text-xs opacity-70">({{ variant.product.review_count|default:"124" }})</span>
+        </div>
+        <!-- Price -->
+        <div class="mt-1">
+            <div class="flex items-baseline gap-2">
+                <span class="text-lg font-bold">${{ variant.price }}</span>
+                {% if variant.product.is_sale %}
+                    <span class="text-xs line-through opacity-50">${{ variant.product.original_price }}</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

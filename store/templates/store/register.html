@@ -1,46 +1,51 @@
-{% extends 'base.html' %}
+{% extends 'frame.html' %}
+{% load static %}
 {% block content %}
     <div class="h-screen flex items-center justify-center bg-base-200 p-10">
-        <div class="card w-full max-w-md bg-base-100 shadow-xl">
+        <div class="w-full max-w-md bg-base-100 shadow-xl rounded-[var(--radius-box)]  border-4 border-base-300">
             <div class="card-body">
-                <h1 class="text-4xl font-bold text-center mb-2">Create Account</h1>
-                <p class="text-center text-base-content/60 mb-8">Join Body Boost today</p>
+                <img src="{% static 'images/logo.png' %}" class="my-4" />
+                <p class="text-center text-base-content/60 mb-4 font-stretch-expanded ">Join Body Boost today</p>
                 <form method="post">
                     {% csrf_token %}
                     <!-- Email Input -->
                     <div class="form-control w-full">
-                        <label class="label">
-                            <span class="label-text text-lg">Email</span>
+                        <label class="label mb-2">
+                            <span class="label-text text-lg font-stretch-expanded">Email</span>
                         </label>
-                        <div class="input input-bordered w-full">{{ form.email }}</div>
+                        <div class="input w-full">{{ form.email }}</div>
                     </div>
-                    <!-- First Name Input -->
-                    <div class="form-control w-full mt-4">
-                        <label class="label">
-                            <span class="label-text text-lg">First Name</span>
-                        </label>
-                        <div class="input input-bordered w-full">{{ form.first_name }}</div>
+                    <div>
+                        <!-- First Name Input -->
+                        <div class="form-control w-full mt-4">
+                            <label class="label mb-2 font-stretch-expanded">
+                                <span class="label-text text-lg">First Name</span>
+                            </label>
+                            <div class="input input-bordered w-full">{{ form.first_name }}</div>
+                        </div>
+                        <!-- Last Name Input -->
+                        <div class="form-control w-full mt-4">
+                            <label class="label mb-2 font-stretch-expanded">
+                                <span class="label-text text-lg">Last Name</span>
+                            </label>
+                            <div class="input input-bordered w-full">{{ form.last_name }}</div>
+                        </div>
                     </div>
-                    <!-- Last Name Input -->
-                    <div class="form-control w-full mt-4">
-                        <label class="label">
-                            <span class="label-text text-lg">Last Name</span>
-                        </label>
-                        <div class="input input-bordered w-full">{{ form.last_name }}</div>
-                    </div>
-                    <!-- Password Input -->
-                    <div class="form-control w-full mt-4">
-                        <label class="label">
-                            <span class="label-text text-lg">Password</span>
-                        </label>
-                        <div class="input input-bordered w-full relative">
-                            {{ form.password }}
-                            <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="h-6 w-6 text-base-content/60"
-                                     fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor">
+                    <div>
+
+                        <!-- Password Input -->
+                        <div class="form-control w-full mt-4">
+                            <label class="label mb-2 font-stretch-expanded">
+                                <span class="label-text text-lg">Password</span>
+                            </label>
+                            <div class="input input-bordered w-full relative">
+                                {{ form.password }}
+                                <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6 text-base-content/60"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                 </svg>
@@ -48,23 +53,24 @@
                         </div>
                     </div>
                     <div class="form-control w-full mt-4">
-                        <label class="label">
-                            <span class="label-text text-lg">Confirm Password</span>
+                        <label class="label mb-2">
+                            <span class="label-text text-lg font-stretch-expanded">Confirm Password</span>
                         </label>
                         <div class="input input-bordered w-full relative">
                             {{ form.confirm_password }}
                             <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                     class="h-6 w-6 text-base-content/60"
-                                     fill="none"
-                                     viewBox="0 0 24 24"
-                                     stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                </svg>
-                            </button>
-                        </div>
+                                class="h-6 w-6 text-base-content/60"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                        </button>
                     </div>
+                </div>
+            </div>
                     {% if form.non_field_errors or form.email.errors %}
                         <div role="alert" class="alert alert-error alert-soft mt-4">
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -88,9 +94,9 @@
                            class="text-primary hover:text-primary-focus">Sign in</a>
                     </div>
                     <!-- Divider -->
-                    <div class="divider mt-6">Or continue with</div>
+                    <!-- <div class="divider mt-6">Or continue with</div> -->
                     <!-- Social Login Buttons -->
-                    <div class="grid grid-cols-2 gap-4 mt-4">
+                    <!-- <div class="grid grid-cols-2 gap-4 mt-4">
                         <button type="button" class="btn">
                             <img src="https://www.google.com/favicon.ico"
                                  alt="Google"
@@ -105,7 +111,7 @@
                             </svg>
                             Facebook
                         </button>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </div>

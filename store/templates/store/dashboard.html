@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="min-h-screen bg-base-200 p-6">
+    <div class="p-6">
         <div class="container mx-auto">
-            <div class="flex flex-col lg:flex-row gap-6">
+            <div class="flex flex-col lg:flex-row gap-6 ">
                 <!-- Sidebar -->
-                <aside class="lg:w-1/4">
-                    <div class="card bg-base-100 shadow-xl">
+                <aside class="lg:w-1/4 h-fit  ">
+                    <div class="shadow-md bg-base-100 rounded-[var(--radius-box)] custom-top-border ">
                         <div class="card-body p-0">
-                            <ul class="menu bg-base-100 w-full rounded-box">
+                            <ul class="menu w-full rounded-box">
                                 <li>
-                                    <a class="active" href="#">My order history</a>
+                                    <a class="active text" href="#">My order history</a>
                                 </li>
                                 <li>
                                     <a href="#">Transactions</a>
@@ -28,7 +28,7 @@
                                 </li>
                             </ul>
                             <div class="px-4 py-3">
-                                <a href="#" class="btn gap-2">
+                                <a href="{% url 'auth:logout' %}" class="btn gap-2 bg-[#2A2D31]">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          class="h-5 w-5"
                                          fill="none"
@@ -44,7 +44,7 @@
                 </aside>
                 <!-- Main Content -->
                 <main class="lg:w-3/4">
-                    <div class="card bg-base-100 shadow-xl">
+                    <div class="rounded-[var(--radius-box)] custom-top-border  bg-base-100 shadow-md">
                         <!-- Order Header -->
                         <div class="card-body">
                             <div class="flex flex-wrap items-center justify-between border-b border-base-300 pb-4">
@@ -106,7 +106,7 @@
                                             <td>
                                                 <div class="flex gap-2">
                                                     <button class="btn bg-primary text-black btn-sm">Track order</button>
-                                                    <button class="btn btn-sm">Details</button>
+                                                    <button class="btn btn-sm bg-[#2A2D31]">Details</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -130,7 +130,7 @@
                                             <td>
                                                 <div class="flex gap-2">
                                                     <button class="btn bg-primary text-black btn-sm">Track order</button>
-                                                    <button class="btn btn-sm">Details</button>
+                                                    <button class="btn btn-sm bg-[#2A2D31]">Details</button>
                                                 </div>
                                             </td>
                                         </tr>
