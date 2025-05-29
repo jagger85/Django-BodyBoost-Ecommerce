@@ -12,6 +12,6 @@ urlpatterns = [
     path('clear_variant/<int:variant_id>/' , clear_variant, name='clear_variant'),
     path('get_cart_totals/', get_cart_totals, name='get_cart_totals'),
     path('checkout/', checkout, name='checkout'),
-    path('ckeckout-validation/', checkout_validation, name='checkout_validation'),
+    path('checkout-validation/', checkout_validation, name='checkout_validation'),
     
 ]
