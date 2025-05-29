@@ -6,7 +6,8 @@ from django.http import HttpResponse
 from store.models import ProductVariant
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-
+from accounts.forms import AddressForm
+from accounts.models import Address
 
 def _cart_id(request):
     if not request.session.session_key:
@@ -84,8 +85,10 @@ def get_cart_totals(request):
 @login_required(login_url='login')
 def checkout(request):
     cart = get_cart(request.session).get_cart_details(request)
+    form = AddressForm()
 
     context = {
+        'form': form,
         'total' : cart['total'],
         'variants' : cart['cart_items'],
         'tax' : cart['tax'],
@@ -96,16 +99,34 @@ def checkout(request):
 
 def checkout_validation(request):
 
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+
+        if form.is_valid():
+            
+            address = Address.objects.create(
+                name=form.cleaned_data['name'],
+                street=form.cleaned_data['street'],
+                post_code=form.cleaned_data['post_code'],
+                city=form.cleaned_data['city'],
+                province=form.cleaned_data['province'],
+                country=form.cleaned_data['country'],
+                order_note=form.cleaned_data['order_note'],
+                user=request.user
+            )
+            address.save()
+            messages.success(request,'Addres has been saved')
+
+
     cart = get_cart(request.session).get_cart_details(request)
+    form = AddressForm()
+
     context = {
+        'form': form,
         'total' : cart['total'],
         'variants' : cart['cart_items'],
         'tax' : cart['tax'],
         'grand_total' : cart['grand_total'],
     }
-    if request.method == 'POST':
-        
-        info = {key: request.POST[key] for key in ['email', 'first_name', 'last_name','address','city','post_code','province','country','order_note']}
-        #@todo revalidate form in the future
         
     return render(request, 'cart/checkout.html', context)
