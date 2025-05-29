@@ -82,11 +82,11 @@ def get_cart_totals(request):
     context = cart.get_cart_details(request)
     return render(request, 'cart/partials/cart_totals.html', context)
 
-@login_required(login_url='login')
+@login_required(login_url='auth:login')
 def checkout(request):
     cart = get_cart(request.session).get_cart_details(request)
     form = AddressForm()
-
+    
     context = {
         'form': form,
         'total' : cart['total'],

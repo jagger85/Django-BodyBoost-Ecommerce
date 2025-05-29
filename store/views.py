@@ -69,6 +69,6 @@ def product_detail(request, category_slug, product_slug, variant_id=None):
     return render(request, 'store/product_detail.html', context)
 
 
-@login_required(login_url = 'login')
+@login_required(login_url = 'auth:login')
 def dashboard(request):
     return render(request, 'store/dashboard.html')
