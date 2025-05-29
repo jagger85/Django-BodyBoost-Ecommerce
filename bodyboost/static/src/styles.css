@@ -53,3 +53,39 @@ input:focus{
 .custom-top-border{
   border-top: 1px solid #363945cb;
 }
+
+/* Product Card Animations and Effects */
+.product-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.product-image-wrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.product-image {
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-image {
+  transform: scale(1.05);
+}
+
+.product-card:hover {
+  left: 100%;
+}
+
+.card-variant {
+  background: linear-gradient(145deg, var(--color-base-100), var(--color-base-200));
+}
+
+.why-card {
+  border: 1px solid rgba(var(--color-primary), 0.2);
+  backdrop-filter: blur(10px);
+}

@@ -3,8 +3,8 @@
 {% block content %}
     {% if request.GET.command == 'verification' %}
         <div class="flex items-center justify-center bg-base-200 h-screen">
-            <div class="w-full max-w-md bg-base-100 shadow-xl">
-                <div class="card-body text-center">
+            <div class="w-full max-w-md bg-base-100 shadow-xl border-2 border-base-300 rounded-[var(--radius-box)]">
+                <div class="card-body text-center custom-top-border">
                     <img src="{% static 'images/logo.png' %}" class="my-4" />
                     <h2 class="text-2xl font-bold mb-4">Email Verification</h2>
                     <div class="mb-6">

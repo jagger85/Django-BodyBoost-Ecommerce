@@ -1,0 +1,29 @@
+{% load static %}
+<div class="flex flex-col-reverse md:flex-row">
+    <div class="w-full md:w-1/2 flex">
+        <div class="flex flex-col gap-4 justify-center">
+            <div class="badge badge-primary">NEW ARRIVALS</div>
+            <div class="text-5xl font-bold">
+                Fuel Your <span class="text-primary">Performance</span>
+                With Premium Supplements
+            </div>
+            <div>
+                Scientifically formulated supplements to help you reach your fitness goals faster. Quality ingredients, proven results.
+            </div>
+            <div class="flex gap-4">
+                <button class="btn bg-primary text-black">
+                    Shop now
+                {% lucide 'arrow-right' size=20%}
+                </button>
+                <button class="btn  bg-[#2A2D31]">Learn More</button>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="relative w-full h-full size-32">
+            <img class="mx-auto" src={% static "images/Effect.png" %} alt="splash effect"/>
+            <img class="absolute scale-50 top-[-50px] right-0" src={% static "images/Supplement.png" %} alt="bodyboost product"/>
+        </div>
+
+    </div>
+</div>

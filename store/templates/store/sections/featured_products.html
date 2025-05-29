@@ -1,0 +1,19 @@
+<div class="w-full flex flex-col">
+    <div class="flex flex-col gap-2">
+        <div class="text-5xl font-bold font-stretch-expanded flex justify-center text-center">Featured Products</div>
+        <div class="text-xl flex justify-center text-center text-base-content/70">
+            Our most popular supplements, trusted by athletes and fitness enthusiasts worldwide.
+        </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-12">
+        {% for variant in variants %}
+            {% include 'includes/components/product_card_2.html' with variant=variant %}
+        {% endfor %}
+    </div>
+    <div class="flex justify-center mt-12">
+        <button class="btn btn-lg bg-primary text-black">
+            View all products
+            {% lucide 'arrow-right' size=20 %}
+        </button>
+    </div>
+</div>
