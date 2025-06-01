@@ -59,10 +59,12 @@
                 </form>
             </div>
             <div class="rounded-[var(--radius-box)] custom-top-border h-fit bg-base-100 p-4 w-full lg:w-auto">
-                {% for variant in variants %}
+                <div class="flex flex-col gap-2">
+                    {% for variant in variants %}
                     {% include 'cart/partials/cart_product_small_row.html' %}
-                {% endfor %}
-                <div class="flex justify-between text-gray-400">
+                    {% endfor %}
+                </div>
+                    <div class="flex justify-between text-gray-400 mt-8">
                     <span>Total price:</span>
                     <span class="text-white">${{ total }}</span>
                 </div>
