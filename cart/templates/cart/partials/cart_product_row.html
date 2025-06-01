@@ -13,31 +13,31 @@
                                  height="96">
                         </div>
                         <div class="md:ml-6">
-                            <a 
-                            class="hover:text-primary text-lg md:text-base"
-                             href="{% url 'store:product_detail' variant.product.product.category.slug variant.product.product.slug variant.product.id %}">
-                             {{ variant.product.product.name }}
+                            <a class="hover:text-primary text-lg md:text-base"
+                               href="{% url 'store:product_detail' variant.product.product.category.slug variant.product.product.slug variant.product.id %}">
+                                {{ variant.product.product.name }}
+                                <div class="text-xs text-primary">{{ variant.product.product.brand }}</div>
                                 <div class="text-sm text-gray-400">{{ variant.product.size }} - {{ variant.product.flavor }}</div>
                             </a>
-                            <p class="text-sm text-gray-400 mt-2 hidden md:block">{{ variant.product.description|truncatechars:100 }}</p>
                         </div>
                     </div>
                 </td>
                 <td class="px-4 md:px-6 py-4 md:py-6">
-                    <div id="product-price-{{ variant.product.id }}" class="flex md:block justify-between items-center">
-                        <div class="text-xl font-medium">${{ variant.sub_total }}</div>
+                    <div id="product-price-{{ variant.product.id }}"
+                         class="flex md:block justify-between items-center">
+                        <div 
+                        hx-trigger="cartUpdate from:body"
+                        hx-get="{% url 'cart:get_cart_variant_subtotal' variant.product.id %}"
+                        class="text-xl font-medium">${{ variant.sub_total }}</div>
                         <div class="text-sm text-gray-400">${{ variant.product.price }} each</div>
                     </div>
                 </td>
                 <td class="mx-auto md:px-6 py-4 md:py-6">
-                    {% include 'store/partials/variant_control/variant_actions.html' with variant=variant.product%}
-
+                    {% include 'store/partials/variant_control/variant_actions.html' with variant=variant.product %}
                 </td>
                 <td class="px-4 md:px-6 py-4 md:py-6 flex justify-start md:justify-end md:table-cell order-first md:order-none">
                     <a class="btn btn-lg rounded-full bg-[#2A2D31] p-2"
-                            href="{% url 'cart:clear_variant' variant.product.id %}">
-                        {% lucide "x" class="text-error" %}
-                    </a>
+                       href="{% url 'cart:clear_variant' variant.product.id %}">{% lucide "x" class="text-error" %}</a>
                 </td>
             </tr>
         </tbody>

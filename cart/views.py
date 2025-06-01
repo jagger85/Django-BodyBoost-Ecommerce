@@ -36,6 +36,12 @@ def get_cart_variant_quantity(request, variant_id):
     response = HttpResponse(str(variant_quantity))
     return response
 
+def get_cart_variant_subtotal(request,variant_id):
+    """"View the current variant subtotal"""
+    cart = get_cart(request.session)
+    variant_subtotal = cart.get_item_subtotal(variant_id)
+    response = HttpResponse('$'+ str(variant_subtotal))
+    return response
 
 def add_variant(request, variant_id):
     cart = get_cart(request.session)    
@@ -80,6 +86,7 @@ def get_cart_view(request):
 def get_cart_totals(request):
     cart = get_cart(request.session)
     context = cart.get_cart_details(request)
+    print(context)
     return render(request, 'cart/partials/cart_totals.html', context)
 
 @login_required(login_url='auth:login')
