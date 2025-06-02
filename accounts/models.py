@@ -77,7 +77,6 @@ class Address(models.Model):
     province = models.CharField(max_length=100)
     country = models.CharField(max_length=25)
     order_note = models.CharField(max_length=200)
-    preferred = models.BooleanField(default=False)
 
     REQUIRED_FIELDS = ['name','street','post_code','city','province','country']
 
