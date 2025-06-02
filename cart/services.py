@@ -131,7 +131,6 @@ class CartService:
                 product_id=variant_id,
                 is_active=True
             )
-            print(cart_item.quantity * cart_item.product.price)
             return cart_item.quantity * cart_item.product.price
         except CartItem.DoesNotExist:
             return 0

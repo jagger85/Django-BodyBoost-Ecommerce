@@ -20,54 +20,62 @@
             <aside class="lg:w-64">
                 <!-- Categories -->
                 <div class="rounded-[var(--radius-box)] custom-top-border bg-base-100 p-4 mb-6">
-                    <h3 class="text-white font-semibold text-lg mb-4 flex items-center justify-between">
-                        Categories
-                        <i class="fas fa-chevron-down text-gray-400"></i>
-                    </h3>
-                    <div class="space-y-2">
-                        {% for category in all_categories %}
-                            <label class="flex items-center gap-2 cursor-pointer group">
-                                <input type="checkbox"
-                                       class="checkbox checkbox-primary"
-                                       {% if category.slug in request.path %}checked{% endif %}>
-                                <span class="text-gray-400 group-hover:text-white">{{ category.name }}</span>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-                <!-- Sizes -->
-                <div class="rounded-[var(--radius-box)] custom-top-border bg-base-100 p-4 mb-6">
-                    <h3 class="text-white font-semibold text-lg mb-4">Sizes</h3>
-                    <div class="grid grid-cols-2 gap-2">
-                        <label class="btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
-                            <input type="checkbox" class="hidden">
-                            500g
-                        </label>
-                        <label class="btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
-                            <input type="checkbox" class="hidden">
-                            1kg
-                        </label>
-                        <label class="btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
-                            <input type="checkbox" class="hidden">
-                            2kg
-                        </label>
-                        <label class="btn btn-sm bg-[#2A2D31] border-none text-gray-400 hover:text-white">
-                            <input type="checkbox" class="hidden">
-                            5kg
-                        </label>
-                    </div>
-                </div>
-                <!-- Price Range -->
-                <div class="rounded-[var(--radius-box)] custom-top-border bg-base-100 p-4 mb-6">
-                    <h3 class="text-white font-semibold text-lg mb-4">Price Range</h3>
-                    <div class="space-y-4">
-                        <input type="range" class="range range-primary" min="0" max="100">
-                        <div class="flex justify-between text-gray-400">
-                            <span>$0</span>
-                            <span>$100</span>
+                    <form id="filter-form" method="get" action="{% url 'store:store' %}">
+                        <h3 class="text-white font-semibold text-lg mb-4 flex items-center justify-between">
+                            Categories
+                            <i class="fas fa-chevron-down text-gray-400"></i>
+                        </h3>
+                        <div class="space-y-2">
+                            {% for category in categories %}
+                                <label class="flex items-center gap-2 cursor-pointer group">
+                                    <input type="checkbox"
+                                           name="category"
+                                           value="{{ category.slug }}"
+                                           class="checkbox checkbox-primary"
+                                           {% if category.slug in applied_filters.categories %}checked{% endif %}>
+                                    <span class="text-gray-400 group-hover:text-white">{{ category.name }}</span>
+                                </label>
+                            {% endfor %}
                         </div>
-                        <button class="btn bg-primary text-black w-full">Apply</button>
-                    </div>
+                        <!-- Price Range -->
+                        <div class="mt-8">
+                            <h3 class="text-white font-semibold text-lg mb-4">Price Range</h3>
+                            <div class="space-y-4">
+                                <input type="range"
+                                       name="price_range"
+                                       class="range range-primary"
+                                       min="0"
+                                       max="{{ max_price }}"
+                                       value="{{ current_price_range }}"
+                                       oninput="this.nextElementSibling.querySelector('.current-value').textContent = '$' + this.value">
+                                <div class="flex justify-between text-gray-400">
+                                    <span>$0</span>
+                                    <span class="current-value">${{ current_price_range }}</span>
+                                </div>
+                                <button type="submit" class="btn bg-primary text-black w-full">Apply Filters</button>
+                            </div>
+                        </div>
+                        <!-- Search -->
+                        <div class="mt-8">
+                            <div class="form-control">
+                                <label class="label">
+                                    <span class="label-text text-white">Search Products</span>
+                                </label>
+                                <input type="text"
+                                       name="search"
+                                       value="{{ applied_filters.search }}"
+                                       class="input input-bordered w-full"
+                                       placeholder="Search...">
+                            </div>
+                        </div>
+                        <!-- Clear Filters -->
+                        {% if applied_filters %}
+                            <div class="mt-4">
+                                <a href="{% url 'store:store' %}"
+                                   class="btn btn-outline btn-error w-full">Clear All Filters</a>
+                            </div>
+                        {% endif %}
+                    </form>
                 </div>
             </aside>
             <!-- Products Grid -->
@@ -75,15 +83,6 @@
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-6">
                     <span class="text-primary font-medium">{{ products_count }} Items found</span>
-                    <!-- <div class="flex flex-col gap-2">
-                        <span class="text-gray-400">Sort by:</span>
-                        <select class="select select-sm bg-base-100 border-none text-white">
-                            <option>Popularity</option>
-                            <option>Newest</option>
-                            <option>Price: Low to High</option>
-                            <option>Price: High to Low</option>
-                        </select>
-                    </div> -->
                 </div>
                 <!-- Products Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
