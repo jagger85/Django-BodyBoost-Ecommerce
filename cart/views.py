@@ -86,7 +86,6 @@ def get_cart_view(request):
 def get_cart_totals(request):
     cart = get_cart(request.session)
     context = cart.get_cart_details(request)
-    print(context)
     return render(request, 'cart/partials/cart_totals.html', context)
 
 @login_required(login_url='auth:login')
