@@ -93,47 +93,15 @@ def get_cart_totals(request):
 def checkout(request):
     cart = get_cart(request.session).get_cart_details(request)
     form = AddressForm()
-    
+    addresses = Address.objects.filter(user=request.user)
     context = {
         'form': form,
         'total' : cart['total'],
         'variants' : cart['cart_items'],
         'tax' : cart['tax'],
         'grand_total' : cart['grand_total'],
+        'addresses': addresses
     }
     
     return render(request, 'cart/checkout.html' , context)
 
-def checkout_validation(request):
-
-    if request.method == 'POST':
-        form = AddressForm(request.POST)
-
-        if form.is_valid():
-            
-            address = Address.objects.create(
-                name=form.cleaned_data['name'],
-                street=form.cleaned_data['street'],
-                post_code=form.cleaned_data['post_code'],
-                city=form.cleaned_data['city'],
-                province=form.cleaned_data['province'],
-                country=form.cleaned_data['country'],
-                order_note=form.cleaned_data['order_note'],
-                user=request.user
-            )
-            address.save()
-            messages.success(request,'Addres has been saved')
-
-
-    cart = get_cart(request.session).get_cart_details(request)
-    form = AddressForm()
-
-    context = {
-        'form': form,
-        'total' : cart['total'],
-        'variants' : cart['cart_items'],
-        'tax' : cart['tax'],
-        'grand_total' : cart['grand_total'],
-    }
-        
-    return render(request, 'cart/checkout.html', context)

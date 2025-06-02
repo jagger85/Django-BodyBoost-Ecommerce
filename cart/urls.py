@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import get_cart_totals, get_cart_quantity, get_cart_variant_quantity, add_variant, clear_variant, remove_variant, checkout, checkout_validation, get_cart_variant_subtotal
+from .views import get_cart_totals, get_cart_quantity, get_cart_variant_quantity, add_variant, clear_variant, remove_variant, checkout, get_cart_variant_subtotal
 
 
 app_name = 'cart'
@@ -13,6 +13,5 @@ urlpatterns = [
     path('get-variant-subtotal/<int:variant_id>/', get_cart_variant_subtotal, name='get_cart_variant_subtotal'),
     path('get_cart_totals/', get_cart_totals, name='get_cart_totals'),
     path('checkout/', checkout, name='checkout'),
-    path('checkout-validation/', checkout_validation, name='checkout_validation'),
     
 ]
