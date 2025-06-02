@@ -2,11 +2,13 @@
 {% load static %}
 {% block content %}
     {% if request.GET.command == 'verification' %}
-        <div class="flex items-center justify-center bg-base-200 h-screen">
+        <div class="flex items-center justify-center bg-base-200">
             <div class="w-full max-w-md bg-base-100 shadow-xl border-2 border-base-300 rounded-[var(--radius-box)]">
                 <div class="card-body text-center custom-top-border">
-                    <img src="{% static 'images/logo.png' %}" class="my-4" />
-                    <h2 class="text-2xl font-bold mb-4">Email Verification</h2>
+                   <a href="{% url 'home'%}">
+                       <img src="{% static 'images/logo.png' %}" class="my-4" />
+                   </a>
+                   <h2 class="text-2xl font-bold mb-4">Email Verification</h2>
                     <div class="mb-6">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              class="h-16 w-16 mx-auto mb-4 text-primary"
@@ -25,10 +27,12 @@
             </div>
         </div>
     {% else %}
-        <div class="h-screen flex items-center justify-center bg-base-200 ">
-                <div class="w-full max-w-md bg-base-100 shadow-xl rounded-[var(--radius-box)]  border-4 border-base-300" >
+        <div class="h-screen flex items-center justify-center bg-base-200">
+                <div class="w-full h-full max-w-md bg-base-100 md:h-fit md:shadow-xl md:rounded-[var(--radius-box)] md:border-4 md:border-base-300" >
                     <div class="card-body">
+                        <a href="{% url 'home'%}">
                         <img src="{% static 'images/logo.png' %}" class="my-4" />
+                        </a>
                         <p class="text-center text-base-content/60 mb-8 font-stretch-expanded">Sign in to your Body Boost account</p>
                         <form method="post" action="{% url 'auth:login' %}">
                             {% csrf_token %}
@@ -38,7 +42,6 @@
                                     <span class="label-text text-lg font-stretch-expanded">Email</span>
                                 </label>
                                 <input type="email"
-                                placeholder="your@email.com"
                                 class="input input-bordered w-full"
                                 name="email" />
                             </div>

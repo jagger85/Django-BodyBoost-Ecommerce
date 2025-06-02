@@ -4,19 +4,27 @@
 {% block content %}
     <section class="flex flex-col py-8 container mx-auto w-fit gap-4">
         {% if not cart_items %}
-                <div class="card text-center bg-base-100">
-                    <div class="mx-auto py-12 px-12">
-                        <div class="mx-auto w-fit mb-6">
-                            <div class="rounded-full p-4 ">{% lucide 'shopping-cart' class="w-8 h-8 text-base-content/60" %}</div>
+                <div class="card text-center border-base-100/20">
+                    <div class="mx-auto py-16 px-8 sm:px-16">
+                        <div class="mx-auto w-fit mb-8">
+                            <div class="rounded-full p-6 bg-base-100/50">
+                                {% lucide 'shopping-cart' class="w-12 h-12 text-primary" %}
+                            </div>
                         </div>
-                        <p class="text-base-content/80 text-lg mb-6">Your cart is empty</p>
+                        <h2 class="text-2xl font-bold mb-3 text-base-content">Your cart is empty</h2>
+                        <p class="text-base-content/60 text-lg mb-8 max-w-md mx-auto">
+                            Looks like you haven't added anything to your cart yet. 
+                            Let's find something great for you!
+                        </p>
                         <a href="{% url 'store:store' %}"
-                           class="btn bg-primary text-black normal-case">Continue Shopping</a>
+                           class="btn bg-primary text-black">
+                           Continue Shopping
+                           {% lucide 'arrow-right'%}
+                        </a>
                     </div>
                 </div>
         {% else %}
             <div class="rounded-[var(--radius-box)] custom-top-border bg-base-100 p-4 flex">
-                <span class="label text-4xl font-stretch-expanded">Cart</span>
                 <ul class="steps w-full">
                     <li class="step step-primary">
                         <span class="label ">Cart</span>

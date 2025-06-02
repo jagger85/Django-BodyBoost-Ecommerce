@@ -12,9 +12,11 @@
     </div>
     <!-- Product Image -->
     <figure class="product-image-wrapper p-4">
-        <img src="{{ variant.product.images.url }}"
-             alt="{{ variant.product.name }}"
-             class="product-image object-contain h-50">
+        <a href="{% url 'store:product_detail' variant.product.category.slug variant.product.slug variant.id %}">
+            <img src="{{ variant.product.images.url }}"
+                 alt="{{ variant.product.name }}"
+                 class="product-image object-contain h-50">
+        </a>
         {% if variant.product.is_sale %}
             <div class="badge badge-error absolute top-2 left-2">-{{ variant.product.discount_percentage }}%</div>
         {% endif %}
@@ -27,7 +29,13 @@
             <a href="{% url 'store:product_detail' variant.product.category.slug variant.product.slug variant.id %}">
                 {{ variant.product.name }}
             </a>
+        </h2>        
+        <h2 class="line-clamp-1 hover:text-primary transition-colors">
+            <a href="{% url 'store:product_detail' variant.product.category.slug variant.product.slug variant.id %}">
+                {{ variant.flavor }} - {{variant.size}}
+            </a>
         </h2>
+
         <!-- Rating -->
         <div class="flex items-center gap-1">
             <div class="rating rating-xs">

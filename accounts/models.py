@@ -70,15 +70,16 @@ class Account(AbstractBaseUser):
 
 class Address(models.Model):
     user = models.ForeignKey(Account, on_delete=models.CASCADE)
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
     street = models.CharField(max_length=150)
     post_code = models.CharField(max_length=20)
     city = models.CharField(max_length=50)
     province = models.CharField(max_length=100)
     country = models.CharField(max_length=25)
     order_note = models.CharField(max_length=200)
+    preferred = models.BooleanField(default=False)
 
-    REQUIRED_FIELDS = ['name','street','post_code','city','province','country']
+    REQUIRED_FIELDS = ['name','street','post_code','city','province','country','preferred']
 
     class Meta: 
         verbose_name='address'

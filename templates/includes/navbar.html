@@ -15,8 +15,7 @@
         <div class="navbar-end gap-4">
             <!-- Sign In -->
             {% if user.id is not None%}
-            {{user.first_name}}
-            <a href="{% url 'store:dashboard' %}" class="btn hover:text-primary">
+            <a href="{% url 'dashboard:dashboard' %}" class="btn hover:text-primary">
                 {% lucide 'user' %}
             </a>
             {% else %}
