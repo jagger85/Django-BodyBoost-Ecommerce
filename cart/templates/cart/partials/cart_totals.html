@@ -1,5 +1,5 @@
 {% load static %}
-<div id="cart-totals "
+<div id="cart-totals"
      hx-get="{% url 'cart:get_cart_totals' %}"
      hx-target="#cart-totals"
      hx-trigger="cartUpdate from:body">

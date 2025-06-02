@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category, ProductVariant
+from accounts.forms import AddressForm
 from django.views import View
 from cart.utils import get_cart
 from django.core.paginator import Paginator
@@ -67,8 +68,3 @@ def product_detail(request, category_slug, product_slug, variant_id=None):
         'variant': initial_variant,
     }
     return render(request, 'store/product_detail.html', context)
-
-
-@login_required(login_url = 'login')
-def dashboard(request):
-    return render(request, 'store/dashboard.html')

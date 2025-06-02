@@ -103,7 +103,7 @@ def register(request):
     }
     return render(request, 'store/register.html', context)
 
-@login_required(login_url= 'login')
+@login_required(login_url= 'auth:login')
 def logout(request):
     auth.logout(request)
     return redirect('home')

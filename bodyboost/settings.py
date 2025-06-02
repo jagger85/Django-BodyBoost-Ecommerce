@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'store',
     'accounts',
     'cart',
+    'dashboard',
     'lucide',
     'django_browser_reload',
     'django.contrib.admin',

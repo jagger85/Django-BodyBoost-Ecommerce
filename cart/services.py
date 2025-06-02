@@ -120,4 +120,18 @@ class CartService:
         Get the total cart products quantity
         """
         return sum(item.quantity for item in self.items)
-        
+    
+    def get_item_subtotal(self, variant_id:int) ->int:
+        """
+        Get the sub_total in cart for a given variant id
+        """
+        try: 
+            cart_item =  CartItem.objects.get(
+                cart=self.cart,
+                product_id=variant_id,
+                is_active=True
+            )
+            print(cart_item.quantity * cart_item.product.price)
+            return cart_item.quantity * cart_item.product.price
+        except CartItem.DoesNotExist:
+            return 0

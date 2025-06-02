@@ -36,6 +36,12 @@ def get_cart_variant_quantity(request, variant_id):
     response = HttpResponse(str(variant_quantity))
     return response
 
+def get_cart_variant_subtotal(request,variant_id):
+    """"View the current variant subtotal"""
+    cart = get_cart(request.session)
+    variant_subtotal = cart.get_item_subtotal(variant_id)
+    response = HttpResponse('$'+ str(variant_subtotal))
+    return response
 
 def add_variant(request, variant_id):
     cart = get_cart(request.session)    
@@ -80,53 +86,22 @@ def get_cart_view(request):
 def get_cart_totals(request):
     cart = get_cart(request.session)
     context = cart.get_cart_details(request)
+    print(context)
     return render(request, 'cart/partials/cart_totals.html', context)
 
-@login_required(login_url='login')
+@login_required(login_url='auth:login')
 def checkout(request):
     cart = get_cart(request.session).get_cart_details(request)
     form = AddressForm()
-
+    addresses = Address.objects.filter(user=request.user)
     context = {
         'form': form,
         'total' : cart['total'],
         'variants' : cart['cart_items'],
         'tax' : cart['tax'],
         'grand_total' : cart['grand_total'],
+        'addresses': addresses
     }
     
     return render(request, 'cart/checkout.html' , context)
 
-def checkout_validation(request):
-
-    if request.method == 'POST':
-        form = AddressForm(request.POST)
-
-        if form.is_valid():
-            
-            address = Address.objects.create(
-                name=form.cleaned_data['name'],
-                street=form.cleaned_data['street'],
-                post_code=form.cleaned_data['post_code'],
-                city=form.cleaned_data['city'],
-                province=form.cleaned_data['province'],
-                country=form.cleaned_data['country'],
-                order_note=form.cleaned_data['order_note'],
-                user=request.user
-            )
-            address.save()
-            messages.success(request,'Addres has been saved')
-
-
-    cart = get_cart(request.session).get_cart_details(request)
-    form = AddressForm()
-
-    context = {
-        'form': form,
-        'total' : cart['total'],
-        'variants' : cart['cart_items'],
-        'tax' : cart['tax'],
-        'grand_total' : cart['grand_total'],
-    }
-        
-    return render(request, 'cart/checkout.html', context)

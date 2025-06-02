@@ -1,0 +1,82 @@
+{% extends 'dashboard/dashboard.html' %}
+{% block dashboard_content %}
+    <div class="flex flex-col gap-4">
+        <select name="addressses"
+                id="address-selector"
+                class="select w-full max-w-xs">
+            <option value="" disabled selected>Select address</option>
+            {% for address in addresses %}
+                <option value="{{ address.id }}"
+                        data-street="{{ address.street }}"
+                        data-city="{{ address.city }}"
+                        data-post-code="{{ address.post_code }}"
+                        data-province="{{ address.province }}"
+                        data-country="{{ address.country }}"
+                        data-order-note="{{ address.order_note }}">{{ address.name }}</option>
+            {% endfor %}
+        </select>
+        <div id="address-container" class="card bg-base-100 shadow-xl p-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="form-control">
+                    <label class="label">Street</label>
+                    <div id="address-street" class="text-base-content/70">{{ addresses.first.street }}</div>
+                </div>
+                <div class="form-control">
+                    <label class="label">City</label>
+                    <div id="address-city" class="text-base-content/70">{{ addresses.first.city }}</div>
+                </div>
+                <div class="form-control">
+                    <label class="label">Post Code</label>
+                    <div id="address-post-code" class="text-base-content/70">{{ addresses.first.post_code }}</div>
+                </div>
+                <div class="form-control">
+                    <label class="label">Province</label>
+                    <div id="address-province" class="text-base-content/70">{{ addresses.first.province }}</div>
+                </div>
+                <div class="form-control">
+                    <label class="label">Country</label>
+                    <div id="address-country" class="text-base-content/70">{{ addresses.first.country }}</div>
+                </div>
+                <div class="form-control">
+                    <label class="label">Order Note</label>
+                    <div id="address-order-note" class="text-base-content/70">{{ addresses.first.order_note }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="flex gap-4">
+            <a id="delete-address-btn" class="btn btn-error" href="#">Delete this address</a>
+            <a href="{% url 'dashboard:address_form' %}" class="btn btn-primary">Add a new address</a>
+        </div>
+    </div>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addressSelector = document.getElementById('address-selector');
+    const deleteButton = document.getElementById('delete-address-btn');
+    
+    function updateAddressDisplay(option) {
+        if (!option) return;
+        
+        document.getElementById('address-street').textContent = option.dataset.street || '';
+        document.getElementById('address-city').textContent = option.dataset.city || '';
+        document.getElementById('address-post-code').textContent = option.dataset.postCode || '';
+        document.getElementById('address-province').textContent = option.dataset.province || '';
+        document.getElementById('address-country').textContent = option.dataset.country || '';
+        document.getElementById('address-order-note').textContent = option.dataset.orderNote || '';
+        
+        // Update delete button href
+        deleteButton.href = "{% url 'dashboard:delete_address' 999999 %}".replace('999999', option.value);
+    }
+
+    // Update display when selection changes
+    addressSelector.addEventListener('change', function(e) {
+        const selectedOption = e.target.selectedOptions[0];
+        updateAddressDisplay(selectedOption);
+    });
+
+    // Initialize with first address if exists
+    if (addressSelector.options.length > 1) {
+        updateAddressDisplay(addressSelector.options[1]); // Skip the disabled "Select address" option
+    }
+});
+    </script>
+{% endblock dashboard_content %}
