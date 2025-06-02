@@ -79,7 +79,7 @@ class Address(models.Model):
     order_note = models.CharField(max_length=200)
     preferred = models.BooleanField(default=False)
 
-    REQUIRED_FIELDS = ['name','street','post_code','city','province','country','preferred']
+    REQUIRED_FIELDS = ['name','street','post_code','city','province','country']
 
     class Meta: 
         verbose_name='address'
