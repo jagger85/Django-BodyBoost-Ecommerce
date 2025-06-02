@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="p-6">
+        <div class="container mx-auto">
+            <div class="flex flex-col lg:flex-row gap-6 ">
+                <!-- Sidebar -->
+                <aside class="lg:w-1/4 h-fit  ">
+                    <div class="shadow-md bg-base-100 rounded-[var(--radius-box)] custom-top-border ">
+                        <div class="card-body p-0">
+                            <ul class="menu w-full rounded-box">
+                                <li>
+                                    <a class="active text" href="#">My order history</a>
+                                </li>
+                                <li>
+                                    <a href="#">Transactions</a>
+                                </li>
+                                <li>
+                                    <a href="#">Return and refunds</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'dashboard:dashboard_settings' %}">Settings</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'dashboard:dashboard_address' %}">Your Addresses</a>
+                                </li>
+                                <li>
+                                    <a href="#">Received orders</a>
+                                </li>
+                            </ul>
+                            <div class="px-4 py-3">
+                                <a href="{% url 'auth:logout' %}" class="btn gap-2 bg-[#2A2D31]">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="h-5 w-5"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                                    </svg>
+                                    Log out
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+                <!-- Main Content -->
+                <main class="lg:w-3/4">
+                    <div id="dashboard-content-container">
+                        <!-- Order Header -->
+                        {% block dashboard_content %}
+                            
+                        {% endblock dashboard_content %}
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
