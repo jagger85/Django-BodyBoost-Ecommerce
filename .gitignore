@@ -8,3 +8,4 @@ db.sqlite3
 package-lock.json
 bodyboost/static/dist/
 .env
+*/__pycache__
