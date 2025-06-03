@@ -9,22 +9,16 @@
                         <div class="card-body p-0">
                             <ul class="menu w-full rounded-box">
                                 <li>
-                                    <a class="active text" href="#">My order history</a>
+                                    <a class="active text" href="{% url 'dashboard:dashboard_orders'%}">My order history</a>
                                 </li>
                                 <li>
-                                    <a href="#">Transactions</a>
-                                </li>
-                                <li>
-                                    <a href="#">Return and refunds</a>
+                                    <a href="{% url 'dashboard:dashboard_transactions'%}">Transactions</a>
                                 </li>
                                 <li>
                                     <a href="{% url 'dashboard:dashboard_settings' %}">Settings</a>
                                 </li>
                                 <li>
                                     <a href="{% url 'dashboard:dashboard_address' %}">Your Addresses</a>
-                                </li>
-                                <li>
-                                    <a href="#">Received orders</a>
                                 </li>
                             </ul>
                             <div class="px-4 py-3">

@@ -1,10 +1,12 @@
-from .views import dashboard, settings, address_manager, address_form, add_address, delete_address
+from .views import dashboard, settings, address_manager, address_form, add_address, delete_address, orders, transactions
 from django.urls import path
 
 app_name = 'dashboard'
 
 urlpatterns = [
     path('', dashboard, name='dashboard'),
+    path('transactions/',transactions, name='dashboard_transactions' ),
+    path('orders/',orders, name='dashboard_orders' ),
     path('settings/', settings, name='dashboard_settings'),
     path('address/', address_manager, name='dashboard_address'),
     path('address-form/', address_form, name='address_form'),

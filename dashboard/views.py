@@ -17,9 +17,6 @@ def address_manager(request):
     }
     return render(request, 'dashboard/address_manager.html',context)
 
-def settings(request):
-    return render(request, 'dashboard/settings.html')
-
 
 def address_form(request):
     form = AddressForm()
@@ -66,4 +63,12 @@ def delete_address(request, address_id):
     return render(request, 'dashboard/address_manager.html', context)
 
 
+def orders(request):
+    return render(request, 'dashboard/order.html')
+
+def transactions(request):
+    return render(request, 'dashboard/transactions.html')
+
+def settings(request):
+    return render(request, 'dashboard/settings.html')
 
