@@ -4,8 +4,8 @@
     <div class="h-screen flex justify-center items-start md:items-center bg-base-100 md:bg-base-200">
         <div class="w-full max-w-md bg-base-100 md:shadow-xl md:h-fit md:rounded-[var(--radius-box)] md:border-4 md:border-base-300">
             <div class="card-body">
-                <a href="{% url 'home'%}" class="mb-6">
-                <img src="{% static 'images/logo.png' %}" class="my-4" />
+                <a href="{% url 'home' %}" class="mb-6">
+                    <img src="{% static 'images/logo.webp' %}" class="my-4" />
                 </a>
                 <p class="text-center text-base-content/60 mb-4 font-stretch-expanded ">Join Body Boost today</p>
                 <form method="post">
@@ -34,7 +34,6 @@
                         </div>
                     </div>
                     <div>
-
                         <!-- Password Input -->
                         <div class="form-control w-full mt-4">
                             <label class="label mb-2 font-stretch-expanded">
@@ -44,35 +43,35 @@
                                 {{ form.password }}
                                 <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6 text-base-content/60"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                </svg>
-                            </button>
+                                         class="h-6 w-6 text-base-content/60"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-control w-full mt-4">
+                            <label class="label mb-2">
+                                <span class="label-text text-lg font-stretch-expanded">Confirm Password</span>
+                            </label>
+                            <div class="input input-bordered w-full relative">
+                                {{ form.confirm_password }}
+                                <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="h-6 w-6 text-base-content/60"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-control w-full mt-4">
-                        <label class="label mb-2">
-                            <span class="label-text text-lg font-stretch-expanded">Confirm Password</span>
-                        </label>
-                        <div class="input input-bordered w-full relative">
-                            {{ form.confirm_password }}
-                            <button type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                class="h-6 w-6 text-base-content/60"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
                     {% if form.non_field_errors or form.email.errors %}
                         <div role="alert" class="alert alert-error alert-soft mt-4">
                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -100,11 +99,7 @@
                     <!-- Social Login Buttons -->
                     <!-- <div class="grid grid-cols-2 gap-4 mt-4">
                         <button type="button" class="btn">
-                            <img src="https://www.google.com/favicon.ico"
-                                 alt="Google"
-                                 class="w-5 h-5 mr-2"
-                                 width="20"
-                                 height="20" />
+                            <img src="https://www.google.com/favicon.ico" alt="Google" class="w-5 h-5 mr-2" width="20" height="20" />
                             Google
                         </button>
                         <button type="button" class="btn">

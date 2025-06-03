@@ -6,22 +6,18 @@
         <div class="navbar-start">
             <a href="{% url 'home' %}" class="flex items-center">
                 <img class="h-8 w-auto"
-                     src="{% static './images/logo.png' %}"
+                     src="{% static './images/logo.webp' %}"
                      alt="Body Boost">
             </a>
         </div>
-
         <!-- Right Section -->
         <div class="navbar-end gap-4">
             <!-- Sign In -->
-            {% if user.id is not None%}
-            <a href="{% url 'dashboard:dashboard' %}" class="btn hover:text-primary">
-                {% lucide 'user' %}
-            </a>
+            {% if user.id is not None %}
+                <a href="{% url 'dashboard:dashboard' %}" class="btn hover:text-primary">{% lucide 'user' %}</a>
             {% else %}
-            
-            <a href="{% url 'auth:login'%}" class="btn bg-primary text-black">Sign In</a>
-            {% endif%}
+                <a href="{% url 'auth:login' %}" class="btn bg-primary text-black">Sign In</a>
+            {% endif %}
             <!-- Cart -->
             <a href="{% url 'store:cart' %}" class="btn gap-2 hover:text-primary">
                 {% lucide 'shopping-cart' %}

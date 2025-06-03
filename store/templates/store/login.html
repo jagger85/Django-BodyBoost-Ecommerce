@@ -5,10 +5,10 @@
         <div class="flex items-center justify-center bg-base-200">
             <div class="w-full max-w-md bg-base-100 shadow-xl border-2 border-base-300 rounded-[var(--radius-box)]">
                 <div class="card-body text-center custom-top-border">
-                   <a href="{% url 'home'%}">
-                       <img src="{% static 'images/logo.png' %}" class="my-4" />
-                   </a>
-                   <h2 class="text-2xl font-bold mb-4">Email Verification</h2>
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'images/logo.webp' %}" class="my-4" />
+                    </a>
+                    <h2 class="text-2xl font-bold mb-4">Email Verification</h2>
                     <div class="mb-6">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              class="h-16 w-16 mx-auto mb-4 text-primary"
@@ -28,61 +28,59 @@
         </div>
     {% else %}
         <div class="h-screen flex items-center justify-center bg-base-200">
-                <div class="w-full h-full max-w-md bg-base-100 md:h-fit md:shadow-xl md:rounded-[var(--radius-box)] md:border-4 md:border-base-300" >
-                    <div class="card-body">
-                        <a href="{% url 'home'%}">
-                        <img src="{% static 'images/logo.png' %}" class="my-4" />
-                        </a>
-                        <p class="text-center text-base-content/60 mb-8 font-stretch-expanded">Sign in to your Body Boost account</p>
-                        <form method="post" action="{% url 'auth:login' %}">
-                            {% csrf_token %}
-                            <!-- Email Input -->
-                            <div class="form-control w-full">
-                                <label class="label mb-2">
-                                    <span class="label-text text-lg font-stretch-expanded">Email</span>
-                                </label>
-                                <input type="email"
-                                class="input input-bordered w-full"
-                                name="email" />
-                            </div>
-                            <!-- Password Input -->
-                            <div class="form-control w-full mt-4">
-                                <label class="label mb-2">
-                                    <span class="label-text text-lg font-stretch-expanded">Password</span>
-                                </label>
-                                <div class="w-full relative">
-                                    <input type="password" name="password" class="input w-full" />
-                                    <label type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6 text-base-content/60"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        name="password" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                </button>
-                            </div>
+            <div class="w-full h-full max-w-md bg-base-100 md:h-fit md:shadow-xl md:rounded-[var(--radius-box)] md:border-4 md:border-base-300">
+                <div class="card-body">
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'images/logo.webp' %}" class="my-4" />
+                    </a>
+                    <p class="text-center text-base-content/60 mb-8 font-stretch-expanded">Sign in to your Body Boost account</p>
+                    <form method="post" action="{% url 'auth:login' %}">
+                        {% csrf_token %}
+                        <!-- Email Input -->
+                        <div class="form-control w-full">
+                            <label class="label mb-2">
+                                <span class="label-text text-lg font-stretch-expanded">Email</span>
+                            </label>
+                            <input type="email" class="input input-bordered w-full" name="email" />
                         </div>
-                        <!-- Remember Me and Forgot Password -->
-                        <div class="flex justify-between items-center mt-4">
-                            <!-- <label class="cursor-pointer label">
+                        <!-- Password Input -->
+                        <div class="form-control w-full mt-4">
+                            <label class="label mb-2">
+                                <span class="label-text text-lg font-stretch-expanded">Password</span>
+                            </label>
+                            <div class="w-full relative">
+                                <input type="password" name="password" class="input w-full" />
+                                <label type="button" class="absolute right-2 top-1/2 -translate-y-1/2">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="h-6 w-6 text-base-content/60"
+                                         fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor"
+                                         name="password" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Remember Me and Forgot Password -->
+                    <div class="flex justify-between items-center mt-4">
+                        <!-- <label class="cursor-pointer label">
                                 <input type="checkbox" class="checkbox checkbox-sm" />
                                 <span class="label-text ml-2">Remember me</span>
                             </label> -->
-                            <a href="{% url 'auth:password_recovery' %}"
-                            class="text-primary hover:text-success-focus">Forgot password?</a>
-                        </div>
-                        <!-- Sign In Button -->
-                        <button class="btn bg-primary w-full mt-6 text-lg text-black normal-case font-stretch-expanded">Sign In</button>
-                        <!-- Sign Up Link -->
-                        <div class="text-center mt-6 text-base-content/60">
-                            Don't have an account?
-                            <a href="{% url 'auth:register' %}"
-                            class="text-primary hover:text-success-focus">Sign up</a>
-                        </div>
-                        <!-- <div class="divider mt-6">Or continue with</div>
+                        <a href="{% url 'auth:password_recovery' %}"
+                           class="text-primary hover:text-success-focus">Forgot password?</a>
+                    </div>
+                    <!-- Sign In Button -->
+                    <button class="btn bg-primary w-full mt-6 text-lg text-black normal-case font-stretch-expanded">Sign In</button>
+                    <!-- Sign Up Link -->
+                    <div class="text-center mt-6 text-base-content/60">
+                        Don't have an account?
+                        <a href="{% url 'auth:register' %}"
+                           class="text-primary hover:text-success-focus">Sign up</a>
+                    </div>
+                    <!-- <div class="divider mt-6">Or continue with</div>
                         <div class="grid grid-cols-2 gap-4 mt-4">
                             <button type="button" class="btn">
                                 <img src="https://www.google.com/favicon.ico" alt="Google" class="w-5 h-5 mr-2" width="20" height="20" />
@@ -95,9 +93,9 @@
                                 Facebook
                             </button>
                         </div> -->
-                    </form>
-                </div>
+                </form>
             </div>
+        </div>
     </div>
 {% endif %}
 {% endblock %}

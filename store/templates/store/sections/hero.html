@@ -11,9 +11,10 @@
                 Scientifically formulated supplements to help you reach your fitness goals faster. Quality ingredients, proven results.
             </div>
             <div class="flex gap-4">
-                <a href="{% url 'store:store' %}" class="btn btn-lg bg-primary text-black">
+                <a href="{% url 'store:store' %}"
+                   class="btn btn-lg bg-primary text-black">
                     Shop now
-                {% lucide 'arrow-right' size=20%}
+                    {% lucide 'arrow-right' size=20 %}
                 </a>
                 <button class="btn btn-lg  bg-[#2A2D31]">Learn More</button>
             </div>
@@ -21,9 +22,12 @@
     </div>
     <div>
         <div class="relative w-full h-full size-32">
-            <img class="mx-auto" src={% static "images/Effect.png" %} alt="splash effect"/>
-            <img class="absolute scale-50 top-[-50px] right-0" src={% static "images/Supplement.png" %} alt="bodyboost product"/>
+            <img class="mx-auto"
+                 src="{% static "images/effect.webp" %}"
+                 alt="splash effect" />
+            <img class="absolute scale-50 top-[-50px] right-0"
+                 src="{% static "images/supplement.webp" %}"
+                 alt="bodyboost product" />
         </div>
-
     </div>
 </div>
