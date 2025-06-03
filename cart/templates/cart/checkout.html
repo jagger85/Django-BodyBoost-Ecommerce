@@ -17,19 +17,90 @@
             </ul>
         </div>
         <div class="flex flex-col lg:flex-row gap-4">
-            <div class="rounded-[var(--radius-box)] custom-top-border bg-base-100 h-fit p-4 w-full lg:w-auto">
+            <div class="rounded-[var(--radius-box)] custom-top-border bg-base-100 h-fit p-4 lg:w-auto min-w-[600px]">
                 <div class="text-2xl text-base-content/70 font-stretch-expanded mb-4">Billing Address</div>
-                <div class="flex flex-col gap-2">
-                    <label for="address-selector">Select an existing address:</label>
-                    {% if addresses %}
-                    <select id="address-selector" class="select">
-                        {% for address in addresses %}
-                        <option value="{{address.name}}">{{address.name}}</option>
-                        {% endfor %}
-                    </select>
-                    {% else %}
-                    <p>No saved addresses found. Please add a new address.</p>
+                <div class="flex flex-col gap-4">
+                    <div class="flex flex-col gap-2">
+                        <label for="address-selector" class="font-medium">Select an existing address:</label>
+                        {% if addresses %}
+                            <select id="address-selector" class="select select-bordered w-full">
+                                <option value="" disabled selected>Choose an address</option>
+                                {% for address in addresses %}
+                                    <option value="{{ address.id }}"
+                                            data-street="{{ address.street }}"
+                                            data-city="{{ address.city }}"
+                                            data-post-code="{{ address.post_code }}"
+                                            data-province="{{ address.province }}"
+                                            data-country="{{ address.country }}"
+                                            data-order-note="{{ address.order_note }}">{{ address.name }}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
+                    </div>
+                    <div id="address-details"
+                         class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 {% if not addresses %}hidden{% endif %}">
+                        <div class="form-control">
+                            <label class="label font-medium">Street</label>
+                            <div id="address-street"
+                                 class="text-base-content/70 p-2 bg-base-200 rounded-lg">
+                                {% if addresses %}{{ addresses.first.street }}{% endif %}
+                            </div>
+                        </div>
+                        <div class="form-control">
+                            <label class="label font-medium">City</label>
+                            <div id="address-city"
+                                 class="text-base-content/70 p-2 bg-base-200 rounded-lg">
+                                {% if addresses %}{{ addresses.first.city }}{% endif %}
+                            </div>
+                        </div>
+                        <div class="form-control">
+                            <label class="label font-medium">Post Code</label>
+                            <div id="address-post-code"
+                                 class="text-base-content/70 p-2 bg-base-200 rounded-lg">
+                                {% if addresses %}{{ addresses.first.post_code }}{% endif %}
+                            </div>
+                        </div>
+                        <div class="form-control">
+                            <label class="label font-medium">Province</label>
+                            <div id="address-province"
+                                 class="text-base-content/70 p-2 bg-base-200 rounded-lg">
+                                {% if addresses %}{{ addresses.first.province }}{% endif %}
+                            </div>
+                        </div>
+                        <div class="form-control md:col-span-2">
+                            <label class="label font-medium">Country</label>
+                            <div id="address-country"
+                                 class="text-base-content/70 p-2 bg-base-200 rounded-lg">
+                                {% if addresses %}{{ addresses.first.country }}{% endif %}
+                            </div>
+                        </div>
+                        {% if addresses.first.order_note %}
+                            <div class="form-control md:col-span-2">
+                                <label class="label font-medium">Order Note</label>
+                                <div id="address-order-note"
+                                     class="text-base-content/70 p-2 bg-base-200 rounded-lg">
+                                    {{ addresses.first.order_note }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if not addresses %}
+                        <div class="alert alert-warning">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 class="stroke-current shrink-0 h-6 w-6"
+                                 fill="none"
+                                 viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                            </svg>
+                            <span>No saved addresses found. Please add a new address.</span>
+                        </div>
                     {% endif %}
+                    <div class="flex justify-between items-center mt-2">
+                        <a href="{% url 'dashboard:address_form' %}"
+                           class="btn bg-primary text-black">
+                            {% lucide 'plus' %}
+                        Add New Address</a>
+                    </div>
                 </div>
             </div>
             <div class="rounded-[var(--radius-box)] custom-top-border h-fit bg-base-100 p-4 w-full lg:w-auto">
@@ -65,4 +136,29 @@
             </div>
         </div>
     </section>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addressSelector = document.getElementById('address-selector');
+    const addressDetails = document.getElementById('address-details');
+    
+    if (addressSelector) {
+        addressSelector.addEventListener('change', function(e) {
+            const selectedOption = e.target.selectedOptions[0];
+            if (!selectedOption.value) return;
+            
+            addressDetails.classList.remove('hidden');
+            document.getElementById('address-street').textContent = selectedOption.dataset.street || '';
+            document.getElementById('address-city').textContent = selectedOption.dataset.city || '';
+            document.getElementById('address-post-code').textContent = selectedOption.dataset.postCode || '';
+            document.getElementById('address-province').textContent = selectedOption.dataset.province || '';
+            document.getElementById('address-country').textContent = selectedOption.dataset.country || '';
+            
+            const orderNoteElement = document.getElementById('address-order-note');
+            if (orderNoteElement) {
+                orderNoteElement.textContent = selectedOption.dataset.orderNote || '';
+            }
+        });
+    }
+});
+    </script>
 {% endblock content %}
