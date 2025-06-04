@@ -1,7 +1,6 @@
 /.settings
 /.venv
 db.sqlite3
-*/migrations
 /media/photos
 .DS_Store
 /node_modules
