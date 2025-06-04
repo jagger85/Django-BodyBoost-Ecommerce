@@ -4,7 +4,7 @@
     <!-- Product Image -->
     <a href="{% url 'store:product_detail' variant.product.category.slug variant.product.slug variant.id %}"
        class="block aspect-square rounded-lg overflow-hidden bg-base-100 mb-4">
-        <img src="{{ variant.product.images.url }}"
+        <img src="{{ variant.product.image }}"
              alt="{{ variant.product.name }}"
              class="w-full h-full object-contain p-4">
     </a>
