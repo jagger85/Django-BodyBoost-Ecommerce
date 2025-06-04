@@ -1,6 +1,6 @@
 {% extends 'dashboard/dashboard.html' %}
 {% block dashboard_content %}
-    <div class="flex flex-col gap-4">
+    <div class="card-body bg-base-100 rounded-[var(--radius-box)] custom-top-border">
         <select name="addressses"
                 id="address-selector"
                 class="select w-full max-w-xs">
@@ -15,7 +15,7 @@
                         data-order-note="{{ address.order_note }}">{{ address.name }}</option>
             {% endfor %}
         </select>
-        <div id="address-container" class="card bg-base-100 shadow-xl p-4">
+        <div id="address-container">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="form-control">
                     <label class="label">Street</label>

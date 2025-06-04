@@ -1,14 +1,13 @@
 {% load static %}
 {% load static %}
 <div class="flex justify-between gap-12">
-            <a 
-            class="hover:text-primary"
-             href="{% url 'store:product_detail' variant.product.product.category.slug variant.product.product.slug variant.product.id %}">
-             {{ variant.product.product.name }}
-                <div class="text-sm text-gray-400">{{ variant.product.size }} - {{ variant.product.flavor }}</div>
-            </a>
+    <a class="hover:text-primary"
+       href="{% url 'store:product_detail' variant.product.product.category.slug variant.product.product.slug variant.product.id %}">
+        {{ variant.product.product.name }}
+        <div class="text-sm text-base-content/70">{{ variant.product.size }} - {{ variant.product.flavor }}</div>
+    </a>
     <div id="product-price-{{ variant.product.id }}">
         <div class="text-xl font-medium">${{ variant.sub_total }}</div>
-        <div class="text-sm text-gray-400">${{ variant.product.price }} each</div>
+        <div class="text-sm text-base-content/70">${{ variant.product.price }} each</div>
     </div>
 </div>

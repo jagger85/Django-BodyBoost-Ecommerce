@@ -23,7 +23,7 @@
                     <form id="filter-form" method="get" action="{% url 'store:store' %}">
                         <h3 class="text-white font-semibold text-lg mb-4 flex items-center justify-between">
                             Categories
-                            <i class="fas fa-chevron-down text-gray-400"></i>
+                            <i class="fas fa-chevron-down text-base-content/70"></i>
                         </h3>
                         <div class="space-y-2">
                             {% for category in categories %}
@@ -33,7 +33,7 @@
                                            value="{{ category.slug }}"
                                            class="checkbox checkbox-primary"
                                            {% if category.slug in applied_filters.categories %}checked{% endif %}>
-                                    <span class="text-gray-400 group-hover:text-white">{{ category.name }}</span>
+                                    <span class="text-base-content/70 group-hover:text-white">{{ category.name }}</span>
                                 </label>
                             {% endfor %}
                         </div>
@@ -48,7 +48,7 @@
                                        max="{{ max_price }}"
                                        value="{{ current_price_range }}"
                                        oninput="this.nextElementSibling.querySelector('.current-value').textContent = '$' + this.value">
-                                <div class="flex justify-between text-gray-400">
+                                <div class="flex justify-between text-base-content/70">
                                     <span>$0</span>
                                     <span class="current-value">${{ current_price_range }}</span>
                                 </div>

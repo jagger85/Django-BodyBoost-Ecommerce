@@ -17,7 +17,7 @@
                                href="{% url 'store:product_detail' variant.product.product.category.slug variant.product.product.slug variant.product.id %}">
                                 {{ variant.product.product.name }}
                                 <div class="text-xs text-primary">{{ variant.product.product.brand }}</div>
-                                <div class="text-sm text-gray-400">{{ variant.product.size }} - {{ variant.product.flavor }}</div>
+                                <div class="text-sm text-base-content/70">{{ variant.product.size }} - {{ variant.product.flavor }}</div>
                             </a>
                         </div>
                     </div>
@@ -25,11 +25,10 @@
                 <td class="px-4 md:px-6 py-4 md:py-6">
                     <div id="product-price-{{ variant.product.id }}"
                          class="flex md:block justify-between items-center">
-                        <div 
-                        hx-trigger="cartUpdate from:body"
-                        hx-get="{% url 'cart:get_cart_variant_subtotal' variant.product.id %}"
-                        class="text-xl font-medium">${{ variant.sub_total }}</div>
-                        <div class="text-sm text-gray-400">${{ variant.product.price }} each</div>
+                        <div hx-trigger="cartUpdate from:body"
+                             hx-get="{% url 'cart:get_cart_variant_subtotal' variant.product.id %}"
+                             class="text-xl font-medium">${{ variant.sub_total }}</div>
+                        <div class="text-sm text-base-content/70">${{ variant.product.price }} each</div>
                     </div>
                 </td>
                 <td class="mx-auto md:px-6 py-4 md:py-6">

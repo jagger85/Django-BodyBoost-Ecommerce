@@ -3,7 +3,7 @@
 {# Update the price #}
 <div id="product-price-{{ product.id }}" hx-swap-oob="true">
     <div class="text-xl font-medium">${{ cart_item.sub_total }}</div>
-    <div class="text-sm text-gray-400">${{ product.price }} each</div>
+    <div class="text-sm text-base-content/70">${{ product.price }} each</div>
 </div>
 {# Include cart totals #}
 {% include 'cart/partials/cart_totals.html' %}
