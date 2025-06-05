@@ -120,7 +120,7 @@ def activate(request,uidb64,token):
         user.is_active = True
         user.save()
         messages.success(request, 'Your user has been activated')
-        return redirect('home')
+        return redirect('auth:login')
     else: 
         messages.error(request, 'Sorry we cannot activate your user')
         return redirect('home')
