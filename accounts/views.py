@@ -87,7 +87,7 @@ def register(request):
             })
 
             params : resend.Emails.SendParams = {
-                'from': "Acme <onboarding@resend.dev>",
+                'from': "BodyBoost <noreply@kween.store>",
                 'to': [email],
                 'subject': mail_subject,
                 'html': message
@@ -141,7 +141,7 @@ def password_recovery(request):
             })
 
             params : resend.Emails.SendParams = {
-                'from': "Acme <onboarding@resend.dev>",
+                'from': "BodyBoost <noreply@kween.store>",
                 'to': [email],
                 'subject': mail_subject,
                 'html': message
