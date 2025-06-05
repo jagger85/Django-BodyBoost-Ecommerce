@@ -104,3 +104,6 @@ def checkout(request):
     
     return render(request, 'cart/checkout.html' , context)
 
+@login_required(login_url='auth:login')
+def payment(request):
+    return render(request, 'cart/payment.html')
