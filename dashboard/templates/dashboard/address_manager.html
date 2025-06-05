@@ -1,51 +1,67 @@
 {% extends 'dashboard/dashboard.html' %}
 {% block dashboard_content %}
     <div class="card-body bg-base-100 rounded-[var(--radius-box)] custom-top-border">
-        <select name="addressses"
-                id="address-selector"
-                class="select w-full max-w-xs">
-            <option value="" disabled selected>Select address</option>
-            {% for address in addresses %}
-                <option value="{{ address.id }}"
-                        data-street="{{ address.street }}"
-                        data-city="{{ address.city }}"
-                        data-post-code="{{ address.post_code }}"
-                        data-province="{{ address.province }}"
-                        data-country="{{ address.country }}"
-                        data-order-note="{{ address.order_note }}">{{ address.name }}</option>
-            {% endfor %}
-        </select>
-        <div id="address-container">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Section Header -->
+        <div class="flex items-center justify-between border-b border-base-300 pb-4 mb-6">
+            <h2 class="text-lg font-bold">Your Addresses</h2>
+            <a href="{% url 'dashboard:address_form' %}"
+               class="btn bg-primary text-black">Add a new address</a>
+        </div>
+        <!-- Address Selector -->
+        <div class="mb-6">
+            <select name="addressses"
+                    id="address-selector"
+                    class="select w-full max-w-xs">
+                <option value="" disabled selected>Select address</option>
+                {% for address in addresses %}
+                    <option value="{{ address.id }}"
+                            data-street="{{ address.street }}"
+                            data-city="{{ address.city }}"
+                            data-post-code="{{ address.post_code }}"
+                            data-province="{{ address.province }}"
+                            data-country="{{ address.country }}"
+                            data-order-note="{{ address.order_note }}">{{ address.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <!-- Address Details Card -->
+        <div class="bg-base-100 rounded-[var(--radius-box)] p-6 mb-6 border border-base-300">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="form-control">
-                    <label class="label">Street</label>
+                    <label class="label font-semibold">Street</label>
                     <div id="address-street" class="text-base-content/70">{{ addresses.first.street }}</div>
                 </div>
                 <div class="form-control">
-                    <label class="label">City</label>
+                    <label class="label font-semibold">City</label>
                     <div id="address-city" class="text-base-content/70">{{ addresses.first.city }}</div>
                 </div>
                 <div class="form-control">
-                    <label class="label">Post Code</label>
+                    <label class="label font-semibold">Post Code</label>
                     <div id="address-post-code" class="text-base-content/70">{{ addresses.first.post_code }}</div>
                 </div>
                 <div class="form-control">
-                    <label class="label">Province</label>
+                    <label class="label font-semibold">Province</label>
                     <div id="address-province" class="text-base-content/70">{{ addresses.first.province }}</div>
                 </div>
                 <div class="form-control">
-                    <label class="label">Country</label>
+                    <label class="label font-semibold">Country</label>
                     <div id="address-country" class="text-base-content/70">{{ addresses.first.country }}</div>
                 </div>
-                <div class="form-control">
-                    <label class="label">Order Note</label>
+                <div class="form-control md:col-span-2">
+                    <label class="label font-semibold">Order Note</label>
                     <div id="address-order-note" class="text-base-content/70">{{ addresses.first.order_note }}</div>
                 </div>
             </div>
         </div>
+        <!-- Divider -->
+        <div class="border-t border-base-300 my-6"></div>
+        <!-- Action Buttons -->
         <div class="flex gap-4">
-            <a id="delete-address-btn" class="btn" href="#">Delete this address</a>
-            <a href="{% url 'dashboard:address_form' %}" class="btn bg-primary text-black">Add a new address</a>
+            <a id="delete-address-btn"
+               class="btn btn-outline border-error text-error"
+               href="#">
+               {% lucide 'trash' size=20 %}
+               Delete this address</a>
         </div>
     </div>
     <script>
