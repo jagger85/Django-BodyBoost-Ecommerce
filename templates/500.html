@@ -1,0 +1,20 @@
+{% extends 'frame.html' %}
+{% load static %}
+{% block content %}
+    <div class="h-screen flex items-center justify-center bg-base-200">
+        <div class="w-full h-full max-w-md bg-base-100 md:h-fit md:shadow-xl md:rounded-[var(--radius-box)] md:border-4 md:border-base-300">
+            <div class="card-body text-center custom-top-border">
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'images/logo.webp' %}" class="my-4" />
+                </a>
+                <h2 class="text-2xl font-bold mb-6">Ooops an error occurred</h2>
+                <div class="mb-8">
+                    <p class="text-base-content/80">We han an internal server error.</p>
+                </div>
+                <a href="{% url 'home' %}" class="btn bg-primary w-full normal-case text-lg text-black">
+                    Return to Home
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
