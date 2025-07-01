@@ -1,12 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Product, Category, ProductVariant
-from accounts.forms import AddressForm
-from django.views import View
 from cart.utils import get_cart
 from django.core.paginator import Paginator
 from django.db.models import Q
-from django.contrib.auth.decorators import login_required
-from decimal import Decimal
+
 
 def cart(request):
     cart = get_cart(request.session)
@@ -108,7 +105,7 @@ def search(request):
 
 def product_detail(request, category_slug, product_slug, variant_id=None):
     product = get_object_or_404(Product, slug=product_slug)
-    # Get the specified variant or the first variant for initial display
+
     if variant_id:
         initial_variant = get_object_or_404(product.variant, id=variant_id)
     else:
@@ -119,3 +116,18 @@ def product_detail(request, category_slug, product_slug, variant_id=None):
         'variant': initial_variant,
     }
     return render(request, 'store/product_detail.html', context)
+
+def product_detail_card(request, category_slug, product_slug, variant_id=None):
+    product = get_object_or_404(Product, slug=product_slug)
+
+    if variant_id:
+        initial_variant = get_object_or_404(product.variant, id=variant_id)
+    else:
+        initial_variant = product.variant.first()
+    
+    context = {
+        'product': product,
+        'variant': initial_variant
+    }
+
+    return render(request,'store/partials/product_detail_card.html', context)
