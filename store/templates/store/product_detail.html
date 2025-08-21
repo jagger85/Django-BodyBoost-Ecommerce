@@ -3,7 +3,55 @@
 {% load cart_tags %}
 {% block content %}
   <div class="max-w-7xl mx-auto px-4 py-8">
-   {% include 'store/partials/product_detail_card.html' %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 bg-base-100 p-4 rounded-[var(--radius-box)] custom-top-border ">
+      <!-- Product Image Section -->
+      <div class="flex justify-center items-center">
+        <img src="{{ variant.image }}"
+             alt="{{ product.name }}"
+             class="w-full h-auto object-contain max-h-100" />
+      </div>
+      <!-- Product Details Section -->
+      <div class="space-y-6">
+        <!-- Status Badge -->
+        <!-- {% if product.stock > 0 %}
+            <div class="badge badge-xl badge-primary badge-outline gap-2">In Stock</div>
+          {% else %}
+            <div class="badge badge-error gap-2">Out of Stock</div>
+          {% endif %} -->
+        <!-- Brand -->
+        <div class="text-primary">{{ product.brand }}</div>
+        <!-- Product Title -->
+        <h1 class="text-3xl font-bold text-white">{{ product.name }}</h1>
+        <!-- Category -->
+        <div class="text-base-content/70">{{ product.category }}</div>
+        <!-- Rating -->
+        <div class="flex items-center gap-2">
+          <div class="flex items-center gap-1">
+            <div class="rating rating-xs">
+              {% for i in "12345" %}
+                <input type="radio"
+                       name="rating-{{ variant.id }}"
+                       class="mask mask-star-2 bg-warning"
+                       {% if forloop.counter == 5 %}checked{% endif %}
+                       disabled />
+              {% endfor %}
+            </div>
+            <span class="text-xlz opacity-70">({{ variant.product.review_count|default:"124" }})</span>
+          </div>
+        </div>
+        <!-- Price -->
+        {% include 'store/partials/variant_control/variant_price.html' %}
+        <!-- Variant Selector -->
+        <div class="w-full sm:w-fit justify-end">{% include 'store/partials/variant_control/variant_selector.html' %}</div>
+        <!-- Variant Controls -->
+        <div id="variant-details"
+             class="space-y-4 flex justify-center md:justify-start w-full">
+          {% include 'store/partials/variant_control/variant_actions.html' %}
+        </div>
+        <!-- What/When/Why Section -->
+        <div class="grid md:grid-cols-3 gap-4 mt-8">{% include 'store/partials/what_when_why.html' %}</div>
+      </div>
+    </div>
     <div class=" bg-base-200">
       <!-- Product Information Dropdowns -->
       <div class="mt-12 space-y-4">
