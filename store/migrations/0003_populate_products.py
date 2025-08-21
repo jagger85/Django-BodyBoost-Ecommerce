@@ -47,7 +47,7 @@ def create_products(apps, schema_editor):
             'modified_date': timezone.now(),
             'what': '100% Creatine Monohydrate',
             'when': 'After workout for best results ',
-            'why': 'Creatine is a natural substance that helps to improve performance and recovery.',
+            'why': 'Helps to improve performance and recovery.',
             'category': Category.objects.get(name='Creatine'),
         },
         {
@@ -60,7 +60,7 @@ def create_products(apps, schema_editor):
             'modified_date': timezone.now(),
             'what': '100% Pure Whey Isolated Protein',
             'when': 'After workout for best results',
-            'why': 'Whey Protein is a complete protein that helps to build muscle and recover.',
+            'why': 'Helps to build muscle and recover.',
             'category': Category.objects.get(name='Whey Protein'),
         }
     ]
