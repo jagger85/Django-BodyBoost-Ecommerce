@@ -12,9 +12,6 @@ npm run prod
 # Convert static asset files
 uv run python manage.py collectstatic --no-input
 
-# Prepare to migrate
-uv run manage.py makemigrations
-
 # Apply any outstanding database migrations
 uv run python manage.py migrate --no-input
 

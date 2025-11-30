@@ -24,4 +24,5 @@ dev = [
 production = [
     "django-storages>=1.14.2",
     "boto3>=1.35.0",
+    "gunicorn"
 ]
