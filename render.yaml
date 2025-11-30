@@ -4,7 +4,8 @@ services:
     name: bodyboost
     runtime: python
     buildCommand: './build.sh'
-    startCommand: 'uv run gunicorn bodyboost.wsgi:application --bind 0.0.0.0:$PORT --workers 4 --timeout 120 --access-logfile - --error-logfile -' 
+    startCommand: './start.sh'
+    healthCheckPath: '/health/' 
     envVars:
       - key: DJANGO_SECRET_KEY
         sync: false
