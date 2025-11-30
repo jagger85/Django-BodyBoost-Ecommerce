@@ -15,32 +15,32 @@ services:
       - key: NPM_VERSION
         value: 9.x
       - key: RESEND_API_KEY
-        value: RESEND_API_KEY_HERE
+        sync: false
       - key: STRIPE_SECRET_KEY
-        value: STRIPE_SECRET_KEY_HERE
+        sync: false
       - key: STRIPE_PUBLISHABLE_KEY
-        value: STRIPE_PUBLISHABLE_KEY_HERE
+        sync: false
       - key: DB_PASSWORD
-        value: DB_PASSWORD_HERE
+        sync: false
       - key: DB_NAME
         value: bodyboost-db
       - key: DB_USERNAME
         value: postgres
       - key: DB_ENDPOINT
-        value: DB_ENDPOINT_HERE
+        sync: false
       - key: DB_PORT
         value: 5432
       - key: AWS_STORAGE_BUCKET_NAME
         value: bodyboost-static-media
       - key: AWS_ACCESS_KEY_ID
-        value: AWS_ACCESS_KEY_ID_HERE
+        sync: false
       - key: AWS_SECRET_ACCESS_KEY
-        value: AWS_SECRET_ACCESS_KEY_HERE
+        sync: false
       - key: DJANGO_SUPERUSER_EMAIL
-        value: DJANGO_SUPERUSER_EMAIL_HERE
+        sync: false
       - key: DJANGO_SUPERUSER_FIRST_NAME
-        value: DJANGO_SUPERUSER_FIRST_NAME_HERE
+        sync: false
       - key: DJANGO_SUPERUSER_LAST_NAME
-        value: DJANGO_SUPERUSER_LAST_NAME_HERE
+        sync: false
       - key: DJANGO_SUPERUSER_PASSWORD
-        value: DJANGO_SUPERUSER_PASSWORD_HERE
+        sync: false
