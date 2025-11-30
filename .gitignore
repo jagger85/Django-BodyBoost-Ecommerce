@@ -1,10 +1,10 @@
-/.settings
-/.venv
+.venv/
 db.sqlite3
 /media/photos
 .DS_Store
-/node_modules
+node_modules/
 package-lock.json
 bodyboost/static/dist/
 .env
 *__pycache__
+.vscode/
