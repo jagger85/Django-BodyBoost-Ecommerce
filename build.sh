@@ -2,8 +2,8 @@
 # Exit on error
 set -o errexit
 
-# Install Python dependencies using uv (only production dependencies)
-uv sync --frozen --group production
+uv sync --frozen
+uv sync --group production
 
 # Install dependencies and build Tailwind CSS
 npm install
