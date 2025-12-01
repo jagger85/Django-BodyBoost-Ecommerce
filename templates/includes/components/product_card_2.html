@@ -13,7 +13,7 @@
     <!-- Product Image -->
     <figure class="product-image-wrapper p-4">
         <a href="{% url 'store:product_detail' variant.product.category.slug variant.product.slug variant.id %}">
-            <img src="{{ variant.image }}"
+            <img src="{{ variant.product.images.url }}"
                  alt="{{ variant.product.name }}"
                  class="product-image object-contain h-50">
         </a>

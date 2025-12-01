@@ -22,10 +22,14 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('health/', views.health_check, name='health'),
     path('', views.home, name='home'),
     path('store/', include('store.urls',namespace='store')),
     path('cart/',include('cart.urls', namespace='cart')),
     path('auth/', include('accounts.urls', namespace='auth')),
     path('dashboard/', include('dashboard.urls', namespace='dashboard')),
-    path("__reload__/", include("django_browser_reload.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Add django-browser-reload URLs only in development
+if "django_browser_reload" in settings.INSTALLED_APPS:
+    urlpatterns += [path("__reload__/", include("django_browser_reload.urls"))]
